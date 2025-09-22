@@ -55,11 +55,11 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- Table `emprega_muriae`.`categoria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emprega_muriae`.`categoria` (
-  `categoria_d` INT NOT NULL AUTO_INCREMENT,
+  `categoria_id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
   `descricao` TEXT NULL,
   `icone` VARCHAR(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`categoria_d`),
+  PRIMARY KEY (`categoria_id`),
   UNIQUE INDEX `nome` (`nome` ASC) VISIBLE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 41
@@ -73,14 +73,14 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`categoria_estabelecimento` (
   `estabelecimento_id` INT NOT NULL,
   `categoria_id` INT NOT NULL,
   INDEX `idx_categoria_estabelecimento` (`estabelecimento_id` ASC) VISIBLE,
+  PRIMARY KEY (`estabelecimento_id`),
   INDEX `fk_categoria_estabelecimento_categoria1_idx` (`categoria_id` ASC) VISIBLE,
-  PRIMARY KEY (`estabelecimento_id`, `categoria_id`),
   CONSTRAINT `fk_estabelecimento_categoria`
     FOREIGN KEY (`estabelecimento_id`)
     REFERENCES `emprega_muriae`.`estabelecimento` (`estabelecimento_id`),
   CONSTRAINT `fk_categoria_estabelecimento_categoria1`
     FOREIGN KEY (`categoria_id`)
-    REFERENCES `emprega_muriae`.`categoria` (`categoria_d`)
+    REFERENCES `emprega_muriae`.`categoria` (`categoria_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`pessoa_fisica` (
   `cpf` CHAR(11) NOT NULL,
   `data_nascimento` DATE NOT NULL,
   `resumo_profissional` TEXT NULL DEFAULT NULL,
-  `perfil_publico` INT NOT NULL DEFAULT 'a_combinar',
+  `perfil_publico` INT NOT NULL,
   PRIMARY KEY (`pessoa_fisica_id`),
   UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE)
 ENGINE = InnoDB
@@ -455,6 +455,7 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`termodeuso` (
   `rascunho` INT(11) NULL DEFAULT 1 COMMENT '1=Sim; 2=Não',
   `usuario_id` INT(11) NOT NULL,
   INDEX `fk_termodeuso_usuario1_idx` (`usuario_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_termodeuso_usuario1`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `emprega_muriae`.`usuario` (`usuario_id`)
