@@ -1,37 +1,59 @@
+    <div class="page-content bg-white">
+        <!-- contact area -->
+        <div class="section-full content-inner shop-account">
+            <!-- Product -->
+            <div class="container">
+                <div class="row">
+					<div class="col-md-12 text-center">
+						<h3 class="font-weight-700 m-t0 m-b20">Criar Uma Conta</h3>
+					</div>
+				</div>
+                <div class="row">
+					<div class="col-md-12 m-b30">
+						<div class="p-a30 border-1  max-w500 m-auto">
+							<div class="tab-content">
+								<form id="cadastro-usuario" class="tab-pane active">
+									<p class="font-weight-600">Preencha os campos abaixo para criar sua conta na plataforma.</p>
 
-<div class="card col-lg-4 card-background">
-    <div class="card-header">
-        <div class="justify-content-center">
-            <img class="login-img" src="/assets/img/AtomPHP-logo.png" alt="">
-        </div>
-        <h3>Cadastro</h3>
+									<div class="form-group">
+										<label class="font-weight-700">E-mail *</label>
+										<input name="email" required class="form-control" placeholder="Digite seu e-mail" type="email">
+									</div>
+
+									<div class="form-group">
+										<label class="font-weight-700">Senha *</label>
+										<input name="senha" required class="form-control" placeholder="Crie uma senha" type="password">
+									</div>
+
+									<div class="form-group">
+										<label class="font-weight-700">Tipo de Conta *</label>
+										<select name="tipo" required>
+											<option value="">Selecione...</option>
+											<option value="candidato">Candidato</option>
+											<option value="empresa">Empresa</option>
+										</select>
+									</div>
+									<div class="product-brand">
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="check1" name="example1">
+											<label class="custom-control-label" for="check1">Li e Aceito os <a href="termos_uso.html">Termos de Uso</a></label>
+										</div>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="check2" name="example1">
+											<label class="custom-control-label" for="check2">Li e Concordo com a <a href="politica_privacidade.html">Política de Privacidade</a></label>
+										</div>
+									</div>
+									<div class="text-left m-t20">
+										<button type="submit" class="site-button button-lg outline outline-2">Criar Conta</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <!-- Product END -->
+		</div>
+		<!-- contact area  END -->
     </div>
-    <div class="card-body">
-        <form action="<?= baseUrl() ?>Usuario/registraUsuario" method="post">
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label for="register-name" class="form-label">Nome</label>
-                    <input type="text" class="form-control border-dark" id="register-name" name="register-name" placeholder="Escreva seu Nome">
-                </div>
-                <div class="mb-3 col-12">
-                    <label for="register-email" class="form-label">Email</label>
-                    <input type="email" class="form-control border-dark" id="register-email" name="register-email" placeholder="Escreva seu email de registro">
-                </div>
-                <div class="mb-3 col-12">
-                    <label for="register-password" class="form-label">Senha</label>
-                    <input type="password" class="form-control border-dark" id="register-password" name="register-password">
-                </div>
-                <div class="mb-3 col-12">
-                    <label for="confirm-register-password" class="form-label">Confirmar Senha</label>
-                    <input type="password" class="form-control border-dark" id="confirm-register-password" name="confirm-register-password">
-                </div>
-                <div class="col-12 d-flex justify-content-between">
-                    <h6><a href="login.html" class="text-decoration-none fw-bold">Ja tem uma Conta?</a></h6>
-                </div>
-                <div class="mb-3 col-4">
-                    <button class="btn btn-OrangeBlack">Registrar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+    <!-- Content END-->

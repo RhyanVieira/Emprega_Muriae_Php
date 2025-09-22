@@ -37,7 +37,13 @@ class Login extends ControllerMain
      */
     public function signIn()
     {
+
         $post   = $this->request->getPost();
+
+        if (!$this->model->getUserEmail("admin@empregamuriae.com")) {
+            $this->criaSuperUser(); // Cria o superuser na primeira vez
+        }
+
         $aUser  = $this->model->getUserEmail($post['email']);
 
         if (count($aUser) > 0) {
@@ -60,14 +66,14 @@ class Login extends ControllerMain
 
             //  Criar flag's de usuário logado no sistema
             
-            Session::set("userId"   , $aUser['id']);
-            Session::set("userNome" , $aUser['nome']);
+            Session::set("userId"   , $aUser['usuario_id']);
+            Session::set("userNome" , $aUser['nome_usuario']);
             Session::set("userEmail", $aUser['email']);
             Session::set("userNivel", $aUser['nivel']);
             Session::set("userSenha", $aUser['senha']);
             
             // Direcionar o usuário para página home
-            return Redirect::page("sistema");
+            return Redirect::page("home");
             //
             
         } else {
@@ -125,7 +131,7 @@ class Login extends ControllerMain
         } else {
 
             $created_at = date('Y-m-d H:i:s');
-            $chave      = sha1($user['id'] . $user['senha'] . date('YmdHis', strtotime($created_at)));
+            $chave      = sha1($user['usuario_id'] . $user['senha'] . date('YmdHis', strtotime($created_at)));
             $cLink      = baseUrl() . "login/recuperarSenha/" . $chave;
             $emailTexto = emailRecuperacaoSenha($cLink);
 
@@ -143,11 +149,11 @@ class Login extends ControllerMain
                 $usuarioRecuperaSenhaModel = $this->loadModel("UsuarioRecuperaSenha");
 
                 // Desativando solicitações antigas
-                $usuarioRecuperaSenhaModel->desativaChaveAntigas($user["id"]);
+                $usuarioRecuperaSenhaModel->desativaChaveAntigas($user["usuario_id"]);
 
                 // Inserindo nova solicitação
                 $resIns = $usuarioRecuperaSenhaModel->db->table('usuariorecuperasenha')->insert([
-                    "usuario_id" => $user["id"], 
+                    "usuario_id" => $user["usuario_id"], 
                     "chave" => $chave,
                     "created_at" => $created_at
                 ]);
@@ -191,9 +197,9 @@ class Login extends ControllerMain
                     if ($chaveRecSenha == $userChave['chave']) {
 
                         $dbDados = [
-                            "id"    => $user['id'],
-                            'nome'  => $user['nome'],
-                            'usuariorecuperasenha_id' => $userChave['id']
+                            "usuario_id"    => $user['usuario_id'],
+                            'nome_usuario'  => $user['nome'],
+                            'usuariorecuperasenha_id' => $userChave['usuario_id']
                         ];
 
                         Session::destroy("msgError");
@@ -205,7 +211,7 @@ class Login extends ControllerMain
 
                     } else {
                         // Desativa chave
-                        $upd = $usuarioRecuperaSenhaModel->desativaChave($userChave['id']);
+                        $upd = $usuarioRecuperaSenhaModel->desativaChave($userChave['usuario_id']);
 
                         return Redirect::page("Login/esqueciASenha", [
                             "msgError" => "Link de recuperação da senha inválida."
@@ -215,7 +221,7 @@ class Login extends ControllerMain
                 } else {
 
                     // Desativa chave
-                    $upd = $usuarioRecuperaSenhaModel->desativaChave($userChave['id']);
+                    $upd = $usuarioRecuperaSenhaModel->desativaChave($userChave['usuario_id']);
 
                     return Redirect::page("Login/esqueciASenha", [
                         "msgError" => "Usuário para o link de recuperação da senha não localizado."
@@ -226,7 +232,7 @@ class Login extends ControllerMain
             } else {
 
                 // Desativa chave
-                $upd = $usuarioRecuperaSenhaModel->desativaChave($userChave['id']);
+                $upd = $usuarioRecuperaSenhaModel->desativaChave($userChave['usuario_id']);
 
                 return Redirect::page("Login/esqueciASenha", [
                     "msgError" => "Link de recuperação da senha expirada."
@@ -250,7 +256,7 @@ class Login extends ControllerMain
         $UsuarioModel = $this->loadModel("Usuario");
 
         $post       = $this->request->getPost();
-        $userAtual  = $UsuarioModel->getById($post["id"]);
+        $userAtual  = $UsuarioModel->getById($post["usuario_id"]);
 
         if ($userAtual) {
 
@@ -258,7 +264,7 @@ class Login extends ControllerMain
 
                 if ($UsuarioModel->db
                                 ->table("usuario")
-                                ->where(['id' => $post['id']])
+                                ->where(['usuario_id' => $post['usuario_id']])
                                 ->update([
                                     'senha'      => password_hash(trim($post["NovaSenha"]), PASSWORD_DEFAULT)
                                 ])
@@ -298,10 +304,10 @@ class Login extends ControllerMain
     {
         $dados = [
             "nivel"             => 1,
-            "nome"              => "Aldecir Fonseca",
-            "email"             => "aldecir.fonseca@santamarcelina.edu.br",
-            "senha"             => password_hash("fasm@2025", PASSWORD_DEFAULT),
-            "statusRegistro"    => 1
+            "statusRegistro"    => 1,
+            "nome_usuario"     => "Administrador Padrão",
+            "email"             => "admin@empregamuriae.com",
+            "senha"             => password_hash("123456", PASSWORD_DEFAULT),
         ];
 
         $aSuperUser = $this->model->getUserEmail($dados['email']);
@@ -310,7 +316,7 @@ class Login extends ControllerMain
             return Redirect::Page("login", ["msgError" => "Login já existe."]);
         } else {
             if ($this->model->insert($dados)) {
-                return Redirect::Page("login", ["msgSucesso" => "Login criado com sucesso."]);
+                return Redirect::Page("login", ["msgSucesso" => "Nenhum usuário cadastrado, super login criado."]);
             } else {
                 return Redirect::Page("login");
             }

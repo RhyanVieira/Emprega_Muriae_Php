@@ -76,7 +76,7 @@ var JobBoard = function(){
 			
 		 });
 		 //alert(screenWidth);
-		if(screenWidth < 991)
+		 if(screenWidth < 991)
 		{
 			if($('.mo-left .header-nav').children('div').length == 0){
 				var logoData = jQuery('<div>').append($('.mo-left .logo-header').clone()).html();
@@ -90,20 +90,18 @@ var JobBoard = function(){
 		}
 				
 		if(screenWidth <= 991 ){
-    // Controle apenas para SUBMENUS
-    jQuery('.sub-menu > li > a').unbind().on('click', function(e){
-        e.preventDefault(); // evita o "pula de página"
-
-        var parentLi = jQuery(this).parent();
-
-        if(parentLi.hasClass('open')) {
-            parentLi.removeClass('open');
-        } else {
-            parentLi.siblings().removeClass('open'); // fecha os outros
-            parentLi.addClass('open'); // abre o atual
-        }
-    });
-}
+			jQuery('.navbar-nav > li > a, .sub-menu > li > a').unbind().on('click', function(e){
+				//e.preventDefault();
+				if(jQuery(this).parent().hasClass('open'))
+				{
+					jQuery(this).parent().removeClass('open');
+				}
+				else{
+					jQuery(this).parent().parent().find('li').removeClass('open');
+					jQuery(this).parent().addClass('open');
+				}
+			});
+		}
 	}
 	
 	/* Magnific Popup ============ */

@@ -5,90 +5,97 @@ namespace App\Controller;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
 use Core\Library\Session;
+use Core\Library\Validator;
+use App\Model\UsuarioModel;
 
 class Usuario extends ControllerMain
 {
-    /**
-     * construct
-     */
     public function __construct()
     {
-        $this->auxiliarConstruct();
-        $this->loadHelper(['formHelper', 'tabela']);
-        $this->validaNivelAcesso();                     // Valida nível de acesso apenas Super User e Administrador
+        $this->auxiliarconstruct();
+        $this->loadHelper('formHelper');
+        $this->model = new UsuarioModel();
     }
-    
-    /**
-     * index
-     *
-     * @return void
-     */
+
     public function index()
     {
-        return $this->loadView("sistema/listaUsuario", $this->model->lista("nome"));
+        $this->validaNivelAcesso();
+        return $this->loadView("sistema/listaUsuario", $this->model->listaUsuario());
     }
 
-    /**
-     * form
-     *
-     * @param string $action 
-     * @param integeger $id 
-     * @return void
-     */
-    public function form($action = null, $id = null)
+    public function lista()
     {
-        if ($this->action == "insert") {
-            $dados = [
-                "nivel" => 21,
-                "trocarSenha" => "S",
-                "statusRegistro" => 1
-            ];
-        } else {
-            $dados = $this->model->getById($id);
-        }
-
-
-        return $this->loadView(
-            "sistema/formUsuario", $dados);
+        $this->validaNivelAcesso();   
+        return $this->loadView("sistema/listaUsuario", $this->model->listaUsuario());
     }
 
-    /**
-     * save
-     *
-     * @return void
-     */
+    public function form($action, $id)
+    {
+        $this->validaNivelAcesso();
+        return $this->loadView("sistema/formUsuario", $this->model->getById($id));
+    }
+
+    public function cadastro($action, $id)
+    {
+        return $this->loadView("login/cadastro", $this->model->getById($id));
+    }
+
     public function insert()
-    {        
+    {
         $post = $this->request->getPost();
-        $lError = false;
 
-        if (empty($post['senha'])) {
-            $lError = true;
-            $errors['senha'] = "O campo <b>Senha</b> deve ser preenchido.";
-            Session::set('errors', $errors);
-        } else {
-            unset($post['confSenha']);
+        if (Validator::make($post, $this->model->validationRules)) {
+            Session::set('inputs', $post);
+            return Redirect::page($this->controller . "/form/insert/0");
         }
 
-        if (!$lError) {
-            if ($this->model->insert($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
-            } else {
-                $lError = true;
-            }    
+        // Faz o hash da senha antes de inserir
+        if (isset($post['senha']) && !empty($post['senha'])) {
+            $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
+        }
+
+        if ($this->model->insert($post)) {
+            return Redirect::page($this->controller . "/lista", ["msgSucesso" => "Usuário cadastrado com sucesso."]);
         } else {
-            Session::set("inputs", $post);
-            return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+            Session::set('inputs', $post);
+            return Redirect::page($this->controller . "/form/insert/0", ["msgError" => "Erro ao cadastrar usuário."]);
         }
     }
 
-    /**
-     * save
-     *
-     * @return void
-     */
+    public function cadastroUsuario()
+    {
+        $post = $this->request->getPost();
+        
+        if (isset($post['tipo'])) {
+            if ($post['tipo'] === 'empresa') {
+                $post['nivel'] = 31; // nível para empresa
+            } elseif ($post['tipo'] === 'candidato') {
+                $post['nivel'] = 21; // nível para candidato
+            }
+            // Remove a variável 'tipo' do array para não ser salva no banco
+            unset($post['tipo']);
+        }
+
+        if (Validator::make($post, $this->model->validationRules)) {
+            Session::set('inputs', $post);
+            return Redirect::page("login");
+        }
+
+        // Hash da senha
+        if (!empty($post['senha'])) {
+            $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
+        }
+
+        if ($this->model->insert($post)) {
+            return Redirect::page("login", ["msgSucesso" => "Usuário cadastrado com sucesso."]);
+        } else {
+            Session::set('inputs', $post);
+            return Redirect::page("usuario/cadastro", ["msgError" => "Erro ao cadastrar usuário."]);
+        }
+    }
+
     public function update()
-    {        
+    {
         $post = $this->request->getPost();
         $lError = false;
 
@@ -100,92 +107,33 @@ class Usuario extends ControllerMain
             $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
         }
 
-        if (!$lError) {
-            if ($this->model->update($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
-            } else {
-                $lError = true;
-            }    
+        $updated = $this->model->update($post);
+
+        if ($updated || $updated === 0) {
+            if (Session::get("userId") == $post["id"]) {
+                $usuarioAtualizado = $this->model->getById($post["id"]);
+
+                Session::set("userId",    $usuarioAtualizado["id"]);
+                Session::set("userNome",  $usuarioAtualizado["nome_completo"]);
+                Session::set("userEmail", $usuarioAtualizado["email"]);
+                Session::set("userNivel", $usuarioAtualizado["nivel"]);
+                Session::set("userSenha", $usuarioAtualizado["senha"]);
+            }
+            return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
         } else {
             Session::set("inputs", $post);
-            return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+            return Redirect::page($this->controller . '/form/update/' . $post['id'], ["msgError" => "Erro ao atulizar"]);
         }
     }
 
-    /**
-     * delete
-     *
-     * @return void
-     */
     public function delete()
     {
         $post = $this->request->getPost();
-        
-        if ($this->model->delete(["id" => $post['id']])) {
-            return Redirect::page($this->controller, ['msgSucesso' => "Registro excluído com sucesso."]);
+
+        if ($this->model->delete($post)) {
+            return Redirect::page($this->controller . "/lista", ["msgSucesso" => "Usuário excluído com sucesso."]);
         } else {
-            return Redirect::page($this->controller . "/form/new/0", ["msgError" => "Falha ao excluir os dados na base de dados."]);
-        }
-    }
-
-    /**
-     * formTrocarSenha
-     *
-     * @return void
-     */
-    public function formTrocarSenha()
-    {
-        return $this->loadView("sistema/formTrocaSenha");
-    }
-
-    /**
-     * updateNovaSenha
-     *
-     * @return void
-     */
-    public function updateNovaSenha() 
-    {
-        $post       = $this->request->getPost();
-        $userAtual  = $this->model->getById($post["id"]);
-
-        if ($userAtual) {
-
-            if (password_verify(trim($post["senhaAtual"]), $userAtual['senha'])) {
-
-                if (trim($post["novaSenha"]) == trim($post["novaSenha2"])) {
-
-                    $novaSenhaCripyt = password_hash(trim($post["novaSenha"]), PASSWORD_DEFAULT);
-
-                    $lUpdate = $this->model->db->where(['id' => $post['id']])->update([
-                        'senha' => $novaSenhaCripyt
-                    ]);
-                        
-                    if ($lUpdate) {
-                        // Atualiza sessão de senhas
-                        Session::set("userSenha", $novaSenhaCripyt);
-
-                        return Redirect::page("Usuario/formTrocarSenha", [
-                            "msgSucesso"    => "Senha alterada com sucesso !"
-                        ]);  
-                    } else {
-                        return Redirect::page("Usuario/formTrocarSenha");    
-                    }
-
-                } else {
-                    return Redirect::page("Usuario/formTrocarSenha", [
-                        "msgError"    => "Nova senha e conferência da senha estão divergentes !"
-                    ]);                  
-                }
-
-            } else {
-                return Redirect::page("Usuario/formTrocarSenha", [
-                    "msgError"    => "Senha atual informada não confere!"
-                ]);               
-            }
-        } else {
-            return Redirect::page("Usuario/formTrocarSenha", [
-                "msgError"    => "Usuário inválido !"
-            ]);   
+            return Redirect::page($this->controller . "/lista", ["msgError" => "Erro ao excluir usuário."]);
         }
     }
 }

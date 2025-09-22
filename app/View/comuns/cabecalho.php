@@ -54,7 +54,7 @@ use Core\Library\Session;
                 <div class="container clearfix">
                     <!-- Logo do site -->
                     <div class="logo-header mostion">
-						<a href="index.html"><img src="<?= baseUrl() ?>assets/img/logo/logo_navbar.png" class="logo" alt=""></a>
+						<a href="<?= baseUrl() ?>home"><img src="<?= baseUrl() ?>assets/img/logo/logo_navbar.png" class="logo" alt=""></a>
 					</div>
                     <!-- Botão de menu responsivo (hambúrguer)-->
                     <button class="navbar-toggler collapsed navicon justify-content-end" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ use Core\Library\Session;
                         <ul class="nav navbar-nav">
 							<!-- Link: Página Inicial -->
 							<li class="active">
-								<a href="#">Home</a>		
+								<a href="<?= baseUrl() ?>home">Home</a>		
 							</li>
 							<!-- Menu: Sou Candidato -->
 							<li>
@@ -101,10 +101,10 @@ use Core\Library\Session;
 								</ul>
 							</li>
 							<li>
-								<a href="criar_conta.html" class="site-button"><i class="fa fa-user"></i> Criar Conta</a>		
+								<a href="<?= baseUrl() ?>Usuario/Cadastro" class="site-button"><i class="fa fa-user"></i> Criar Conta</a>		
 							</li>
 							<li>
-								<a href="login.html" class="site-button"><i class="fa fa-lock"></i> Login</a>		
+								<a href="<?= baseUrl() ?>login" class="site-button"><i class="fa fa-lock"></i> Login</a>		
 							</li>
 						</ul>			
                     </div>

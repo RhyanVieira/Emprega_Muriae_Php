@@ -54,127 +54,7 @@
 				<!-- Fim da entrada de conteúdo -->
             </div>
         </div>
-		<div class="section-full job-categories content-inner-2 bg-white">
-			<div class="container">
-				<!-- Cabeçalho da seção -->
-				<div class="section-head text-center">
-					<h2 class="m-b5">Categorias Populares</h2>
-					<h5 class="fw4">Mais de 20 categorias de trabalho esperando por você</h5>
-				</div>
-				<!-- Lista as cetegorias em grid -->
-				<div class="row sp20">
-					<!-- Categoria: Design & Arte-->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-brush"></i></div>
-								<a href="#" class="dez-tilte">Design & Arte</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-brush"></i></div> 
-							</div>
-						</div>				
-					</div>
-					<!-- Categoria: Educação -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-book"></i></div>
-								<a href="#" class="dez-tilte">Educação</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-book"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Finanças -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-wallet"></i></div>
-								<a href="#" class="dez-tilte">Finanças</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-wallet"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Recursos Humanos -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-user"></i></div>
-								<a href="#" class="dez-tilte">Recursos Humanos</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-user"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Telecomunicação -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-headphone"></i></div>
-								<a href="#" class="dez-tilte">Telecomunicação</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-headphone"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Restaurante -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-cup"></i></div>
-								<a href="#" class="dez-tilte">Restaurante</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-cup"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Construção -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-hummer"></i></div>
-								<a href="#" class="dez-tilte">Construção</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-hummer"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Saúde -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-heart"></i></div>
-								<a href="#" class="dez-tilte">Saúde</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-heart"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Botão para visualizar todas as cetegorias -->
-					<div class="col-lg-12 text-center m-t30">
-						<button class="site-button radius-xl">Todas as Categorias</button>
-					</div>
-				</div>
-			</div>
-		</div>
 		<!-- Fim da seção de categorias -->
-		<!-- Seção de Call to Action com fundo de imagem e texto em destaque -->
-		<div class="section-full content-inner-2 call-to-action overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(images/background/bg_prefeitura.jpg);">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<!-- Título principal da chamada para ação -->
-						<h2 class="m-b10">Destaque-se com seu currículo online!</h2>
-						<!-- Texto explicativo -->
-						<p class="m-b0">Cadastre seu currículo, encontre vagas locais e conquiste a oportunidade que você merece.</p>
-						<!-- Botão para cadastro -->
-						<a href="#" class="site-button m-t20 outline outline-2 radius-xl">Crie Sua Conta Agora</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Fim da seção Call to Action -->
 		<div class="section-full bg-white content-inner-2">
 			<div class="container">
 				<div class="d-flex job-title-bx section-head">
@@ -331,7 +211,7 @@
 						<div class="sticky-top">
 							<div class="candidates-are-sys m-b30">
 								<div class="candidates-bx">
-									<div class="testimonial-pic radius"><img src="images/proposito/emprega_muriae_proposito.jpg" alt="" width="100" height="100"></div>
+									<div class="testimonial-pic radius"><img src="assets/img/background/bg_prefeitura.jpg" alt="" width="100" height="100"></div>
 									<div class="testimonial-text">
 										<p>Nosso compromisso é fortalecer os laços entre empresas e talentos da região de Muriaé. Acreditamos que grandes oportunidades podem nascer perto de casa e estamos aqui para facilitar essa conexão.</p>
 									</div>
@@ -350,7 +230,127 @@
 				</div>
 			</div>
 		</div>
-		<div class="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(images/background/bg_prefeitura.jpg);">
+		<!-- Seção de Call to Action com fundo de imagem e texto em destaque -->
+		<div class="section-full content-inner-2 call-to-action overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(assets/img/background/bg_prefeitura.jpg);">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<!-- Título principal da chamada para ação -->
+						<h2 class="m-b10">Destaque-se com seu currículo online!</h2>
+						<!-- Texto explicativo -->
+						<p class="m-b0">Cadastre seu currículo, encontre vagas locais e conquiste a oportunidade que você merece.</p>
+						<!-- Botão para cadastro -->
+						<a href="#" class="site-button m-t20 outline outline-2 radius-xl">Crie Sua Conta Agora</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Fim da seção Call to Action -->
+		<div class="section-full job-categories content-inner-2 bg-white">
+			<div class="container">
+				<!-- Cabeçalho da seção -->
+				<div class="section-head text-center">
+					<h2 class="m-b5">Categorias Populares</h2>
+					<h5 class="fw4">Mais de 20 categorias de trabalho esperando por você</h5>
+				</div>
+				<!-- Lista as cetegorias em grid -->
+				<div class="row sp20">
+					<!-- Categoria: Design & Arte-->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-brush"></i></div>
+								<a href="#" class="dez-tilte">Design & Arte</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-brush"></i></div> 
+							</div>
+						</div>				
+					</div>
+					<!-- Categoria: Educação -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-book"></i></div>
+								<a href="#" class="dez-tilte">Educação</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-book"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Categoria: Finanças -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-wallet"></i></div>
+								<a href="#" class="dez-tilte">Finanças</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-wallet"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Categoria: Recursos Humanos -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-user"></i></div>
+								<a href="#" class="dez-tilte">Recursos Humanos</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-user"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Categoria: Telecomunicação -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-headphone"></i></div>
+								<a href="#" class="dez-tilte">Telecomunicação</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-headphone"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Categoria: Restaurante -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-cup"></i></div>
+								<a href="#" class="dez-tilte">Restaurante</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-cup"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Categoria: Construção -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-hummer"></i></div>
+								<a href="#" class="dez-tilte">Construção</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-hummer"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Categoria: Saúde -->
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="icon-bx-wraper">
+							<div class="icon-content">
+								<div class="icon-md text-white m-b20"><i class="ti-heart"></i></div>
+								<a href="#" class="dez-tilte">Saúde</a>
+								<p class="m-a0">198 Vagas Abertas</p>
+								<div class="rotate-icon"><i class="ti-heart"></i></div> 
+							</div>
+						</div>
+					</div>
+					<!-- Botão para visualizar todas as cetegorias -->
+					<div class="col-lg-12 text-center m-t30">
+						<button class="site-button radius-xl">Todas as Categorias</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(assets/img/background/bg_prefeitura.jpg);">
 			<div class="container">
 				<div class="section-head text-center text-white">
 					<h2 class="m-b5">Nosso Propósito</h2>

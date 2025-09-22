@@ -2687,7 +2687,7 @@ footer .widget ul {
 	text-align: right;
 }
 .job-categories .icon-bx-wraper:after {
-	background-image: url(../images/categories-bg.png);
+	background-image: url(../img/categories-bg.png) !important;
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: bottom;

@@ -9,7 +9,7 @@ class UsuarioModel extends ModelMain
     protected $table = "usuario";
 
     public $validationRules = [
-        "nome"  => [
+        "nome_usuario"  => [
             "label" => 'Nome',
             "rules" => 'required|min:3|max:60'
         ],
@@ -17,12 +17,24 @@ class UsuarioModel extends ModelMain
             "label" => 'Email',
             "rules" => 'required|min:5|max:150'
         ],
+        "senha" => [
+            "label" => "Senha",
+            "rules" => "required|min:8|max:100"
+        ],
         "nivel"  => [
             "label" => 'Nível',
             "rules" => 'required|int'
         ],
         "statusRegistro"  => [
             "label" => 'Status',
+            "rules" => 'required|int'
+        ],
+        "termo_uso"  => [
+            "label" => 'Termos de Uso',
+            "rules" => 'required|int'
+        ],
+        "politica_privacidade"  => [
+            "label" => 'Política de Privacidade',
             "rules" => 'required|int'
         ]
     ];
