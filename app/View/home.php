@@ -211,7 +211,7 @@
 						<div class="sticky-top">
 							<div class="candidates-are-sys m-b30">
 								<div class="candidates-bx">
-									<div class="testimonial-pic radius"><img src="assets/img/background/bg_prefeitura.jpg" alt="" width="100" height="100"></div>
+									<div class="testimonial-pic radius"><img src="<?= baseUrl() ?>assets/img/proposito/emprega_muriae_proposito.jpg" alt="" width="100" height="100"></div>
 									<div class="testimonial-text">
 										<p>Nosso compromisso é fortalecer os laços entre empresas e talentos da região de Muriaé. Acreditamos que grandes oportunidades podem nascer perto de casa e estamos aqui para facilitar essa conexão.</p>
 									</div>
