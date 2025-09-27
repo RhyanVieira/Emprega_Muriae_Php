@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`cargo` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`estabelecimento`
 -- -----------------------------------------------------
@@ -41,15 +40,14 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`estabelecimento` (
   `cnpj` VARCHAR(18) NOT NULL,
   `razao_social` VARCHAR(255) NOT NULL,
   `nome_fantasia` VARCHAR(255) NOT NULL,
-  `website` VARCHAR(255) NULL DEFAULT NULL,
-  `descricao` TEXT NULL DEFAULT NULL,
-  `logo` VARCHAR(255) NULL DEFAULT NULL,
+  `website` VARCHAR(255) NULL,
+  `descricao` TEXT NULL,
+  `logo` VARCHAR(255) NULL,
   PRIMARY KEY (`estabelecimento_id`),
   UNIQUE INDEX `cnpj` (`cnpj` ASC) VISIBLE,
   FULLTEXT INDEX `ft_busca` (`nome`) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`categoria`
@@ -58,13 +56,12 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`categoria` (
   `categoria_id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
   `descricao` TEXT NULL,
-  `icone` VARCHAR(50) NULL DEFAULT NULL,
+  `icone` VARCHAR(50) NULL,
   PRIMARY KEY (`categoria_id`),
   UNIQUE INDEX `nome` (`nome` ASC) VISIBLE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 41
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`categoria_estabelecimento`
@@ -86,7 +83,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`categoria_estabelecimento` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`cidade`
 -- -----------------------------------------------------
@@ -98,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`cidade` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`pessoa_fisica`
 -- -----------------------------------------------------
@@ -107,13 +102,12 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`pessoa_fisica` (
   `nome` VARCHAR(150) NOT NULL,
   `cpf` CHAR(11) NOT NULL,
   `data_nascimento` DATE NOT NULL,
-  `resumo_profissional` TEXT NULL DEFAULT NULL,
+  `resumo_profissional` TEXT NULL,
   `perfil_publico` INT NOT NULL,
   PRIMARY KEY (`pessoa_fisica_id`),
   UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`usuario`
@@ -124,10 +118,10 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`usuario` (
   `login` VARCHAR(50) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
   `tipo` CHAR(2) NOT NULL COMMENT 'A = Anunciante, G = Gestor, CN = Contribuinte normativo',
-  `estabelecimento_id` INT NULL DEFAULT NULL,
+  `estabelecimento_id` INT NULL,
   `email` VARCHAR(255) NOT NULL,
   `ativo` TINYINT(1) NOT NULL DEFAULT 1,
-  `foto_perfil` VARCHAR(255) NULL DEFAULT NULL,
+  `foto_perfil` VARCHAR(255) NULL,
   PRIMARY KEY (`usuario_id`),
   UNIQUE INDEX `email` (`email` ASC) VISIBLE,
   INDEX `fk_pessoa_fisica_usuario1_idx` (`pessoa_fisica_id` ASC) VISIBLE,
@@ -145,14 +139,13 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`usuario` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`telefone`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emprega_muriae`.`telefone` (
   `telefone_id` INT NOT NULL AUTO_INCREMENT,
-  `estabelecimento_id` INT NULL DEFAULT NULL,
-  `usuario_id` INT NULL DEFAULT NULL,
+  `estabelecimento_id` INT NULL,
+  `usuario_id` INT NULL,
   `numero` CHAR(11) NOT NULL,
   `tipo` ENUM('m', 'f') NOT NULL,
   PRIMARY KEY (`telefone_id`),
@@ -167,7 +160,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`telefone` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`clique_celular`
 -- -----------------------------------------------------
@@ -176,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`clique_celular` (
   `estabelecimento_id` INT NOT NULL,
   `visitante_id` INT NOT NULL,
   `celular` CHAR(11) NOT NULL,
-  `telefone_id` INT NULL DEFAULT NULL,
+  `telefone_id` INT NULL,
   `data_clique` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`clique_celular_id`),
   INDEX `fk_estabelecimento_clique_celular_idx` (`estabelecimento_id` ASC) VISIBLE,
@@ -190,7 +182,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`clique_celular` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`clique_telefone`
 -- -----------------------------------------------------
@@ -199,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`clique_telefone` (
   `estabelecimento_id` INT NOT NULL,
   `visitante_id` INT NOT NULL,
   `telefone` CHAR(11) NOT NULL,
-  `telefone_id` INT NULL DEFAULT NULL,
+  `telefone_id` INT NULL,
   `data_clique` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`clique_telefone_id`),
   INDEX `fk_estabelecimento_clique_telefone_idx` (`estabelecimento_id` ASC) VISIBLE,
@@ -213,7 +204,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`clique_telefone` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`curriculum`
 -- -----------------------------------------------------
@@ -221,18 +211,18 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`curriculum` (
   `curriculum_id` INT NOT NULL AUTO_INCREMENT,
   `pessoa_fisica_id` INT NOT NULL,
   `logradouro` VARCHAR(60) NOT NULL,
-  `numero` VARCHAR(10) NULL DEFAULT NULL,
-  `complemento` VARCHAR(20) NULL DEFAULT NULL,
+  `numero` VARCHAR(10) NULL,
+  `complemento` VARCHAR(20) NULL,
   `bairro` VARCHAR(50) NOT NULL,
   `cep` VARCHAR(8) NOT NULL,
   `cidade_id` INT NOT NULL,
   `celular` VARCHAR(11) NOT NULL,
   `dataNascimento` DATE NOT NULL,
   `sexo` CHAR(1) NOT NULL COMMENT 'M=Masculino;F=Feminino',
-  `foto` VARCHAR(100) NULL DEFAULT NULL,
+  `foto` VARCHAR(100) NULL,
   `email` VARCHAR(120) NOT NULL,
-  `apresentacaoPessoal` TEXT NULL DEFAULT NULL,
-  `curriculo_arquivo` VARCHAR(255) NULL DEFAULT NULL,
+  `apresentacaoPessoal` TEXT NULL,
+  `curriculo_arquivo` VARCHAR(255) NULL,
   PRIMARY KEY (`curriculum_id`),
   INDEX `fk_curriculum_cidade1_idx` (`cidade_id` ASC) VISIBLE,
   INDEX `fk_curriculum_pessoa_fisica1_idx` (`pessoa_fisica_id` ASC) VISIBLE,
@@ -249,7 +239,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`curriculum` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`escolaridade`
 -- -----------------------------------------------------
@@ -259,7 +248,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`escolaridade` (
   PRIMARY KEY (`escolaridade_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`curriculum_escolaridade`
@@ -297,7 +285,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`curriculum_escolaridade` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`curriculum_experiencia`
 -- -----------------------------------------------------
@@ -306,12 +293,12 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`curriculum_experiencia` (
   `curriculum_id` INT NOT NULL,
   `inicioMes` INT NOT NULL,
   `inicioAno` INT NOT NULL,
-  `fimMes` INT NULL DEFAULT NULL,
-  `fimAno` INT NULL DEFAULT NULL,
-  `estabelecimento` VARCHAR(60) NULL DEFAULT NULL,
-  `cargo_id` INT NULL DEFAULT NULL,
-  `cargoDescricao` VARCHAR(50) NULL DEFAULT NULL,
-  `atividadesExercidas` TEXT NULL DEFAULT NULL,
+  `fimMes` INT NULL,
+  `fimAno` INT NULL,
+  `estabelecimento` VARCHAR(60) NULL,
+  `cargo_id` INT NULL,
+  `cargoDescricao` VARCHAR(50) NULL,
+  `atividadesExercidas` TEXT NULL,
   PRIMARY KEY (`curriculum_experiencia_id`),
   INDEX `fk_curriculum_experiencia_curriculum1_idx` (`curriculum_id` ASC) VISIBLE,
   INDEX `fk_curriculum_experiencia_cargo1_idx` (`cargo_id` ASC) VISIBLE,
@@ -327,7 +314,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`curriculum_experiencia` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`curriculum_qualificacao`
@@ -350,7 +336,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`curriculum_qualificacao` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`modalidade_trabalho`
 -- -----------------------------------------------------
@@ -360,7 +345,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`modalidade_trabalho` (
   PRIMARY KEY (`id_modalidade_trabalho`))
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`tipo_contrato`
 -- -----------------------------------------------------
@@ -369,7 +353,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`tipo_contrato` (
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_tipo_contrato`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`vaga`
@@ -420,7 +403,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`vaga` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`favorito`
 -- -----------------------------------------------------
@@ -444,7 +426,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`favorito` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`termodeuso`
 -- -----------------------------------------------------
@@ -463,7 +444,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`termodeuso` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`termodeusoaceite`
@@ -488,7 +468,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`termodeusoaceite` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-
 -- -----------------------------------------------------
 -- Table `emprega_muriae`.`vaga_curriculum`
 -- -----------------------------------------------------
@@ -511,7 +490,6 @@ CREATE TABLE IF NOT EXISTS `emprega_muriae`.`vaga_curriculum` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
