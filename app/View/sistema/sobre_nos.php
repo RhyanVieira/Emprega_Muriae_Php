@@ -1,30 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<!-- Suporte para acentos e carecteres especiais --> 
-	<meta charset="utf-8">
-	<!-- Permite que versões antigas do internet explorer consiga renderizar a página-->
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!-- Descrição curta da página -->
-	<meta name="description" content="Emprega Muriaé | Vagas, Currículos e Oportuinidades" />
-	<!-- Título exibido ao compartilhar a página em redes sociais -->
-	<meta property="og:title" content="Emprega Muriaé | Vagas, Currículos e Oportuinidades" />
-	<!-- Descrição que aperece junto do título-->
-	<meta property="og:description" content="Emprega Muriaé | Vagas, Currículos e Oportuinidades" />
-	<!-- Impede que navegadores trasformem números de telefone em links automaticamente a-->
-	<meta name="format-detection" content="telephone=no">
-	<!-- icone da página compatibilidade com todos os navegadores -->
-	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-	<!-- Título da página -->
-	<title>Emprega Muriaé | Vagas, Currículos e Oportuinidades</title>
-	<!-- Define como o site deve se comportar em dispositivos móveis -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Carregar os stylesheet e arquivos de estilização da página -->
-	<link rel="stylesheet" type="text/css" href="css/plugins.css">
-	<link rel="stylesheet" type="text/css" href="styles-junto.css">
-</head>
-<body id="bg">
 <div class="page-wraper">
 <div id="loading-area"></div>
 	<!-- Fim do cabeçalho-->
@@ -240,26 +213,4 @@
 		<!-- contact area END -->
     </div>
 </div>
-<!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY.MIN JS -->
-<script src="plugins/wow/wow.js"></script><!-- WOW JS -->
-<script src="plugins/bootstrap/js/popper.min.js"></script><!-- BOOTSTRAP.MIN JS -->
-<script src="plugins/bootstrap/js/bootstrap.min.js"></script><!-- BOOTSTRAP.MIN JS -->
-<script src="plugins/bootstrap-select/bootstrap-select.min.js"></script><!-- FORM JS -->
-<script src="plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script><!-- FORM JS -->
-<script src="plugins/magnific-popup/magnific-popup.js"></script><!-- MAGNIFIC POPUP JS -->
-<script src="plugins/counter/waypoints-min.js"></script><!-- WAYPOINTS JS -->
-<script src="plugins/counter/counterup.min.js"></script><!-- COUNTERUP JS -->
-<script src="plugins/imagesloaded/imagesloaded.js"></script><!-- IMAGESLOADED -->
-<script src="plugins/masonry/masonry-3.1.4.js"></script><!-- MASONRY -->
-<script src="plugins/masonry/masonry.filter.js"></script><!-- MASONRY -->
-<script src="plugins/owl-carousel/owl.carousel.js"></script><!-- OWL SLIDER -->
-<script src="plugins/rangeslider/rangeslider.js" ></script><!-- Rangeslider -->
-<script src="js/custom.js"></script><!-- CUSTOM FUCTIONS  -->
-<script src="js/dz.carousel.js"></script><!-- SORTCODE FUCTIONS  -->
-<script src='js/recaptcha/api.js'></script> <!-- Google API For Recaptcha  -->
-<script src="js/dz.ajax.js"></script><!-- CONTACT JS  -->
-<script src="plugins/paroller/skrollr.min.js"></script><!-- PAROLLER -->
-</body>
 
-</html>
