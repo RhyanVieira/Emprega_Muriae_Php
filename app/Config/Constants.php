@@ -10,7 +10,13 @@ defined('DEFAULT_METODO') || define("DEFAULT_METODO", 'index');
 defined('CONTROLLER_AUTH') || define('CONTROLLER_AUTH', [
     "Home",
     "Login",
-    "Usuario"
+    "Usuario",
+    "Vaga",
+    "Curriculum",
+    "Estabelecimento",
+    "PessoaFisica",
+    "TermoDeUso",
+    "Sistema"
 ]);
 
 // Definir o time_zone_default

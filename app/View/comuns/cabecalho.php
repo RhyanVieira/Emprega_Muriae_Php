@@ -73,31 +73,31 @@ use Core\Library\Session;
 							<li>
 								<a href="#">Sou Candidato <i class="fa fa-chevron-down"></i></a>
 								<ul class="sub-menu">
-									<li><a href="vagas.html" class="dez-page">Vagas</a></li>
-									<li><a href="empresas.html" class="dez-page">Empresas</a></li>
-									<li><a href="cadastrar_curriculo.html" class="dez-page">Cadastrar Currículo</a></li>
+									<li><a href="<?= baseUrl() ?>vaga" class="dez-page">Vagas</a></li>
+									<li><a href="<?= baseUrl() ?>estabelecimento" class="dez-page">Empresas</a></li>
+									<li><a href="<?= baseUrl() ?>curriculum" class="dez-page">Cadastrar Currículo</a></li>
 								</ul>
 							</li>
 							<!-- Menu: Sou Empresa -->
 							<li>
 								<a href="#">Sou Empresa <i class="fa fa-chevron-down"></i></a>
 								<ul class="sub-menu">
-									<li><a href="publicar_vaga.html" class="dez-page">Publicar Vaga</a></li>
-									<li><a href="candidatos.html" class="dez-page">Encontrar Candidatos</a></li>
+									<li><a href="<?= baseUrl() ?>vaga/form" class="dez-page">Publicar Vaga</a></li>
+									<li><a href="<?= baseUrl() ?>PessoaFisica" class="dez-page">Encontrar Candidatos</a></li>
 								</ul>
 							</li>
 							<!-- Link: Blog -->
 							<li>
-								<a href="blog.html">Blog</a>
+								<a href="<?= baseUrl() ?>sistema/blog">Blog</a>
 							</li>
 							<!-- Menu: Institucional -->
 							<li>
 								<a href="#">Institucional <i class="fa fa-chevron-down"></i></a>
 								<ul class="sub-menu">
-									<li><a href="sobre_nos.html" class="dez-page">Sobre Nós</a></li>
-									<li><a href="contato.html" class="dez-page">Contato</a></li>
-									<li><a href="politica_privacidade.html" class="dez-page">Política de Privacidade</a></li>
-									<li><a href="termos_uso.html" class="dez-page">Termos de Uso</a></li>
+									<li><a href="<?= baseUrl() ?>sistema/sobre_nos" class="dez-page">Sobre Nós</a></li>
+									<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Contato</a></li>
+									<li><a href="<?= baseUrl() ?>sistema/politica_privacidade" class="dez-page">Política de Privacidade</a></li>
+									<li><a href="<?= baseUrl() ?>TermoDeUSo" class="dez-page">Termos de Uso</a></li>
 								</ul>
 							</li>
 							<li>

@@ -1,5 +1,4 @@
-<div class="page-wraper">
-<div id="loading-area"></div>
+
 	<!-- Fim do cabeçalho-->
     <!-- Content -->
     <div class="page-content bg-white">

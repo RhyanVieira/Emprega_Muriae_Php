@@ -10,4 +10,21 @@ class Sistema extends ControllerMain
     {
         return $this->loadView("sistema/home");
     }
+
+    public function sobre_nos()
+    {
+        return $this->loadView("sistema/sobre_nos");
+    }
+    public function politica_privacidade()
+    {
+        return $this->loadView("sistema/politica_privacidade");
+    }
+    public function contato()
+    {
+        return $this->loadView("sistema/contato");
+    }
+    public function blog()
+    {
+        return $this->loadView("sistema/blog");
+    }
 }

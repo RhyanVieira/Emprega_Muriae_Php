@@ -1,5 +1,4 @@
-<div class="page-wraper">
-<div id="loading-area"></div>
+
     <!-- Content -->
     <div class="page-content bg-white">
 		<!-- inner page banner -->

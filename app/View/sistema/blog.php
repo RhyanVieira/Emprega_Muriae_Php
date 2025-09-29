@@ -1,5 +1,4 @@
-<div class="page-wraper">
-<div id="loading-area"></div>
+
     <div class="page-content bg-white">
         <!-- inner page banner -->
         <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(images/banner/Banner_Blog.jpg);">

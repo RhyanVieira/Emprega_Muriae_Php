@@ -1,5 +1,4 @@
-<div class="page-wraper">
-<div id="loading-area"></div>
+
     <!-- início do cabeçalgo (Header) -->
     <header class="site-header mo-left header fullwidth">
 		<!-- Cabeçalho fixo com barra principal de navegação -->

@@ -1,7 +1,4 @@
-<div class="page-wraper">
-<div id="loading-area"></div>
-    <!-- header END -->
-    <!-- Content -->
+
     <div class="page-content bg-white">
         <!-- inner page banner -->
         <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(images/banner/Banner_Cadastrar_Curriculo.jpg);">
