@@ -26,7 +26,7 @@ class CategoriaModel extends ModelMain
      * @param string $orderby 
      * @return array
      */
-    public function listaCidade()
+    public function listaCategoria()
     {   
         return $this->db->select()->findAll();
     }

@@ -22,7 +22,7 @@ class CargoModel extends ModelMain
      * @param string $orderby 
      * @return array
      */
-    public function listaCidade()
+    public function listaCargo()
     {   
         return $this->db->select()->findAll();
     }

@@ -9,34 +9,31 @@ class UsuarioModel extends ModelMain
     protected $table = "usuario";
 
     public $validationRules = [
-        "nome_usuario"  => [
+        "pessoa_fisica_id"  => [
             "label" => 'Nome',
+            "rules" => 'int'
+        ],
+        "login"  => [
+            "label" => 'Login',
             "rules" => 'required|min:3|max:60'
+        ],
+
+        "senha" => [
+            "label" => "Senha",
+            "rules" => "required|min:8|max:100"
+        ],
+        "tipo"  => [
+            "label" => 'tipo',
+            "rules" => 'required|min:2|max:2'
+        ],
+        "estabelecimento_id"  => [
+            "label" => 'Nome do Estabelecimento ou Empresa',
+            "rules" => 'int'
         ],
         "email"  => [
             "label" => 'Email',
             "rules" => 'required|min:5|max:150'
         ],
-        "senha" => [
-            "label" => "Senha",
-            "rules" => "required|min:8|max:100"
-        ],
-        "nivel"  => [
-            "label" => 'Nível',
-            "rules" => 'required|int'
-        ],
-        "statusRegistro"  => [
-            "label" => 'Status',
-            "rules" => 'required|int'
-        ],
-        "termo_uso"  => [
-            "label" => 'Termos de Uso',
-            "rules" => 'required|int'
-        ],
-        "politica_privacidade"  => [
-            "label" => 'Política de Privacidade',
-            "rules" => 'required|int'
-        ]
     ];
 
     /**

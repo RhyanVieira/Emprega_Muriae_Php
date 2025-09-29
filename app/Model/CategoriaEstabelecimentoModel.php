@@ -6,15 +6,15 @@ use Core\Library\ModelMain;
 
 class CidadeModel extends ModelMain
 {
-    protected $table = "termodeusoaceite";
+    protected $table = "categoria_estabelecimento";
     
     public $validationRules = [
-        "termodeuso_id"  => [
-            "label" => 'Id do Termo Aceito',
+        "estabelecimento_id"  => [
+            "label" => 'Estabelecimento Id',
             "rules" => 'required|int'
         ],
-        "usuario_id"  => [
-            "label" => 'Usuário',
+        "cateogira_id"  => [
+            "label" => 'Categoria Id',
             "rules" => 'required|int'
         ],
     ];
@@ -26,7 +26,7 @@ class CidadeModel extends ModelMain
      * @param string $orderby 
      * @return array
      */
-    public function listaTermoDeUsoAceite()
+    public function listaCategoriaEstabelecimento()
     {   
         return $this->db->select()->findAll();
     }
