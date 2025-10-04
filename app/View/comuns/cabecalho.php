@@ -97,7 +97,7 @@ use Core\Library\Session;
 									<li><a href="<?= baseUrl() ?>sistema/sobre_nos" class="dez-page">Sobre Nós</a></li>
 									<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Contato</a></li>
 									<li><a href="<?= baseUrl() ?>sistema/politica_privacidade" class="dez-page">Política de Privacidade</a></li>
-									<li><a href="<?= baseUrl() ?>TermoDeUSo" class="dez-page">Termos de Uso</a></li>
+									<li><a href="<?= baseUrl() ?>TermoDeUso" class="dez-page">Termos de Uso</a></li>
 								</ul>
 							</li>
 							<li>

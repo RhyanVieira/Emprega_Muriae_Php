@@ -1,7 +1,7 @@
 
     <div class="page-content bg-white">
         <!-- inner page banner -->
-        <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(images/banner/Banner_Cadastrar_Curriculo.jpg);">
+        <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(/assets/img/banner/Banner_Cadastrar_Curriculo.jpg);">
             <div class="container">
                 <div class="dez-bnr-inr-entry">
                     <h1 class="text-white">Cadastre seu curriculo</h1>

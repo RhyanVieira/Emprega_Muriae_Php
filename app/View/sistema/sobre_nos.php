@@ -3,7 +3,7 @@
     <!-- Content -->
     <div class="page-content bg-white">
         <!-- inner page banner -->
-        <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(images/banner/Banner_Sobre_Nos.jpg);">
+        <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(/assets/img/banner/Banner_Sobre_Nos.jpg);">
             <div class="container">
                 <div class="dez-bnr-inr-entry">
                     <h1 class="text-white">Sobre Nós</h1>
@@ -211,5 +211,5 @@
         </div>
 		<!-- contact area END -->
     </div>
-</div>
+
 

@@ -1,5 +1,5 @@
 <!-- Banner com imagem de fundo e sopreposição escura (overlay)-->
-		<div class="dez-bnr-inr dez-bnr-inr-md overlay-black-dark" style="background-image:url(assets/img/main-slider/estatua_slider.jpg);">
+		<div class="dez-bnr-inr dez-bnr-inr-md overlay-black-dark" style="background-image:url(/assets/img/main-slider/estatua_slider.jpg);">
             <!-- Container centralizado do conteúdo -->
 			<div class="container">
 				<!-- Entrada de conteúdo centralizado e com texto branco -->
@@ -231,7 +231,7 @@
 			</div>
 		</div>
 		<!-- Seção de Call to Action com fundo de imagem e texto em destaque -->
-		<div class="section-full content-inner-2 call-to-action overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(assets/img/background/bg_prefeitura.jpg);">
+		<div class="section-full content-inner-2 call-to-action overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(/assets/img/background/bg_prefeitura.jpg);">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -259,7 +259,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-brush"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-brush"></i></div>
 								<a href="#" class="dez-tilte">Design & Arte</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-brush"></i></div> 
@@ -270,7 +270,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-book"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-book"></i></div>
 								<a href="#" class="dez-tilte">Educação</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-book"></i></div> 
@@ -281,7 +281,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-wallet"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-wallet"></i></div>
 								<a href="#" class="dez-tilte">Finanças</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-wallet"></i></div> 
@@ -292,7 +292,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-user"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-user"></i></div>
 								<a href="#" class="dez-tilte">Recursos Humanos</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-user"></i></div> 
@@ -303,7 +303,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-headphone"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-headphone"></i></div>
 								<a href="#" class="dez-tilte">Telecomunicação</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-headphone"></i></div> 
@@ -314,7 +314,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-cup"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-cup"></i></div>
 								<a href="#" class="dez-tilte">Restaurante</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-cup"></i></div> 
@@ -325,7 +325,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-hummer"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-hummer"></i></div>
 								<a href="#" class="dez-tilte">Construção</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-hummer"></i></div> 
@@ -336,7 +336,7 @@
 					<div class="col-lg-3 col-md-6 col-sm-6">
 						<div class="icon-bx-wraper">
 							<div class="icon-content">
-								<div class="icon-md text-white m-b20"><i class="ti-heart"></i></div>
+								<div class="icon-md text-blue m-b20"><i class="ti-heart"></i></div>
 								<a href="#" class="dez-tilte">Saúde</a>
 								<p class="m-a0">198 Vagas Abertas</p>
 								<div class="rotate-icon"><i class="ti-heart"></i></div> 
@@ -350,7 +350,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(assets/img/background/bg_prefeitura.jpg);">
+		<div class="section-full p-tb70 overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(/assets/img/background/bg_prefeitura.jpg);">
 			<div class="container">
 				<div class="section-head text-center text-white">
 					<h2 class="m-b5">Nosso Propósito</h2>

@@ -1,6 +1,6 @@
     <div class="page-content bg-white">
         <!-- inner page banner -->
-        <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(images/banner/Banner_Empresa.jpg);">
+        <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(/assets/img/banner/Banner_Empresa.jpg);">
             <div class="container">
                 <div class="dez-bnr-inr-entry">
                     <h1 class="text-white">Empresas</h1>
