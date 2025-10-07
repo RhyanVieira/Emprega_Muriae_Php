@@ -101,7 +101,7 @@ use Core\Library\Session;
 								</ul>
 							</li>
 							<li>
-								<a href="<?= baseUrl() ?>Usuario/Cadastro" class="site-button"><i class="fa fa-user"></i> Criar Conta</a>		
+								<a href="<?= baseUrl() ?>usuario" class="site-button"><i class="fa fa-user"></i> Criar Conta</a>		
 							</li>
 							<li>
 								<a href="<?= baseUrl() ?>login" class="site-button"><i class="fa fa-lock"></i> Login</a>		

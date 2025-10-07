@@ -20,7 +20,7 @@ class Usuario extends ControllerMain
     public function index()
     {
         $this->validaNivelAcesso();
-        return $this->loadView("sistema/listaUsuario", $this->model->listaUsuario());
+        return $this->loadView("login/cadastro");
     }
 
     public function lista()
@@ -33,11 +33,6 @@ class Usuario extends ControllerMain
     {
         $this->validaNivelAcesso();
         return $this->loadView("sistema/formUsuario", $this->model->getById($id));
-    }
-
-    public function cadastro($action, $id)
-    {
-        return $this->loadView("login/cadastro", $this->model->getById($id));
     }
 
     public function insert()
@@ -67,13 +62,13 @@ class Usuario extends ControllerMain
         $post = $this->request->getPost();
         
         if (isset($post['tipo'])) {
-            if ($post['tipo'] === 'empresa') {
-                $post['nivel'] = 31; // nível para empresa
-            } elseif ($post['tipo'] === 'candidato') {
-                $post['nivel'] = 21; // nível para candidato
+            if ($post['tipo'] === 'PF') {
+                Session::set('tipo', 'PF');
+                return Redirect::page('pessoaFisica');
+            } else {
+                Session::set('tipo', 'E');
+                return Redirect::page('estabelecimento');
             }
-            // Remove a variável 'tipo' do array para não ser salva no banco
-            unset($post['tipo']);
         }
 
         if (Validator::make($post, $this->model->validationRules)) {

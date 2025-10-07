@@ -7,6 +7,7 @@
             <div class="container">
                 <div class="row">
 					<div class="col-md-12 text-center">
+						<?= exibeAlerta() ?>
 						<h3 class="font-weight-700 m-t0 m-b20">Login</h3>
 					</div>
 				</div>
@@ -14,12 +15,12 @@
 					<div class="col-md-12 m-b30">
 						<div class="p-a30 border-1  max-w500 m-auto">
 							<div class="tab-content">
-								<form class="tab-pane active" action="login/signIn">
+								<form class="tab-pane active" action="<?= baseUrl() ?>login/signIn" method="POST">
 									<p class="font-weight-600">Preencha os campos abaixo para acessar sua conta na plataforma.</p>
 
 									<div class="form-group">
-										<label for="email" class="font-weight-700">E-mail *</label>
-										<input id="email" name="email" required class="form-control" placeholder="Digite seu e-mail" type="email">
+										<label for="login" class="font-weight-700">E-mail *</label>
+										<input id="login" name="login" required class="form-control" placeholder="Digite seu e-mail" type="email">
 									</div>
 
 									<div class="form-group">

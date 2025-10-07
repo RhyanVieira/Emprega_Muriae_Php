@@ -9,41 +9,33 @@ class UsuarioModel extends ModelMain
     protected $table = "usuario";
 
     public $validationRules = [
-        "pessoa_fisica_id"  => [
-            "label" => 'Nome',
-            "rules" => 'int'
-        ],
         "login"  => [
             "label" => 'Login',
-            "rules" => 'required|min:3|max:60'
+            "rules" => 'required|min:3|max:100'
         ],
-
         "senha" => [
             "label" => "Senha",
-            "rules" => "required|min:8|max:100"
+            "rules" => "required|min:8|max:30"
         ],
         "tipo"  => [
-            "label" => 'tipo',
+            "label" => 'Tipo',
             "rules" => 'required|min:2|max:2'
-        ],
-        "estabelecimento_id"  => [
-            "label" => 'Nome do Estabelecimento ou Empresa',
-            "rules" => 'int'
-        ],
-        "email"  => [
-            "label" => 'Email',
-            "rules" => 'required|min:5|max:150'
         ],
     ];
 
     /**
-     * getUserEmail
+     * getUserLogin
      *
-     * @param string $email 
+     * @param string $login 
      * @return array
      */
-    public function getUserEmail($email)
+    public function getUserLogin($login)
     {
-        return $this->db->where("email", $email)->first();
+        return $this->db->where("login", $login)->first();
+    }
+    public function insertSuperUser(array $dados)
+    {
+        // Insere direto no banco, ignorando Validator
+        return $this->db->insert($dados); // retorna true/false como o insert do ModelMain
     }
 }

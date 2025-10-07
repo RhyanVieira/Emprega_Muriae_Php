@@ -55,6 +55,31 @@ class PessoaFisica extends ControllerMain
         }
     }
 
+    public function insertParaUsuario()
+    {
+        $post = $this->request->getPost();
+
+        // Validação
+        if (Validator::make($post, $this->model->validationRules)) {
+            Session::set('inputs', $post);
+            return Redirect::page($this->controller . "/form/insert/0");
+        }
+
+        // Inserir no banco
+        $id = $this->model->insert($post);
+
+        if (!$id) {
+            Session::set('inputs', $post);
+            return Redirect::page($this->controller . "/form/insert/0", ["msgError" => "Erro ao cadastrar Pessoa Física"]);
+        }
+
+        // Salva o ID na sessão para cadastro de usuário
+        Session::set('ultimo_id_pf', $id);
+
+        // Redireciona para cadastroUsuario()
+        Redirect::page('usuario/cadastroUsuario');
+    }
+
     /**
      * update
      *

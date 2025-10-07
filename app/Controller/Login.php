@@ -40,11 +40,9 @@ class Login extends ControllerMain
 
         $post   = $this->request->getPost();
 
-        if (!$this->model->getUserEmail("admin@empregamuriae.com")) {
-            $this->criaSuperUser(); // Cria o superuser na primeira vez
-        }
+        $this->criaSuperUser();
 
-        $aUser  = $this->model->getUserEmail($post['email']);
+        $aUser  = $this->model->getUserLogin($post['login']);
 
         if (count($aUser) > 0) {
 
@@ -52,24 +50,14 @@ class Login extends ControllerMain
             if (!password_verify(trim($post["senha"]), trim($aUser['senha'])) ) {
                 return Redirect::page("login", [
                     "msgError" => 'Login ou senha inválido.',
-                    'inputs' => ["email" => $post['email']]
-                ]);
-            }
-            
-            // validar o status do usuário            
-            if ($aUser['statusRegistro'] == 2 ) {
-                return Redirect::page("login", [
-                    "msgError" => 'Usuário Inativo, não será possível prosseguir !',
-                    'inputs' => ["email" => $post['email']]
+                    'inputs' => ["login" => $post['login']]
                 ]);
             }
 
             //  Criar flag's de usuário logado no sistema
             
             Session::set("userId"   , $aUser['usuario_id']);
-            Session::set("userNome" , $aUser['nome_usuario']);
-            Session::set("userEmail", $aUser['email']);
-            Session::set("userNivel", $aUser['nivel']);
+            Session::set("userLogin", $aUser['login']);
             Session::set("userSenha", $aUser['senha']);
             
             // Direcionar o usuário para página home
@@ -79,7 +67,7 @@ class Login extends ControllerMain
         } else {
             return Redirect::page("login", [
                 "msgError" => 'Login ou senha inválido.',
-                'inputs' => ["email" =>$post['email']]
+                'inputs' => ["login" =>$post['login']]
             ]);
         }
     }
@@ -92,9 +80,7 @@ class Login extends ControllerMain
     public function signOut()
     {
         Session::destroy('userId');
-        Session::destroy('userNome');
-        Session::destroy('userEmail');
-        Session::destroy('userNivel');
+        Session::destroy('userLogin');
         Session::destroy('userSenha');
         
         return Redirect::Page("home");
@@ -302,24 +288,32 @@ class Login extends ControllerMain
      */
     public function criaSuperUser()
     {
+        // Verifica se já existe algum usuário no banco
+        $usuariosExistentes = $this->model->lista('usuario_id', 'ASC');
+
+        if (!empty($usuariosExistentes)) {
+            // Já existem usuários, não precisa criar superusuário
+            return false;
+        }
         $dados = [
-            "nivel"             => 1,
-            "statusRegistro"    => 1,
-            "nome_usuario"     => "Administrador Padrão",
-            "email"             => "admin@empregamuriae.com",
-            "senha"             => password_hash("123456", PASSWORD_DEFAULT),
+            'pessoa_fisica_id'   => null,
+            'estabelecimento_id' => null,
+            "login"              => "admin@empregamuriae.com",
+            "senha"              => password_hash("123456", PASSWORD_DEFAULT),
+            "tipo"               => "G"
         ];
 
-        $aSuperUser = $this->model->getUserEmail($dados['email']);
+        $aSuperUser = $this->model->getUserLogin($dados['login']);
 
-        if (count($aSuperUser) > 0) {
-            return Redirect::Page("login", ["msgError" => "Login já existe."]);
+        if ($aSuperUser) {
+            return false; // super usuário já existe
+        }
+
+        // Inserção direta sem passar pelo Validator
+        if ($this->model->insertSuperUser($dados)) {
+            return Redirect::page("login", ["msgSucesso" => "Superusuário criado com sucesso."]);
         } else {
-            if ($this->model->insert($dados)) {
-                return Redirect::Page("login", ["msgSucesso" => "Nenhum usuário cadastrado, super login criado."]);
-            } else {
-                return Redirect::Page("login");
-            }
+            return Redirect::page("login", ["msgSucesso" => "Erro ao criar super usuário."]);
         }
     }
 }
