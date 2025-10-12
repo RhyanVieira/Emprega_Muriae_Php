@@ -3,10 +3,11 @@
 namespace App\Model;
 
 use Core\Library\ModelMain;
+use Core\Library\Validator;
 
-class CidadeModel extends ModelMain
+class EstabelecimentoModel extends ModelMain
 {
-    protected $table = "curriculum_escolaridade";
+    protected $table = "estabelecimento";
     
     public $validationRules = [
         "nome"  => [
@@ -15,19 +16,19 @@ class CidadeModel extends ModelMain
         ],
         "endereco"  => [
             "label" => 'Endereço',
-            "rules" => 'min:30|max:200'
+            "rules" => 'max:200'
         ],
         "latitude"  => [
             "label" => 'Latitude',
-            "rules" => 'required|min:12|max:12'
+            "rules" => 'required|min:11|max:12'
         ],
         "longitude"  => [
             "label" => 'Longitude',
-            "rules" => 'required|min:12|max:12'
+            "rules" => 'required|min:11|max:12'
         ],
         "email"  => [
             "label" => 'E-mail',
-            "rules" => 'min:12|max:150'
+            "rules" => 'max:150'
         ],
         "cnpj"  => [
             "label" => 'CNPJ',
@@ -45,10 +46,6 @@ class CidadeModel extends ModelMain
             "label" => 'Descrição',
             "rules" => 'max:1000'
         ],
-        "logo"  => [
-            "label" => 'Logo',
-            "rules" => 'max:255'
-        ],
     ];
 
 
@@ -61,6 +58,22 @@ class CidadeModel extends ModelMain
     public function listaEstabelecimento()
     {   
         return $this->db->select()->findAll();
+    }
+
+        /**
+     * insertGetId
+     * 
+     * @param array $dados
+     * @return int
+     */
+    // método para inserir os dados na tabela e retorna o último id inserido
+    public function insertGetId($dados)
+    {
+        if (Validator::make($dados, $this->validationRules)) {
+            return 0;
+        } else {
+            return $this->db->insert($dados); 
+        }
     }
 
 }

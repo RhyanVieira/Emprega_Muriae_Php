@@ -28,7 +28,7 @@ use Core\Library\Session;
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Carregar os stylesheet e arquivos de estilização da página -->
     <link href="<?= baseUrl() ?>assets/css/plugins.css" rel="stylesheet">
-    <link href="<?= baseUrl() ?>assets/css/styles-pagina.css" rel="stylesheet">
+    <link href="<?= baseUrl() ?>assets/css/styles.css" rel="stylesheet">
 
     <script src="<?= baseUrl() ?>assets/js/jquery.min.js" > </script><!-- JQUERY.MIN JS -->
     <script src="<?= baseUrl() ?>assets/plugins/wow/wow.js" ></script><!-- WOW JS -->
@@ -70,22 +70,44 @@ use Core\Library\Session;
 								<a href="<?= baseUrl() ?>home">Home</a>		
 							</li>
 							<!-- Menu: Sou Candidato -->
-							<li>
-								<a href="#">Sou Candidato <i class="fa fa-chevron-down"></i></a>
-								<ul class="sub-menu">
-									<li><a href="<?= baseUrl() ?>vaga" class="dez-page">Vagas</a></li>
-									<li><a href="<?= baseUrl() ?>estabelecimento" class="dez-page">Empresas</a></li>
-									<li><a href="<?= baseUrl() ?>curriculum" class="dez-page">Cadastrar Currículo</a></li>
-								</ul>
-							</li>
+							<?php
+							$userId = Session::get('userId');
+							$userTipo = Session::get('userTipo');
+							?>
+
+							<?php if (!$userId || $userTipo == 'PF'): ?>
+								<li>
+									<a href="#">Sou Candidato <i class="fa fa-chevron-down"></i></a>
+									<ul class="sub-menu">
+										<li><a href="<?= baseUrl() ?>vaga" class="dez-page">Vagas</a></li>
+										<li><a href="<?= baseUrl() ?>estabelecimento" class="dez-page">Empresas</a></li>
+										<li>
+											<a href="<?= $userId ? baseUrl() . 'curriculum' : baseUrl() . 'login' ?>" class="dez-page">
+												Cadastrar Currículo
+											</a>
+										</li>
+									</ul>
+								</li>
+							<?php endif; ?>
 							<!-- Menu: Sou Empresa -->
-							<li>
-								<a href="#">Sou Empresa <i class="fa fa-chevron-down"></i></a>
-								<ul class="sub-menu">
-									<li><a href="<?= baseUrl() ?>vaga/form" class="dez-page">Publicar Vaga</a></li>
-									<li><a href="<?= baseUrl() ?>PessoaFisica" class="dez-page">Encontrar Candidatos</a></li>
-								</ul>
-							</li>
+							<?php
+							$userId = Session::get('userId');
+							$userTipo = Session::get('userTipo');
+							?>
+
+							<?php if (!$userId || $userTipo == 'E'): ?>
+								<li>
+									<a href="#">Sou Empresa <i class="fa fa-chevron-down"></i></a>
+									<ul class="sub-menu">
+										<li>
+											<a href=<?= $userId ? baseUrl() . 'vaga/form' : baseUrl() . 'login' ?> class="dez-page">
+												Publicar Vaga
+											</a>
+										</li>
+										<li><a href="<?= baseUrl() ?>PessoaFisica" class="dez-page">Encontrar Candidatos</a></li>
+									</ul>
+								</li>
+							<?php endif; ?>
 							<!-- Link: Blog -->
 							<li>
 								<a href="<?= baseUrl() ?>sistema/blog">Blog</a>
@@ -100,12 +122,45 @@ use Core\Library\Session;
 									<li><a href="<?= baseUrl() ?>TermoDeUso" class="dez-page">Termos de Uso</a></li>
 								</ul>
 							</li>
-							<li>
-								<a href="<?= baseUrl() ?>usuario" class="site-button"><i class="fa fa-user"></i> Criar Conta</a>		
-							</li>
-							<li>
-								<a href="<?= baseUrl() ?>login" class="site-button"><i class="fa fa-lock"></i> Login</a>		
-							</li>
+							<?php if (Session::get("userId")):
+								$nomeUser = (Session::get("userNome"));
+								$userTipo = (Session::get("userTipo"));
+							?>
+								<?php if ($userTipo == 'PF'): ?>
+									<li>
+										<a href="#" class="text-green">Área do Candidato <i class="fa fa-chevron-down"></i></a>
+										<ul class="sub-menu">
+											<li><a href="<?= baseUrl() ?>sistema/sobre_nos" class="dez-page">Painel do Candidato</a></li>
+											<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Meu currículo</a></li>
+											<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Minhas Candidaturas</a></li>
+											<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Editar Perfil</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="<?= baseUrl() ?>login/signOut" class="btn-logout"><i class="fa fa-sign-out"></i> Sair</a>		
+									</li>
+								<?php else: ?>
+									<li>
+										<a href="#">Área da Empresa <i class="fa fa-chevron-down"></i></a>
+										<ul class="sub-menu">
+											<li><a href="<?= baseUrl() ?>sistema/sobre_nos" class="dez-page">Painel da Empresa</a></li>
+											<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Publicar Nova Vaga</a></li>
+											<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Minhas Vagas</a></li>
+											<li><a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Editar Perfil</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="<?= baseUrl() ?>login/signOut" class="btn-logout"><i class="fa fa-sign-out"></i> Sair</a>		
+									</li>
+								<?php endif; ?>	
+							<?php else: ?>
+								<li>
+									<a href="<?= baseUrl() ?>usuario" class="site-button botao-login"><i class="fa fa-user"></i> Criar Conta</a>		
+								</li>
+								<li>
+									<a href="<?= baseUrl() ?>login" class="site-button botao-login"><i class="fa fa-lock"></i> Login</a>		
+								</li>
+							<?php endif; ?>
 						</ul>			
                     </div>
 					<!-- Fim da navegação principal -->

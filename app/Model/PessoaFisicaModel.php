@@ -3,10 +3,11 @@
 namespace App\Model;
 
 use Core\Library\ModelMain;
+use Core\Library\Validator;
 
-class CidadeModel extends ModelMain
+class PessoaFisicaModel extends ModelMain
 {
-    protected $table = "curriculum_escolaridade";
+    protected $table = "pessoa_fisica";
     
     public $validationRules = [
         "nome"  => [
@@ -34,13 +35,28 @@ class CidadeModel extends ModelMain
 
     /**
      * lista
-     *
-     * @param string $orderby 
+     *  
      * @return array
      */
     public function listaPessoaFisica()
     {   
         return $this->db->select()->findAll();
+    }
+
+    /**
+     * insertGetId
+     * 
+     * @array $dados
+     * @return int
+     */
+    // método para inserir os dados na tabela e retorna o último id inserido
+    public function insertGetId($dados)
+    {
+        if (Validator::make($dados, $this->validationRules)) {
+            return 0;
+        } else {
+            return $this->db->insert($dados); 
+        }
     }
 
 }

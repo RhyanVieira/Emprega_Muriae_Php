@@ -19,7 +19,6 @@ class Usuario extends ControllerMain
 
     public function index()
     {
-        $this->validaNivelAcesso();
         return $this->loadView("login/cadastro");
     }
 
@@ -61,31 +60,58 @@ class Usuario extends ControllerMain
     {
         $post = $this->request->getPost();
         
+        Session::set('dados_usuario_temp', $post);
+
         if (isset($post['tipo'])) {
             if ($post['tipo'] === 'PF') {
-                Session::set('tipo', 'PF');
-                return Redirect::page('pessoaFisica');
+                return Redirect::page('PessoaFisica/cadastro');
             } else {
-                Session::set('tipo', 'E');
-                return Redirect::page('estabelecimento');
+                return Redirect::page('Estabelecimento/cadastro');
             }
         }
 
-        if (Validator::make($post, $this->model->validationRules)) {
-            Session::set('inputs', $post);
-            return Redirect::page("login");
+    }
+
+    public function cadastroUsuarioFinal()
+    {
+        $dadosUsuario = Session::get('dados_usuario_temp');
+            
+        $ultimoId = null;
+        if ($dadosUsuario['tipo'] === 'PF') {
+            $ultimoId = Session::get('ultimo_id_pf');
+            $dadosUsuario['pessoa_fisica_id'] = $ultimoId;
+        } else {
+            $ultimoId = Session::get('ultimo_id_estab');
+            $dadosUsuario['estabelecimento_id'] = $ultimoId;
+        };
+
+        if (!$dadosUsuario || !$ultimoId) {
+            return Redirect::page('usuario/index', ["msgError" => "Erro no cadastro."]);
+        }
+
+        // Adiciona a foreign key
+        if ($dadosUsuario['tipo'] === 'PF') {
+            $dadosUsuario['pessoa_fisica_id'] = $ultimoId;
+            $dadosUsuario['estabelecimento_id'] = null;
+        } else {
+            $dadosUsuario['estabelecimento_id'] = $ultimoId;
+            $dadosUsuario['pessoa_fisica_id'] = null;
         }
 
         // Hash da senha
-        if (!empty($post['senha'])) {
-            $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
+        if (isset($dadosUsuario['senha']) && !empty($dadosUsuario['senha'])) {
+            $dadosUsuario['senha'] = password_hash($dadosUsuario['senha'], PASSWORD_DEFAULT);
         }
 
-        if ($this->model->insert($post)) {
-            return Redirect::page("login", ["msgSucesso" => "Usuário cadastrado com sucesso."]);
+        if ($this->model->insert($dadosUsuario)) {
+            // Limpa sessões temporárias
+            Session::destroy('dados_usuario_temp');
+            Session::destroy('ultimo_id_pf');
+            Session::destroy('ultimo_id_estab');
+
+            return Redirect::page('login', ["msgSucesso" => "Usuário cadastrado com sucesso."]);
         } else {
-            Session::set('inputs', $post);
-            return Redirect::page("usuario/cadastro", ["msgError" => "Erro ao cadastrar usuário."]);
+            return Redirect::page('usuario/index', ["msgError" => "Erro ao cadastrar usuário."]);
         }
     }
 

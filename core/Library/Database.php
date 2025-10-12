@@ -695,8 +695,8 @@ class Database
             Session::set("msgError", "Erro ao inserir dados na base de dados: " . $err->getMessage());
             $rs = 0;
         }
-
         return $rs;
+
     }
 
     /**

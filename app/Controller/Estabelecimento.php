@@ -7,6 +7,7 @@ use Core\Library\Files;
 use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
+use App\Model\EstabelecimentoModel;
 
 class Estabelecimento extends ControllerMain
 {
@@ -17,6 +18,7 @@ class Estabelecimento extends ControllerMain
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
         $this->files = new Files();
+        $this->model = new EstabelecimentoModel();
     }
 
     /**
@@ -27,6 +29,10 @@ class Estabelecimento extends ControllerMain
     public function index()
     {
         return $this->loadView("sistema/empresas");
+    }
+
+    public function cadastro(){
+        return $this->loadView("sistema/cadastro_estabelecimento");
     }
 
     public function form($action, $id)
@@ -55,29 +61,39 @@ class Estabelecimento extends ControllerMain
         }
     }
 
-    public function insertParaUsuario()
+    public function cadastroParaUsuario()
     {
         $post = $this->request->getPost();
 
-        // Validação
-        if (Validator::make($post, $this->model->validationRules)) {
-            Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/insert/0");
+        if (!empty($_FILES['logo']['name'])) {
+
+            $nomeRetornado = $this->files->upload($_FILES, 'estabelecimento');
+
+            // se for boolean, significa que o upload falhou
+            if (is_bool($nomeRetornado)) {
+                Session::set('inputs', $post);
+                return Redirect::page($this->controller . "/cadastro" . $post['id'], ["msgError" => "Erro ao fazer upload da nova imagem."]);
+            } else {
+                $post['logo'] = $nomeRetornado[0];
+
+                if (!empty($post['nomeImagem'])) {
+                    $this->files->delete($post['nomeImagem'], "estabelecimento");
+                }
+            }
+        } else {
+            $post['logo'] = $post['nomeImagem'];
         }
 
-        // Inserir no banco
-        $id = $this->model->insert($post);
+        // Inserção via insertGetId() que retorna o ID real
+        $id = $this->model->insertGetId($post);
 
-        if (!$id) {
+        if ($id > 0) {
+            Session::set('ultimo_id_estab', $id);
+            return Redirect::page("usuario/cadastroUsuarioFinal");
+        } else {
             Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/insert/0", ["msgError" => "Erro ao cadastrar Estabelecimento"]);
+            return Redirect::page($this->controller . "/cadastro", ["msgError" => "Erro ao cadastrar Empresa."]);
         }
-
-        // Salva o ID na sessão para cadastro de usuário
-        Session::set('ultimo_id_e', $id);
-
-        // Redireciona para cadastroUsuario()
-        Redirect::page('usuario/cadastroUsuario');
     }
 
     /**

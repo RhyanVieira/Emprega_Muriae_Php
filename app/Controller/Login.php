@@ -57,12 +57,19 @@ class Login extends ControllerMain
             //  Criar flag's de usuário logado no sistema
             
             Session::set("userId"   , $aUser['usuario_id']);
+            Session::set("userTipo", $aUser['tipo']);
             Session::set("userLogin", $aUser['login']);
-            Session::set("userSenha", $aUser['senha']);
-            
+
+            if ($aUser['pessoa_fisica_id']) {
+                $pf = $this->model->getPessoaFisica($aUser['usuario_id']); // método no model de usuário
+                Session::set('userNome', $pf['nome']);
+            } elseif ($aUser['estabelecimento_id']) {
+                $estab = $this->model->getEstabelecimento($aUser['usuario_id']); // método no model de usuário
+                Session::set('userNome', $estab['nome']);
+            }
+
             // Direcionar o usuário para página home
             return Redirect::page("home");
-            //
             
         } else {
             return Redirect::page("login", [
@@ -81,7 +88,8 @@ class Login extends ControllerMain
     {
         Session::destroy('userId');
         Session::destroy('userLogin');
-        Session::destroy('userSenha');
+        Session::destroy('userTtipo');
+        Session::destroy('userNome');
         
         return Redirect::Page("home");
     }

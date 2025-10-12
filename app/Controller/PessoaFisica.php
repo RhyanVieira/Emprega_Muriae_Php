@@ -7,6 +7,7 @@ use Core\Library\Files;
 use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
+use App\Model\PessoaFisicaModel;
 
 class PessoaFisica extends ControllerMain
 {
@@ -17,6 +18,7 @@ class PessoaFisica extends ControllerMain
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
         $this->files = new Files();
+        $this->model = new PessoaFisicaModel();
     }
 
     /**
@@ -29,6 +31,10 @@ class PessoaFisica extends ControllerMain
         return $this->loadView("sistema/candidatos");
     }
 
+    public function cadastro(){
+        return $this->loadView("sistema/cadastro_pessoa_fisica");
+    }
+    
     public function form($action, $id)
     {   
         $this->validaNivelAcesso();
@@ -55,29 +61,22 @@ class PessoaFisica extends ControllerMain
         }
     }
 
-    public function insertParaUsuario()
+    public function cadastroParaUsuario()
     {
         $post = $this->request->getPost();
 
-        // Validação
-        if (Validator::make($post, $this->model->validationRules)) {
+        $post['perfil_publico'] = !empty($post['perfil_publico']) && $post['perfil_publico'] == '1' ? 1 : 2;
+
+        // Inserção via insertGetId() que retorna o ID real
+        $id = $this->model->insertGetId($post);
+
+        if ($id > 0) {
+            Session::set('ultimo_id_pf', $id);
+            return Redirect::page("usuario/cadastroUsuarioFinal");
+        } else {
             Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/insert/0");
+            return Redirect::page($this->controller . "/cadastro", ["msgError" => "Erro ao cadastrar Pessoa Física."]);
         }
-
-        // Inserir no banco
-        $id = $this->model->insert($post);
-
-        if (!$id) {
-            Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/insert/0", ["msgError" => "Erro ao cadastrar Pessoa Física"]);
-        }
-
-        // Salva o ID na sessão para cadastro de usuário
-        Session::set('ultimo_id_pf', $id);
-
-        // Redireciona para cadastroUsuario()
-        Redirect::page('usuario/cadastroUsuario');
     }
 
     /**

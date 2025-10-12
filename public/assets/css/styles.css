@@ -697,6 +697,12 @@ label {
     position: relative;
     margin: 30px 0;
 }
+.dez-divider-dropdown {
+    height: 1px;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 /* Linha de divisão */
 
 /* Set raio */ 
@@ -1699,27 +1705,25 @@ button.scroltop {
 .navicon span:nth-child(3) {
     top: 14px;
 }
-.navbar-nav > li:last-child a,
-.navbar-nav > li:nth-last-child(2) a {
-    background-color: #0177c1;
-    color: white !important;
+.navbar-nav a.botao-login {
+    background-color: #0177c1; /* azul principal */
+    color: #fff !important;    /* texto branco */
     padding: 10px 20px;
     margin-left: 10px;
     border-radius: 3px;
-    border-color: transparent;
-    line-height: 1.42857;
+    border: none;
+    line-height: 1.4;
     cursor: pointer;
     display: inline-block;
     text-align: center;
     font-weight: 600;
     text-transform: none !important;
     white-space: nowrap;
+    transition: background-color 0.3s ease;
 }
-.navbar-nav > li:last-child a:hover,
-.navbar-nav > li:nth-last-child(2) a:hover {
-    background-color: #002f5b !important;
+.navbar-nav a.botao-login:hover {
+    background-color: #002f5b !important; /* azul escuro */
 }
-
 .navbar-nav .site-button i {
     font-size: 20px !important; 
 }
@@ -1917,8 +1921,8 @@ button.scroltop {
 	}
 }
 @media (max-width: 1024px) {
-    .navbar-nav > li:last-child a,
-    .navbar-nav > li:nth-last-child(2) a {
+    .navbar-nav a.botao-login,
+    .navbar-nav a.botao-criar-conta {
         font-size: 14px;
         padding: 8px 12px;
         margin-left: 0;
@@ -1926,8 +1930,8 @@ button.scroltop {
         text-align: center;
         white-space: nowrap;
     }
-    .navbar-nav > li:last-child a i,
-    .navbar-nav > li:nth-last-child(2) a i {
+    .navbar-nav a.botao-login i,
+    .navbar-nav a.botao-criar-conta i {
         font-size: 16px !important;
     }
     .navbar-nav .site-button i {
@@ -1941,8 +1945,8 @@ button.scroltop {
 	}
 }
 @media (max-width: 1280px) {
-    .navbar-nav > li:last-child a,
-    .navbar-nav > li:nth-last-child(2) a {
+    .navbar-nav a.botao-login,
+    .navbar-nav a.botao-criar-conta {
         font-size: 14px;
         padding: 8px 12px;
         margin-left: 10px;
@@ -1950,8 +1954,8 @@ button.scroltop {
         text-align: center;
         white-space: nowrap;
     }
-    .navbar-nav > li:last-child a i,
-    .navbar-nav > li:nth-last-child(2) a i {
+    .navbar-nav a.botao-login i,
+    .navbar-nav a.botao-criar-conta i {
         font-size: 16px !important;
     }
 }
@@ -1961,8 +1965,8 @@ button.scroltop {
 	}
 }
 @media (max-width: 1440px) {
-    .navbar-nav > li:last-child a,
-    .navbar-nav > li:nth-last-child(2) a {
+    .navbar-nav a.botao-login,
+    .navbar-nav a.botao-criar-conta {
         font-size: 14px;
         padding: 8px 12px;
         margin-left: 0;
@@ -1970,8 +1974,8 @@ button.scroltop {
         text-align: center;
         white-space: nowrap;
     }
-    .navbar-nav > li:last-child a i,
-    .navbar-nav > li:nth-last-child(2) a i {
+    .navbar-nav a.botao-login i,
+    .navbar-nav a.botao-criar-conta i {
         font-size: 16px !important;
     }
     .navbar-nav .site-button i {
@@ -2898,3 +2902,14 @@ footer .widget ul {
     margin-bottom: 25px;
 }
 /* Contato Style*/
+
+.btn-logout {
+    color: #dc3545 !important;
+    transition: all 0.3s ease; 
+    background-color: transparent !important; 
+}
+.btn-logout:hover {
+    color: #ff4d4d;
+    transform: scale(1.15);
+    background-color: transparent !important;
+}

@@ -17,24 +17,23 @@
 							<div class="tab-content">
 								<form class="tab-pane active" action="<?= baseUrl() ?>login/signIn" method="POST">
 									<p class="font-weight-600">Preencha os campos abaixo para acessar sua conta na plataforma.</p>
-
 									<div class="form-group">
 										<label for="login" class="font-weight-700">E-mail *</label>
 										<input id="login" name="login" required class="form-control" placeholder="Digite seu e-mail" type="email">
 									</div>
-
 									<div class="form-group">
 										<label for="senha" class="font-weight-700">Senha *</label>
 										<input id="senha" name="senha" required class="form-control" placeholder="Digite sua senha" type="password">
 									</div>
-									<div class="text-left m-t20">
+									<div class="text-left">
+										<a href="<?= baseUrl() ?>Login/esqueciASenha" class="m-l5">Esqueci a senha</a>
+									</div>
+									<div class="text-center m-t20">
 										<button type="submit" class="site-button button-lg outline outline-2">Login</button>
 									</div>
-									<div class="text-left m-t20">
-										<a data-toggle="tab" href="<?= baseUrl() ?>Login/esqueciASenha" class="m-l5"><i class="fa fa-unlock-alt"></i> Esqueci a Senha</a> 
-									</div>
-									<div class="text-left m-t20">
-										<a data-toggle="tab" href="<?= baseUrl() ?>Login/esqueciASenha" class="m-l5"><i class="fa fa-user"></i> Quero criar uma conta</a>
+									<div class="dez-divider bg-gray-dark"></div>
+									<div class="text-center">
+										<span class="text-black">Não tem uma conta?</span><span><a href="<?= baseUrl() ?>usuario" class="m-l5">Criar uma conta</a></span>
 									</div>
 								</form>
 							</div>

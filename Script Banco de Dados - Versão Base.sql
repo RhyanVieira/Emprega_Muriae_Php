@@ -14,6 +14,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Copiando estrutura do banco de dados para emprega_muriae
+CREATE DATABASE IF NOT EXISTS `emprega_muriae` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `emprega_muriae`;
+
 -- Copiando estrutura para tabela emprega_muriae.cargo
 CREATE TABLE IF NOT EXISTS `cargo` (
   `cargo_id` int NOT NULL AUTO_INCREMENT,
@@ -201,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   PRIMARY KEY (`estabelecimento_id`),
   UNIQUE KEY `cnpj` (`cnpj`),
   FULLTEXT KEY `ft_busca` (`nome`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -235,10 +240,10 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   `cpf` char(11) NOT NULL,
   `data_nascimento` date NOT NULL,
   `resumo_profissional` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `perfil_publico` int NOT NULL DEFAULT '0' COMMENT '0=Privado 1=Público',
+  `perfil_publico` int NOT NULL COMMENT '1=Público 2=Privado',
   PRIMARY KEY (`pessoa_fisica_id`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 
@@ -310,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   KEY `idx_ativo` (`tipo`),
   CONSTRAINT `fk_pessoa_fisica_usuario1` FOREIGN KEY (`pessoa_fisica_id`) REFERENCES `pessoa_fisica` (`pessoa_fisica_id`),
   CONSTRAINT `fk_usuario_estabelecimento1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`estabelecimento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Exportação de dados foi desmarcado.
 

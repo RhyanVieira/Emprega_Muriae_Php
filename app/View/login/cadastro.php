@@ -6,6 +6,7 @@
                 <div class="row">
 					<div class="col-md-12 text-center">
 						<h3 class="font-weight-700 m-t0 m-b20">Criar Uma Conta</h3>
+						<?= exibeAlerta() ?>
 					</div>
 				</div>
                 <div class="row">
@@ -13,19 +14,16 @@
 						<div class="p-a30 border-1  max-w500 m-auto">
 							<div class="tab-content">
 								<form id="formUsuario" class="tab-pane active" method="POST" action="<?= baseUrl() ?>usuario/cadastroUsuario">
-									<input type="hidden" name="usuario_id" id="usuario_id" value="<?= setValor('usuario_id') ?>">
 									<p class="font-weight-600">Preencha os campos abaixo para criar sua conta na plataforma.</p>
 
 									<div class="form-group">
 										<label class="font-weight-700" for="login">E-mail *</label>
-										<input name="login" id="login" required class="form-control" placeholder="Digite seu e-mail" type="email" maxlength="100" value="<?= setValor('login')?>">
-										<?= setMsgFilderError('login') ?>
+										<input name="login" id="login" required class="form-control" placeholder="Digite seu e-mail" type="email" minlength="3" maxlength="100">
 									</div>
 
 									<div class="form-group">
 										<label class="font-weight-700" for="senha">Senha *</label>
-										<input name="senha" id="senha" required class="form-control" placeholder="Crie uma senha" type="password" maxlength="30" value="<?= setValor('senha') ?>">
-										<?= setMsgFilderError('senha') ?>
+										<input name="senha" id="senha" required class="form-control" placeholder="Crie uma senha" type="password" minlength="8" maxlength="30">
 									</div>
 
 									<div class="form-group">
@@ -35,7 +33,6 @@
 											<option value="PF" <?= (setValor('tipo') == "PF" ? 'selected' : '') ?>>Candidato</option>
 											<option value="E" <?= (setValor('tipo') == "E" ? 'selected' : '') ?>>Empresa</option>
 										</select>
-										<?= setMsgFilderError('tipo') ?>
 									</div>
 									<!--
 									<div class="product-brand">
@@ -49,8 +46,12 @@
 										</div>
 									</div>
 									-->
-									<div class="text-left m-t20">
+									<div class="text-center m-t20">
 										<button type="submit" class="site-button button-lg outline outline-2">Criar Conta</button>
+									</div>
+									<div class="dez-divider bg-gray-dark"></div>
+									<div class="text-center">
+										<span class="text-black">Já tem uma conta? </span><span><a href="<?= baseUrl() ?>login">Login</a></span>
 									</div>
 								</form>
 							</div>
