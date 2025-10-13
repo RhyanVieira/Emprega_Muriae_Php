@@ -1149,6 +1149,19 @@ button.scroltop {
 }
 /* Botão de paginação*/
 
+/* Botão logout */
+.btn-logout {
+    color: #dc3545 !important;
+    transition: all 0.3s ease; 
+    background-color: transparent !important; 
+}
+.btn-logout:hover {
+    color: #ff4d4d;
+    transform: scale(1.15);
+    background-color: transparent !important;
+}
+/* Botão logout*/
+
 /* Banners */
 .dez-bnr-inr.dez-bnr-inr-md {
     height: 600px;
@@ -2903,13 +2916,24 @@ footer .widget ul {
 }
 /* Contato Style*/
 
-.btn-logout {
-    color: #dc3545 !important;
-    transition: all 0.3s ease; 
-    background-color: transparent !important; 
+/* Abas */
+.nav-tabs .nav-link {
+    color: #191970;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: 6px 6px 0 0;
+    margin-right: 6px;
+    padding: 10px 16px;
 }
-.btn-logout:hover {
-    color: #ff4d4d;
-    transform: scale(1.15);
-    background-color: transparent !important;
+
+.nav-tabs .nav-link.active {
+    background-color: #191970;;
+    color: #fff;
+    border-color: transparent;
 }
+
+.tab-content { 
+    padding-top: 10px; 
+}
+/* Abas */
+

@@ -1,231 +1,199 @@
-
-    <div class="page-content bg-white">
-        <!-- inner page banner -->
-        <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(/assets/img/banner/Banner_Cadastrar_Curriculo.jpg);">
-            <div class="container">
-                <div class="dez-bnr-inr-entry">
-                    <h1 class="text-white">Cadastre seu curriculo</h1>
-					<!-- Breadcrumb row -->
-					<div class="breadcrumb-row">
-						<ul class="list-inline">
-							<li>Cadastre seu currículo e aumente suas chances de ser contratado</li>
-						</ul>
-					</div>
-					<!-- Breadcrumb row END -->
+<div class="page-content bg-white">
+    <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(images/banner/Banner_Cadastrar_Curriculo.jpg);">
+        <div class="container">
+            <div class="dez-bnr-inr-entry">
+                <h1 class="text-white">Cadastre seu curriculo</h1>
+                <!-- Breadcrumb row -->
+                <div class="breadcrumb-row">
+                    <ul class="list-inline">
+                        <li>Cadastre seu currículo e aumente suas chances de ser contratado</li>
+                    </ul>
                 </div>
+                <!-- Breadcrumb row END -->
             </div>
         </div>
-        <!-- inner page banner END -->
-        <!-- contact area -->
-        <div class="content-block">
-			<!-- Submit Resume -->
-			<div class="section-full bg-white submit-resume content-inner-2">
-                <div class="container">
-                    <form>
-
-                        <!-- Dados Pessoais -->
-                        <p class="bold-text">1. Dados Pessoais</p>
-                        <div class="form-group">
-                            <label>Nome Completo</label>
-                            <input type="text" class="form-control" name="nome" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Celular</label>
-                            <input type="text" class="form-control" name="celular" maxlength="11" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Data de Nascimento</label>
-                            <input type="date" class="form-control" name="dataNascimento" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Sexo</label>
-                            <select class="form-control" name="sexo" required>
-                                <option value="">Selecione</option>
-                                <option value="M">Masculino</option>
-                                <option value="F">Feminino</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Foto (opcional)</label>
-                            <input type="file" class="form-control" name="foto">
-                        </div>
-
-                        <div class="form-group">
-                            <label>LinkedIn (opcional)</label>
-                            <input type="url" class="form-control" name="linkedin">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Portfólio (opcional)</label>
-                            <input type="url" class="form-control" name="portfolio">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Apresentação Pessoal</label>
-                            <textarea class="form-control" name="apresentacaoPessoal" rows="4"></textarea>
-                        </div>
-
-                        <!-- Endereço -->
-                        <div class="form-group">
-                            <label>Logradouro</label>
-                            <input type="text" class="form-control" name="logradouro" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Número</label>
-                            <input type="text" class="form-control" name="numero">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Complemento</label>
-                            <input type="text" class="form-control" name="complemento">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Bairro</label>
-                            <input type="text" class="form-control" name="bairro" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>CEP</label>
-                            <input type="text" class="form-control" name="CEP" maxlength="8" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Cidade</label>
-                            <select name="cidade_id" class="form-control" required>
-                                <option value="">Selecione sua cidade</option>
-                                <!-- popular dinamicamente -->
-                            </select>
-                        </div>
-
-                        <!-- Escolaridade -->
-                        <div class="dez-divider bg-gray-dark"></div>
-                        <p class="bold-text">2. Escolaridade</p>
-
-                        <div class="form-group">
-                            <label>Instituição</label>
-                            <input type="text" class="form-control" name="instituicao" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Cidade da Instituição</label>
-                            <select name="cidade_id_escolaridade" class="form-control" required>
-                                <option value="">Selecione</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Descrição do Curso</label>
-                            <input type="text" class="form-control" name="descricao" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Nível de Escolaridade</label>
-                            <select name="escolaridade_id" class="form-control" required>
-                                <option value="">Selecione</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select name="status" class="form-control">
+    </div>
+    <div class="content-block">
+        <div class="section-full bg-white content-inner-2">
+            <div class="container">
+                <!-- Navegação das abas  -->
+                <ul class="nav nav-tabs mb-4" id="tabsCurriculo" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab1" data-toggle="tab" href="#dados" role="tab">1. Dados Pessoais</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab2" data-toggle="tab" href="#escolaridade" role="tab">2. Escolaridade</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab3" data-toggle="tab" href="#experiencia" role="tab">3. Experiência</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab4" data-toggle="tab" href="#qualificacoes" role="tab">4. Qualificações</a>
+                    </li>
+                </ul>
+                <!-- Conteúdo das abas -->
+                <div class="tab-content">
+                    <!-- Aba 1 - Dados pessoais -->
+                    <div class="tab-pane fade show active submit-resume shop-account" id="dados" role="tabpanel">
+                        <form class="tab-pane-active" action="<?= baseUrl() ?>curriculum/salvar_dados" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label class="font-weight-700" for="nome">Nome Completo *</label>
+                                <input type="text" name="nome" id="nome" class="form-control" placeholder="Seu nome" required maxlength="60" minlength="5">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="email" class="font-weight-700">Email *</label>
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="seu.email@exemplo.com" required maxlength="120" minlength="3">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="celular">Celular *</label>
+                                    <input type="text" id="celular" name="celular" class="form-control" placeholder="32123456789" maxlength="11" minlength="11" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="dataNascimento">Data de Nascimento</label>
+                                    <input type="date" id="dataNascimento" name="dataNascimento" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="sexo" >Gênero *</label>
+                                    <select name="sexo" id="sexo" required>
+                                        <option value="">Selecione</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                        <option value="O">Outro</option>
+                                        <option value="N">Prefiro não informar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-700" for="cep">CEP *</label>
+                                    <input type="text" id="cep" name="cep" class="form-control" placeholder="36000000" maxlength="8" minlength="8" required>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label class="font-weight-700" for="cidade_id" > Cidade *</label>
+                                    <select name="cidade_id" id="cidade_id" required>
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-700" for="bairro">Bairro *</label>
+                                    <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Seu bairro" maxlength="50" minlength="3" required>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label class="font-weight-700" for="logradouro">Logradouro *</label>
+                                    <input type="text" id="logradouro" name="logradouro" class="form-control" placeholder="Rua, Avenida, etc." maxlength="60" minlength="3" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-700" for="numero">Número</label>
+                                    <input type="text" id="numero" name="numero" class="form-control" placeholder="Seu bairro" maxlength="10">
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label class="font-weight-700" for="complemento">Complemento</label>
+                                    <input type="text" id="complemento" name="complemento" class="form-control" placeholder="Apto, Bloco, etc." maxlength="20">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-700" for="apresentacaoPessoal">Apresentação Pessoal</label>
+                                <textarea name="apresentacaoPessoal" id="apresentacaoPessoal" class="form-control" placeholder="Descreva quem é você" maxlength="1000"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="curriculo_arquivo">Currículo em Arquivo</label>
+                                    <input type="file" id="curriculo_arquivo" name="curriculo_arquivo" class="form-control">
+                                    <p class="font-weight-600">Formatos aceitos: JPG, JEPG, PNG, GIF, BMP, WEBP, SVG+XML (máx. 5MB)</p>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="foto">Foto</label>
+                                    <input type="file" id="foto" name="foto" class="form-control">
+                                    <p class="font-weight-600">Formatos aceitos: DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT (máx. 5MB)</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="site-button">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Aba 2 - Escolaridade -->
+                    <div class="tab-pane fade show submit-resume shop-account" id="escolaridade" role="tabpanel">
+                        <form  class="tab-pane-active" action="<?= baseUrl() ?>curriculum/salvar_escolaridade" method="POST">
+                            <div class="form-group">
+                                <label class="font-weight-700">Instituição</label>
+                                <input type="text" name="instituicao" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-700">Descrição do Curso</label>
+                                <input type="text" name="descricao" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-700">Status</label>
+                                <select name="status" class="form-control" required>
                                 <option value="1">Concluído</option>
-                                <option value="2">Estudando</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Início</label>
-                            <div class="d-flex">
-                                <input type="number" class="form-control mr-2" name="inicioMes" placeholder="Mês" min="1" max="12" required>
-                                <input type="number" class="form-control" name="inicioAno" placeholder="Ano" min="1900" required>
+                                <option value="2">Cursando</option>
+                                </select>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Término</label>
-                            <div class="d-flex">
-                                <input type="number" class="form-control mr-2" name="fimMes" placeholder="Mês" min="1" max="12" required>
-                                <input type="number" class="form-control" name="fimAno" placeholder="Ano" min="1900" required>
+                            <div class="form-group">
+                                <label class="font-weight-700">Ano de Conclusão</label>
+                                <input type="number" name="anoConclusao" class="form-control" min="1900" max="2099">
                             </div>
-                        </div>
-
-                        <!-- Experiência -->
-                        <div class="dez-divider bg-gray-dark"></div>
-                        <p class="bold-text">3. Experiência Profissional</p>
-
-                        <div class="form-group">
-                            <label>Cargo</label>
-                            <input type="text" class="form-control" name="cargoDescricao" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Empresa</label>
-                            <input type="text" class="form-control" name="empresa">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Início</label>
-                            <div class="d-flex">
-                                <input type="number" class="form-control mr-2" name="inicioMesExp" placeholder="Mês" min="1" max="12" required>
-                                <input type="number" class="form-control" name="inicioAnoExp" placeholder="Ano" min="1900" required>
+                            <div class="text-right">
+                                <button type="submit" class="site-button">Salvar</button>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Término</label>
-                            <div class="d-flex">
-                                <input type="number" class="form-control mr-2" name="fimMesExp" placeholder="Mês" min="1" max="12" required>
-                                <input type="number" class="form-control" name="fimAnoExp" placeholder="Ano" min="1900" required>
+                        </form>
+                    </div>
+                    <!-- Aba 3 - Exeperiência -->
+                    <div class="tab-pane fade" id="experiencia" role="tabpanel">
+                        <form action="<?= baseUrl() ?>curriculum/salvar_experiencia" method="POST">
+                            <div class="form-group">
+                                <label class="font-weight-700">Cargo</label>
+                                <input type="text" name="cargo" class="form-control" required>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Atividades Exercidas</label>
-                            <textarea class="form-control" name="atividadesExercidas" rows="4"></textarea>
-                        </div>
-
-                        <!-- Idiomas -->
-                        <div class="dez-divider bg-gray-dark"></div>
-                        <p class="bold-text">4. Idiomas</p>
-
-                        <div class="form-group">
-                            <label>Idioma</label>
-                            <select name="idioma_id" class="form-control">
+                            <div class="form-group">
+                                <label class="font-weight-700">Empresa</label>
+                                <input type="text" name="empresa" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-700">Atividades Exercidas</label>
+                                <textarea name="atividades" class="form-control" rows="4"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="site-button">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Aba 4 - Qualificações -->
+                    <div class="tab-pane fade" id="qualificacoes" role="tabpanel">
+                        <form action="<?= baseUrl() ?>curriculum/salvar_qualificacao" method="POST">
+                            <div class="form-group">
+                                <label class="font-weight-700">Idioma</label>
+                                <select name="idioma" class="form-control">
                                 <option value="">Selecione</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Nível</label>
-                            <input type="text" class="form-control" name="nivel" placeholder="Ex: Básico, Intermediário, Avançado">
-                        </div>
-
-                        <!-- Qualificações -->
-                        <div class="dez-divider bg-gray-dark"></div>
-                        <p class="font-weight-bold">5. Qualificações</p>
-
-                        <div class="form-group">
-                            <label>Descrição</label>
-                            <input type="text" class="form-control" name="descricao_qualificacao" placeholder="Digite a qualificação">
-                        </div>
-
-                        <button type="submit" class="site-button">Enviar Currículo</button>
-                    </form>
-                </div>
+                                <option value="Inglês">Inglês</option>
+                                <option value="Espanhol">Espanhol</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-700">Nível</label>
+                                <input type="text" name="nivel" class="form-control" placeholder="Ex: Básico, Intermediário, Avançado">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-700">Qualificações Adicionais</label>
+                                <input type="text" name="descricao_qualificacao" class="form-control" placeholder="Digite suas qualificações">
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="site-button">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div> <!-- Fim das Abas -->
             </div>
-
-            <!-- Submit Resume END -->
-		</div>
+        </div>
     </div>
 </div>
+
+

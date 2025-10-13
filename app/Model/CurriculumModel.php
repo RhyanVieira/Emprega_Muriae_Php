@@ -13,17 +13,21 @@ class CidadeModel extends ModelMain
             "label" => 'Pessoa Física Id',
             "rules" => 'required|int'
         ],
+        "nome"  => [
+            "label" => 'Nome',
+            "rules" => 'required|min:5|max:60'
+        ],
         "logradouro"  => [
             "label" => 'Logradouro',
             "rules" => 'required|min:3|max:60'
         ],
         "numero"  => [
             "label" => 'Número',
-            "rules" => 'min:1|max:10'
+            "rules" => 'max:10'
         ],
         "complemento"  => [
             "label" => 'Complemento',
-            "rules" => 'min:3|max:20'
+            "rules" => 'max:20'
         ],
         "bairro"  => [
             "label" => 'Bairro',
@@ -35,7 +39,7 @@ class CidadeModel extends ModelMain
         ],
         "cep"  => [
             "label" => 'CEP',
-            "rules" => 'required|min:3|max:8'
+            "rules" => 'required|min:8|max:8'
         ],
         "cidade_id"  => [
             "label" => 'Cidade',
@@ -55,7 +59,7 @@ class CidadeModel extends ModelMain
         ],
         "foto"  => [
             "label" => 'Foto',
-            "rules" => 'min:3|max:100'
+            "rules" => 'max:100'
         ],
         "email"  => [
             "label" => 'Email',
@@ -63,11 +67,11 @@ class CidadeModel extends ModelMain
         ],
         "apresentacaoPessoal"  => [
             "label" => 'Apresentação Pessoal',
-            "rules" => ''
+            "rules" => 'max:1000'
         ],
         "curriculo_arquivo"  => [
             "label" => 'Curriculo em Arquivo',
-            "rules" => 'requireds|max:255'
+            "rules" => 'max:255'
         ],
     ];
 

@@ -26,7 +26,7 @@ class Curriculum extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("sistema/cadastrar_curriculo");
+        return $this->loadView("sistema/cadastro_curriculo");
     }
 
     public function form($action, $id)
