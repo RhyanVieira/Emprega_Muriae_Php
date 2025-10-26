@@ -1,5 +1,5 @@
 <div class="page-content bg-white">
-    <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(images/banner/Banner_Cadastrar_Curriculo.jpg);">
+    <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(/assets/img/banner/Banner_Cadastrar_Curriculo.jpg);">
         <div class="container">
             <div class="dez-bnr-inr-entry">
                 <h1 class="text-white">Cadastre seu curriculo</h1>
@@ -58,7 +58,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-700" for="sexo" >Gênero *</label>
                                     <select name="sexo" id="sexo" required>
-                                        <option value="">Selecione</option>
+                                        <option value="">Selecione seu gênero</option>
                                         <option value="M">Masculino</option>
                                         <option value="F">Feminino</option>
                                         <option value="O">Outro</option>
@@ -74,7 +74,7 @@
                                 <div class="form-group col-md-8">
                                     <label class="font-weight-700" for="cidade_id" > Cidade *</label>
                                     <select name="cidade_id" id="cidade_id" required>
-                                        <option value="">Selecione</option>
+                                        <option value="">Selecione a cidade</option>
                                     </select>
                                 </div>
                             </div>
@@ -123,46 +123,170 @@
                     <div class="tab-pane fade show submit-resume shop-account" id="escolaridade" role="tabpanel">
                         <form  class="tab-pane-active" action="<?= baseUrl() ?>curriculum/salvar_escolaridade" method="POST">
                             <div class="form-group">
-                                <label class="font-weight-700">Instituição</label>
-                                <input type="text" name="instituicao" class="form-control" required>
+                                <label class="font-weight-700" for="instituicao">Instituição *</label>
+                                <input type="text" name="instituicao" id="instituicao" class="form-control" placeholder="Nome da Instituição" required minlength="3" maxlength="60">
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-700">Descrição do Curso</label>
-                                <input type="text" name="descricao" class="form-control" required>
+                                <label class="font-weight-700" for="descricao" >Descrição *</label>
+                                <input type="text" name="descricao" id="descricao" placeholder="Descrição do Curso" class="form-control" required minlength="3" maxlength="60">
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-700">Status</label>
-                                <select name="status" class="form-control" required>
-                                <option value="1">Concluído</option>
-                                <option value="2">Cursando</option>
-                                </select>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="inicioMes" >Mês de Início *</label>
+                                    <select name="inicioMes" id="inicioMes" required>
+                                        <option value="">Selecione o mês</option>
+                                        <option value="1">Janeiro</option>
+                                        <option value="2">Fevereiro</option>
+                                        <option value="3">Março</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Maio</option>
+                                        <option value="6">Junho</option>
+                                        <option value="7">Julho</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Setembro</option>
+                                        <option value="10">Outubro</option>
+                                        <option value="11">Novembro</option>
+                                        <option value="12">Dezembro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="inicioAno" >Ano de Início *</label>
+                                    <input type="number" name="inicioAno" id="inicioAno" placeholder="Ano de Início" class="form-control" required min="1900" max="2099">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-700">Ano de Conclusão</label>
-                                <input type="number" name="anoConclusao" class="form-control" min="1900" max="2099">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="fimMes" >Mês de Conclusão *</label>
+                                    <select name="fimMes" id="fimMes" required>
+                                        <option value="">Selecione o mês</option>
+                                        <option value="1">Janeiro</option>
+                                        <option value="2">Fevereiro</option>
+                                        <option value="3">Março</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Maio</option>
+                                        <option value="6">Junho</option>
+                                        <option value="7">Julho</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Setembro</option>
+                                        <option value="10">Outubro</option>
+                                        <option value="11">Novembro</option>
+                                        <option value="12">Dezembro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="fimAno" >Ano de Conclusão *</label>
+                                    <input type="number" name="fimAno" id="fimMes" placeholder="Ano de Conclusão" class="form-control" required min="1900" max="2099">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="cidade_id" >Cidade *</label>
+                                    <select name="cidade_id" id="cidade_id" required>
+                                        <option value="">Selecione a cidade</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="escolaridade_id" >Nível *</label>
+                                    <select name="escolaridade_id" id="escolaridade_id" required>
+                                        <option value="">Selecione o nível</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="site-button">Salvar</button>
+                            </div>
+                            <div class="text-center m-t30">
+                                <button class="site-button radius-xl">+ Adicionar outra formação</button>
                             </div>
                         </form>
+
                     </div>
                     <!-- Aba 3 - Exeperiência -->
-                    <div class="tab-pane fade" id="experiencia" role="tabpanel">
-                        <form action="<?= baseUrl() ?>curriculum/salvar_experiencia" method="POST">
-                            <div class="form-group">
-                                <label class="font-weight-700">Cargo</label>
-                                <input type="text" name="cargo" class="form-control" required>
+                    <div class="tab-pane fade show submit-resume shop-account" id="experiencia" role="tabpanel">
+                        <form class="tab-pane-active" action="<?= baseUrl() ?>curriculum/salvar_experiencia" method="POST">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="estabelecimento">Estabelecimento ou Empresa</label>
+                                    <input type="text" name="estabelcimento" id="estabelecimento" class="form-control" placeholder="Nome do Estabelecimento ou Empresa" minlength="3" maxlength="60">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="cargo_id" >Cargo *</label>
+                                    <select name="cargo_id" id="cargo_id" required>
+                                        <option value="">Selecione seu cargo</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-700">Empresa</label>
-                                <input type="text" name="empresa" class="form-control" required>
+                                <label class="font-weight-700" for="cargoDescricao" >Descrição</label>
+                                <input type="text" name="cargoDescricao" id="cargoDescricao" placeholder="Descrição" class="form-control" minlength="3" maxlength="60">
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-700">Atividades Exercidas</label>
-                                <textarea name="atividades" class="form-control" rows="4"></textarea>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="inicioMes" >Mês de Início *</label>
+                                    <select name="inicioMes" id="inicioMes" required>
+                                        <option value="">Selecione o mês</option>
+                                        <option value="1">Janeiro</option>
+                                        <option value="2">Fevereiro</option>
+                                        <option value="3">Março</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Maio</option>
+                                        <option value="6">Junho</option>
+                                        <option value="7">Julho</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Setembro</option>
+                                        <option value="10">Outubro</option>
+                                        <option value="11">Novembro</option>
+                                        <option value="12">Dezembro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="inicioAno" >Ano de Início *</label>
+                                    <input type="number" name="inicioAno" id="inicioAno" placeholder="Ano de Início" class="form-control" required min="1900" max="2099">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="fimMes" >Mês de Término</label>
+                                    <select name="fimMes" id="fimMes">
+                                        <option value="">Selecione o mês</option>
+                                        <option value="1">Janeiro</option>
+                                        <option value="2">Fevereiro</option>
+                                        <option value="3">Março</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Maio</option>
+                                        <option value="6">Junho</option>
+                                        <option value="7">Julho</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Setembro</option>
+                                        <option value="10">Outubro</option>
+                                        <option value="11">Novembro</option>
+                                        <option value="12">Dezembro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="fimAno" >Ano de Término</label>
+                                    <input type="number" name="fimAno" id="fimMes" placeholder="Ano de Conclusão" class="form-control" min="1900" max="2099">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="cidade_id" >Cidade *</label>
+                                    <select name="cidade_id" id="cidade_id" required>
+                                        <option value="">Selecione a cidade</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-700" for="escolaridade_id" >Nível *</label>
+                                    <select name="escolaridade_id" id="escolaridade_id" required>
+                                        <option value="">Selecione o nível</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="site-button">Salvar</button>
+                            </div>
+                            <div class="text-center m-t30">
+                                <button class="site-button radius-xl">+ Adicionar outra experiência</button>
                             </div>
                         </form>
                     </div>
