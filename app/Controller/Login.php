@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\UsuarioModel;
+use App\Model\CurriculumModel;
 use Core\Library\ControllerMain;
 use Core\Library\Email;
 use Core\Library\Redirect;
@@ -44,6 +45,8 @@ class Login extends ControllerMain
 
         $aUser  = $this->model->getUserLogin($post['login']);
 
+        $curriculumModel = new CurriculumModel();
+
         if (count($aUser) > 0) {
 
             // validar a senha            
@@ -63,9 +66,20 @@ class Login extends ControllerMain
             if ($aUser['pessoa_fisica_id']) {
                 $pf = $this->model->getPessoaFisica($aUser['usuario_id']); // método no model de usuário
                 Session::set('userNome', $pf['nome']);
+                Session::set('userPfId', $aUser['pessoa_fisica_id']);
+
+                $curriculo = $curriculumModel->getByPessoaFisicaId($aUser['pessoa_fisica_id']);
+
+                if (!empty($curriculo)) {
+                    Session::set('curriculo_id', $curriculo['curriculum_id']);
+                } else {
+                    Session::destroy('curriculo_id'); // Garante que não herde sessão antiga
+                }
+
             } elseif ($aUser['estabelecimento_id']) {
                 $estab = $this->model->getEstabelecimento($aUser['usuario_id']); // método no model de usuário
                 Session::set('userNome', $estab['nome']);
+                Session::set('userEstabId', $aUser['estabelecimento_id']);
             }
 
             // Direcionar o usuário para página home
@@ -90,6 +104,9 @@ class Login extends ControllerMain
         Session::destroy('userLogin');
         Session::destroy('userTtipo');
         Session::destroy('userNome');
+        Session::destroy('userPfId');
+        Session::destroy('userEstabId');
+        Session::destroy('curriculo_id');
         
         return Redirect::Page("home");
     }

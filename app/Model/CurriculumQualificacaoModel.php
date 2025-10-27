@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class CurriculumQualificacaoModel extends ModelMain
 {
     protected $table = "curriculum_qualificacao";
     
@@ -29,8 +29,8 @@ class CidadeModel extends ModelMain
             "label" => 'Descrição',
             "rules" => 'required|min:3|max:60'
         ],
-        "estabelecimento"  => [
-            "label" => 'Estabelecimento',
+        "instituicao"  => [
+            "label" => 'Instituição',
             "rules" => 'required|min:3|max:60'
         ],
     ];

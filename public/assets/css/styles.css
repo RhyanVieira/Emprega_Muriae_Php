@@ -2397,22 +2397,9 @@ footer .widget ul {
 	border: 1px solid #000;
 }
 /* Box de pesquisa */
-
-/* Box de novidades */
-.news-box form:after {
-    color: #000000;
-    content: "Atualização";
-    font-family: montserrat;
-    font-size: 50px;
-    font-weight: 700;
-    opacity: 0.05;
-    position: absolute;
-    top: -40px;
-	z-index:-1;
-}
 .news-box:before {
 	font-family:themify;
-	content:"\e75a";
+	content:"\f0eb";
 	font-size: 50px;
     font-weight: 700;
     opacity: 0.05;
@@ -2936,4 +2923,6 @@ footer .widget ul {
     padding-top: 10px; 
 }
 /* Abas */
+
+
 

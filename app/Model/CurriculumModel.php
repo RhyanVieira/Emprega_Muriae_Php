@@ -4,9 +4,10 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class CurriculumModel extends ModelMain
 {
     protected $table = "curriculum";
+    protected $primaryKey = "curriculum_id";
     
     public $validationRules = [
         "pessoa_fisica_id"  => [
@@ -57,10 +58,6 @@ class CidadeModel extends ModelMain
             "label" => 'Sexo',
             "rules" => 'required|min:1|max:1'
         ],
-        "foto"  => [
-            "label" => 'Foto',
-            "rules" => 'max:100'
-        ],
         "email"  => [
             "label" => 'Email',
             "rules" => 'required|min:3|max:120'
@@ -69,22 +66,13 @@ class CidadeModel extends ModelMain
             "label" => 'Apresentação Pessoal',
             "rules" => 'max:1000'
         ],
-        "curriculo_arquivo"  => [
-            "label" => 'Curriculo em Arquivo',
-            "rules" => 'max:255'
-        ],
     ];
 
-
-    /**
-     * lista
-     *
-     * @param string $orderby 
-     * @return array
-     */
-    public function listaCurriculum()
-    {   
-        return $this->db->select()->findAll();
+    public function getByPessoaFisicaId($pessoaFisicaId)
+    {
+        return $this->db
+            ->select()
+            ->where("pessoa_fisica_id", $pessoaFisicaId)
+            ->first();
     }
-
 }

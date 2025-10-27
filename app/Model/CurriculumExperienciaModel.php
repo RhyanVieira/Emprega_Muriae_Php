@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class CurriculumExperienciaModel extends ModelMain
 {
     protected $table = "curriculum_experiencia";
     
@@ -31,7 +31,7 @@ class CidadeModel extends ModelMain
         ],
         "estabelecimento"  => [
             "label" => 'Nome da empresa ou estabelecimento',
-            "rules" => 'min:3|max:60'
+            "rules" => 'max:60'
         ],
         "cargo_id"  => [
             "label" => 'Cargo',
@@ -39,7 +39,7 @@ class CidadeModel extends ModelMain
         ],
         "cargoDescricao"  => [
             "label" => 'Descrição do cargo',
-            "rules" => 'min:3|max:60'
+            "rules" => 'max:60'
         ],
         "atividadesExercidas"  => [
             "label" => 'Atividades Exercidas',
@@ -59,4 +59,13 @@ class CidadeModel extends ModelMain
         return $this->db->select()->findAll();
     }
 
+    public function existeExperiencia($curriculumId, $cargoId, $estabelecimento)
+    {
+        return $this->db
+            ->select()
+            ->where("curriculum_id", $curriculumId)
+            ->where("cargo_id", $cargoId)
+            ->where("estabelecimento", $estabelecimento)
+            ->find();
+    }
 }

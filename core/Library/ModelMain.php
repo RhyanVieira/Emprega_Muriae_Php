@@ -7,7 +7,7 @@ class ModelMain
     public $db;
     public $validationRules = [];
     protected $table;
-    protected $primaryKey = "id";
+    protected $primaryKey;
 
     /**
      * construct
@@ -102,6 +102,15 @@ class ModelMain
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function insertGetId($dados)
+    {
+        if (Validator::make($dados, $this->validationRules)) {
+            return 0;
+        } else {
+            return $this->db->insert($dados); 
         }
     }
 }

@@ -214,7 +214,7 @@
                                 </ul>
                             </div>	
 							<div class="widget widget-newslatter">
-                                <h6 class="widget-title style-1">Atualização Diáriaa</h6>
+                                <h6 class="widget-title style-1">Atualização Diária</h6>
                                 <div class="news-box">
 									<p class="m-b5">Não perca nenhuma vaga!</p>
 									<p>Inscreva-se para receber nossas atualizações diárias</p>

@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class CategoriaEstabelecimentoModel extends ModelMain
 {
     protected $table = "categoria_estabelecimento";
     

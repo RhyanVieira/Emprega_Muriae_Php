@@ -12,6 +12,13 @@ class Validator
 
             $itensRule = explode("|", $ruleValue['rules']);
 
+            $valor = isset($data[$ruleKey]) ? $data[$ruleKey] : null;
+
+            // ⚙️ Pula validação se o campo não é obrigatório e está vazio
+            if (!str_contains($ruleValue['rules'], 'required') && ($valor === '' || $valor === null)) {
+                continue;
+            }
+
             if (isset($data[$ruleKey])) {
 
                 foreach ($itensRule as $itemKey) {

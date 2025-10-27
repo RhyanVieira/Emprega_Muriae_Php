@@ -41,7 +41,7 @@ class UsuarioModel extends ModelMain
     public function getPessoaFisica($usuarioId)
     {
         return $this->db
-            ->select("pessoa_fisica.nome")
+            ->select("pessoa_fisica.nome",)
             ->join("pessoa_fisica", "pessoa_fisica.pessoa_fisica_id = usuario.pessoa_fisica_id")
             ->where("usuario.usuario_id", $usuarioId)
             ->first();

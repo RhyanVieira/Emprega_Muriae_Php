@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class TipoContratoModel extends ModelMain
 {
     protected $table = "tipo_contrato";
     

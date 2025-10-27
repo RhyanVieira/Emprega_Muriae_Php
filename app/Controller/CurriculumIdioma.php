@@ -8,7 +8,7 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 
-class CurriculumExperiencia extends ControllerMain
+class CurriculumIdioma extends ControllerMain
 {
     protected $files;
 
@@ -42,10 +42,20 @@ class CurriculumExperiencia extends ControllerMain
         $idCurriculo = Session::get('curriculo_id');
 
         if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar a escolaridade."]);
+            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar um idioma."]);
         }
 
         $post['curriculum_id'] = $idCurriculo;
+
+        // Evita duplicidade (mesmo idioma)
+        $existe = $this->model->existeDuplicado(
+            $idCurriculo, 
+            $post['idioma_id'],
+        );
+
+        if ($existe) {
+            return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou este idioma anteriormente."]);
+        }
 
         // Valida os dados
         if (Validator::make($post, $this->model->validationRules)) {
@@ -55,10 +65,10 @@ class CurriculumExperiencia extends ControllerMain
 
         // Faz o insert
         if ($this->model->insert($post)) {
-            return Redirect::page("curriculum/index", ["msgSucesso" => "Experiência cadastrada com sucesso!"]);
+            return Redirect::page("curriculum/index", ["msgSucesso" => "Idioma cadastrado com sucesso!"]);
         } else {
             Session::set('inputs', $post);
-            return Redirect::page("curriculum/index", ["msgError" => "Erro ao cadastrar a escolaridade."]);
+            return Redirect::page("curriculum/index", ["msgError" => "Erro ao cadastrar o idioma."]);
         }
     }
 

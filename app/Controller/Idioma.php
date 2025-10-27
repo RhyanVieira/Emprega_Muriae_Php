@@ -8,7 +8,7 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 
-class CurriculumExperiencia extends ControllerMain
+class Idioma extends ControllerMain
 {
     protected $files;
 
@@ -26,7 +26,13 @@ class CurriculumExperiencia extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("sistema/cadastro_curriculo");
+        return $this->loadView("paginaContato");
+    }
+
+    public function form($action, $id)
+    {   
+        $this->validaNivelAcesso();
+        return $this->loadView("sistema/formUf", $this->model->getById($id));
     }
 
     /**
@@ -34,31 +40,18 @@ class CurriculumExperiencia extends ControllerMain
      *
      * @return void
      */
-    public function salvar_dados()
+    public function insert()
     {
         $post = $this->request->getPost();
 
-        // Recupera o Id do currículo salvo na sessão
-        $idCurriculo = Session::get('curriculo_id');
-
-        if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar a escolaridade."]);
-        }
-
-        $post['curriculum_id'] = $idCurriculo;
-
-        // Valida os dados
         if (Validator::make($post, $this->model->validationRules)) {
-            Session::set('inputs', $post);
-            return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos obrigatórios corretamente."]);
-        }
-
-        // Faz o insert
-        if ($this->model->insert($post)) {
-            return Redirect::page("curriculum/index", ["msgSucesso" => "Experiência cadastrada com sucesso!"]);
+            return Redirect::page($this->controller . "/form/insert/0");
         } else {
-            Session::set('inputs', $post);
-            return Redirect::page("curriculum/index", ["msgError" => "Erro ao cadastrar a escolaridade."]);
+            if ($this->model->insert($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/insert/0");
+            }
         }
     }
 

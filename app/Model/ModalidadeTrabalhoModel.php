@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class ModalidadeTrabalhoModel extends ModelMain
 {
     protected $table = "curriculum_escolaridade";
     

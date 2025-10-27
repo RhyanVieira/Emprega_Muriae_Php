@@ -28,12 +28,6 @@ class Usuario extends ControllerMain
         return $this->loadView("sistema/listaUsuario", $this->model->listaUsuario());
     }
 
-    public function form($action, $id)
-    {
-        $this->validaNivelAcesso();
-        return $this->loadView("sistema/formUsuario", $this->model->getById($id));
-    }
-
     public function insert()
     {
         $post = $this->request->getPost();

@@ -8,7 +8,7 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 
-class Contato extends ControllerMain
+class Cargo extends ControllerMain
 {
     protected $files;
 

@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class CurriculumEscolaridadeModel extends ModelMain
 {
     protected $table = "curriculum_escolaridade";
     
@@ -57,6 +57,16 @@ class CidadeModel extends ModelMain
     public function listaCurriculumEscolaridade()
     {   
         return $this->db->select()->findAll();
+    }
+
+    public function existeEscolaridade($curriculumId, $descricao, $instituicao)
+    {
+        return $this->db
+            ->select()
+            ->where("curriculum_id", $curriculumId)
+            ->where("descricao", $descricao)
+            ->where("instituicao", $instituicao)
+            ->findAll();
     }
 
 }

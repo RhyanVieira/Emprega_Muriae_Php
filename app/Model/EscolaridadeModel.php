@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Core\Library\ModelMain;
 
-class CidadeModel extends ModelMain
+class EscolaridadeModel extends ModelMain
 {
-    protected $table = "curriculum_escolaridade";
+    protected $table = "escolaridade";
     
     public $validationRules = [
         "descricao"  => [
