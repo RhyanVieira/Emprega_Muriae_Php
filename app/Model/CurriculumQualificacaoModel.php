@@ -35,16 +35,14 @@ class CurriculumQualificacaoModel extends ModelMain
         ],
     ];
 
-
-    /**
-     * lista
-     *
-     * @param string $orderby 
-     * @return array
-     */
-    public function listaCurriculumQualificacao()
-    {   
-        return $this->db->select()->findAll();
+    public function existeQualificacao($idCurriculo, $descricao)
+    {
+        return $this->db
+            ->select('curriculum_qualificacao_id')
+            ->where('curriculum_id', $idCurriculo)
+            ->where('descricao', $descricao)
+            ->findAll();
     }
+
 
 }

@@ -43,14 +43,13 @@ class CurriculumQualificacao extends ControllerMain
         $post['curriculum_id'] = $idCurriculo;
 
         // Evita duplicidade (mesma empresa + mesmo cargo)
-        $existe = $this->model->existeExperiencia(
+        $existe = $this->model->existeQualificacao(
             $idCurriculo,
-            $post['cargo_id'],
-            $post['estabelecimento']
+            $post['descricao'],
         );
 
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Essa experiência já foi cadastrada anteriormente."]);
+            return Redirect::page("curriculum/index", ["msgError" => "Essa qualificação já foi cadastrada anteriormente."]);
         }
 
         // Valida os dados
