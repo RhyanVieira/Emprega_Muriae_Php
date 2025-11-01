@@ -5,7 +5,10 @@ use Core\Library\Session;
 ?>
 
 <?php $curriculo = $dados['curriculo'] ?? []; ?>
+<?php $escolaridades = $dados['escolaridades'] ?? []; ?>
 <?php $curriculoBloqueado = !Session::get('curriculo_id'); ?>
+
+
 
 <div class="page-content bg-white">
     <div class="dez-bnr-inr overlay-black-dark" style="background-image:url(/assets/img/banner/Banner_Cadastrar_Curriculo.jpg);">
@@ -122,43 +125,48 @@ use Core\Library\Session;
                                     </div>
                                     <div class="row">
                                         <!-- Currículo em arquivo -->
-                                        <?php if (empty($curriculo['curriculo_arquivo'])): ?>
-                                            <div class="form-group col-md-6">
-                                                <label class="font-weight-700" for="curriculo_arquivo">Currículo em Arquivo</label>
-                                                <input type="file" id="curriculo_arquivo" name="curriculo_arquivo" class="form-control">
-                                                <p class="font-weight-600">Formatos aceitos: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT (máx. 5MB)</p>
+                                        <?php if (!empty($curriculo['curriculo_arquivo'])): ?>
+                                            <div class="col-12">
+                                                <div class="dez-divider bg-gray-dark"></div>
                                             </div>
-                                        <?php else: ?>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-6">
                                                 <h5>Arquivo Atual</h5>
                                                 <p>
                                                     <a href="<?= baseUrl() ?>download.php?type=curriculos&file=<?= urlencode($curriculo['curriculo_arquivo']) ?>"><?= $curriculo['curriculo_arquivo'] ?></a>
                                                 </p>
-                                                <input type="file" id="curriculo_arquivo" name="curriculo_arquivo" class="form-control">
                                                 <p class="font-weight-600">Você pode substituir o arquivo atual enviando outro.</p>
                                             </div>
                                         <?php endif; ?>
-
+                                        <div class="form-group col-md-6">
+                                            <label class="font-weight-700" for="curriculo_arquivo">Currículo em Arquivo</label>
+                                            <input type="file" id="curriculo_arquivo" name="curriculo_arquivo" class="form-control">
+                                            <p class="font-weight-600">Formatos aceitos: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT (máx. 5MB)</p>
+                                        </div>
                                         <!-- Foto -->
-                                        <?php if (empty($curriculo['foto'])): ?>
-                                            <div class="form-group col-md-6">
-                                                <label class="font-weight-700" for="foto">Foto</label>
-                                                <input type="file" id="foto" name="foto" class="form-control">
-                                                <p class="font-weight-600">Formatos aceitos: JPG, JPEG, PNG, GIF, BMP, WEBP, SVG+XML (máx. 5MB)</p>
+                                        <?php if (!empty($curriculo['foto'])): ?>
+                                            <div class="col-12">
+                                                <div class="dez-divider bg-gray-dark"></div>
                                             </div>
-                                        <?php else: ?>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-6">
                                                 <h5>Foto Atual</h5>
                                                 <img src="<?= baseUrl() . 'imagem.php?file=fotos_curriculos/' . setValor('foto', $curriculo['foto']) ?>" class="img-thumbnail" height="120" width="240">
-                                                <input type="file" id="foto" name="foto" class="form-control mt-2">
                                                 <p class="font-weight-600">Você pode substituir a foto atual enviando outra.</p>
                                             </div>
                                         <?php endif; ?>
+                                        <div class="form-group col-md-6">
+                                            <label class="font-weight-700" for="foto">Foto</label>
+                                            <input type="file" id="foto" name="foto" class="form-control">
+                                            <p class="font-weight-600">Formatos aceitos: JPG, JPEG, PNG, GIF, BMP, WEBP, SVG+XML (máx. 5MB)</p>
+                                        </div>
                                     </div>
                                     <div class="text-right">
+                                        <?php if (!empty($curriculo['curriculum_id'])): ?>
+                                            <button type="button" class="site-button outline red" onclick="confirmarExclusao(<?= $curriculo['curriculum_id'] ?>)">Excluir</button>
+                                        <?php endif; ?>
                                         <button type="submit" class="site-button">Salvar</button>
                                     </div>
                                 </form>
+                                
                             </div>
                             <!-- Aba 2 - Escolaridade -->
                             <div class="tab-pane fade show submit-resume shop-account <?= $curriculoBloqueado ? 'bloqueado' : '' ?>" id="escolaridade" role="tabpanel">
@@ -171,11 +179,11 @@ use Core\Library\Session;
                                     <form  class="tab-pane-active" action="<?= baseUrl() ?>curriculumEscolaridade/salvar_dados" method="POST">
                                         <div class="form-group">
                                             <label class="font-weight-700" for="instituicao">Instituição *</label>
-                                            <input type="text" name="instituicao" id="instituicao" class="form-control" placeholder="Nome da Instituição" required minlength="3" maxlength="60">
+                                            <input type="text" name="instituicao" id="instituicao" class="form-control" placeholder="Nome da Instituição" required minlength="3" maxlength="60" value="<?= setValor('instituicao', $escolaridades[0]['instituicao'] ?? '') ?>">
                                         </div>
                                         <div class="form-group">
                                             <label class="font-weight-700" for="descricao" >Descrição *</label>
-                                            <input type="text" name="descricao" id="descricao" placeholder="Descrição do Curso" class="form-control" required minlength="3" maxlength="60">
+                                            <input type="text" name="descricao" id="descricao" placeholder="Descrição do Curso" class="form-control" required minlength="3" maxlength="60" value="<?= setValor('descricao', $escolaridades[0]['descricao'] ?? '') ?>">
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-md-6">
@@ -463,4 +471,10 @@ use Core\Library\Session;
     </div>
 </div>
 
-
+<script>
+function confirmarExclusao(id) {
+    if (confirm("Tem certeza que deseja excluir este currículo?\n\n⚠️ Atenção: Todos os currículos dependentes (escolaridade, experiência, qualificações e idiomas) também serão apagados.\n\nEsta ação não poderá ser desfeita.")) {
+        window.location.href = "<?= baseUrl() ?>curriculum/delete/" + id;
+    }
+}
+</script>

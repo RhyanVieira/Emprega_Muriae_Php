@@ -229,12 +229,12 @@ CREATE TABLE IF NOT EXISTS `curriculum` (
   PRIMARY KEY (`curriculum_id`),
   UNIQUE KEY `pessoa_fisica_id` (`pessoa_fisica_id`),
   KEY `fk_curriculum_cidade1_idx` (`cidade_id`),
-  KEY `fk_curriculum_pessoa_fisica1_idx` (`pessoa_fisica_id`),
-  CONSTRAINT `fk_curriculum_cidade1` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`cidade_id`),
-  CONSTRAINT `fk_curriculum_pessoa_fisica1` FOREIGN KEY (`pessoa_fisica_id`) REFERENCES `pessoa_fisica` (`pessoa_fisica_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_curriculum_pessoa_fisica1_idx` (`pessoa_fisica_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum: ~0 rows (aproximadamente)
+INSERT IGNORE INTO `curriculum` (`curriculum_id`, `pessoa_fisica_id`, `nome`, `logradouro`, `numero`, `complemento`, `bairro`, `cep`, `cidade_id`, `celular`, `dataNascimento`, `sexo`, `foto`, `email`, `apresentacaoPessoal`, `curriculo_arquivo`) VALUES
+	(42, 116, 'Rhyan Vieira', 'Rua Francisco Bertoni Benevenute', '37', 'Casa', 'Franscico', '36878000', 11, '32999550336', '2003-06-17', 'M', NULL, 'rhyanmayconsv@gmail.com', '', NULL);
 
 -- Copiando estrutura para tabela emprega_muriae.curriculum_escolaridade
 CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
@@ -253,11 +253,13 @@ CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
   KEY `fk_curriculum_escolaridade_curriculum1_idx` (`curriculum_id`),
   KEY `fk_curriculum_escolaridade_escolaridade1_idx` (`escolaridade_id`),
   CONSTRAINT `fk_curriculum_escolaridade_cidade1` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`cidade_id`),
-  CONSTRAINT `fk_curriculum_escolaridade_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`),
-  CONSTRAINT `fk_curriculum_escolaridade_escolaridade1` FOREIGN KEY (`escolaridade_id`) REFERENCES `escolaridade` (`escolaridade_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_curriculum_escolaridade_escolaridade1` FOREIGN KEY (`escolaridade_id`) REFERENCES `escolaridade` (`escolaridade_id`),
+  CONSTRAINT `fk_escolaridade_curriculum` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.curriculum_escolaridade: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.curriculum_escolaridade: ~1 rows (aproximadamente)
+INSERT IGNORE INTO `curriculum_escolaridade` (`curriculum_escolaridade_id`, `curriculum_id`, `inicioMes`, `inicioAno`, `fimMes`, `fimAno`, `descricao`, `instituicao`, `cidade_id`, `escolaridade_id`) VALUES
+	(10, 42, 2, 2023, 8, 2025, 'ADS', 'Santa Marcelina', 14, 2);
 
 -- Copiando estrutura para tabela emprega_muriae.curriculum_experiencia
 CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
@@ -275,8 +277,8 @@ CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
   KEY `fk_curriculum_experiencia_curriculum1_idx` (`curriculum_id`),
   KEY `fk_curriculum_experiencia_cargo1_idx` (`cargo_id`),
   CONSTRAINT `fk_curriculum_experiencia_cargo1` FOREIGN KEY (`cargo_id`) REFERENCES `cargo` (`cargo_id`),
-  CONSTRAINT `fk_curriculum_experiencia_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_curriculum_experiencia_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum_experiencia: ~0 rows (aproximadamente)
 
@@ -291,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `curriculum_idioma` (
   KEY `fk_curriculum_idioma_idioma` (`idioma_id`) USING BTREE,
   CONSTRAINT `fk_curriculum_idioma_curriculum` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_curriculum_idioma_idioma` FOREIGN KEY (`idioma_id`) REFERENCES `idioma` (`idioma_id`) ON DELETE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum_idioma: ~0 rows (aproximadamente)
 
@@ -306,8 +308,8 @@ CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
   `instituicao` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`curriculum_qualificacao_id`),
   KEY `fk_curriculum_qualificacao_curriculum1_idx` (`curriculum_id`),
-  CONSTRAINT `fk_curriculum_qualificacao_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_curriculum_qualificacao_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum_qualificacao: ~0 rows (aproximadamente)
 
@@ -436,9 +438,11 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   `perfil_publico` int NOT NULL COMMENT '1=Público 2=Privado',
   PRIMARY KEY (`pessoa_fisica_id`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.pessoa_fisica: ~0 rows (aproximadamente)
+INSERT IGNORE INTO `pessoa_fisica` (`pessoa_fisica_id`, `nome`, `cpf`, `data_nascimento`, `resumo_profissional`, `perfil_publico`) VALUES
+	(116, 'Rhyan Maycon da Silva Vieira', '13854078602', '2003-06-17', 'Eu', 1);
 
 -- Copiando estrutura para tabela emprega_muriae.telefone
 CREATE TABLE IF NOT EXISTS `telefone` (
@@ -508,9 +512,11 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   KEY `idx_ativo` (`tipo`),
   CONSTRAINT `fk_pessoa_fisica_usuario1` FOREIGN KEY (`pessoa_fisica_id`) REFERENCES `pessoa_fisica` (`pessoa_fisica_id`),
   CONSTRAINT `fk_usuario_estabelecimento1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`estabelecimento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.usuario: ~0 rows (aproximadamente)
+INSERT IGNORE INTO `usuario` (`usuario_id`, `pessoa_fisica_id`, `login`, `senha`, `tipo`, `estabelecimento_id`) VALUES
+	(46, 116, 'rhyanmayconsv@gmail.com', '$2y$10$2w/d7GfiFcVbqlUKOxvWteOBt0/DAa3O2MKA5MqqqC0MJXeglrj1e', 'PF', NULL);
 
 -- Copiando estrutura para tabela emprega_muriae.vaga
 CREATE TABLE IF NOT EXISTS `vaga` (

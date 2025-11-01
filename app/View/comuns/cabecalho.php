@@ -28,7 +28,7 @@ use Core\Library\Session;
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Carregar os stylesheet e arquivos de estilização da página -->
     <link href="<?= baseUrl() ?>assets/css/plugins.css" rel="stylesheet">
-    <link href="<?= baseUrl() ?>assets/css/styles.css" rel="stylesheet">
+    <link href="<?= baseUrl() ?>assets/css/styles1.css" rel="stylesheet">
 
     <script src="<?= baseUrl() ?>assets/js/jquery.min.js" > </script><!-- JQUERY.MIN JS -->
     <script src="<?= baseUrl() ?>assets/plugins/wow/wow.js" ></script><!-- WOW JS -->

@@ -98,11 +98,20 @@ class ModelMain
      */
     public function delete($dados)
     {
-        if ($this->db->where($this->primaryKey, $dados[$this->primaryKey])->delete() > 0) {
-            return true;
+        // Se for um array, extrai o ID
+        if (is_array($dados)) {
+            $id = $dados[$this->primaryKey] ?? null;
         } else {
+            // Se for string ou int, usa diretamente
+            $id = $dados;
+        }
+
+        if (empty($id)) {
             return false;
         }
+
+        return $this->db->where($this->primaryKey, $id)->delete();
+
     }
 
     public function insertGetId($dados)

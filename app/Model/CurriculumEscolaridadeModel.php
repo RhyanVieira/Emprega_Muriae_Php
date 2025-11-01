@@ -69,4 +69,10 @@ class CurriculumEscolaridadeModel extends ModelMain
             ->findAll();
     }
 
+    public function getByCurriculumId($curriculumId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_id', $curriculumId)
+                        ->findAll();
+    }
 }
