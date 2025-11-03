@@ -29,7 +29,7 @@ class CurriculumEscolaridade extends ControllerMain
         return $this->loadView("sistema/cadastro_curriculo");
     }
 
-    public function salvar_dados()
+    public function insert()
     {
         $post = $this->request->getPost();
 
@@ -48,12 +48,9 @@ class CurriculumEscolaridade extends ControllerMain
             $post['descricao'], 
             $post['instituicao']
         );
-
         if ($existe) {
             return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou essa formação anteriormente."]);
         }
-
-        
 
         // Valida os dados
         if (Validator::make($post, $this->model->validationRules)) {
@@ -79,13 +76,31 @@ class CurriculumEscolaridade extends ControllerMain
     {
         $post = $this->request->getPost();
 
+        $idCurriculo = Session::get('curriculo_id');
+
+        if (!$idCurriculo) {
+            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de alterar a escolaridade."]);
+        }
+
+        // Evita duplicidade (mesma instituição + mesma descrição)
+        $existe = $this->model->existeEscolaridade(
+            $idCurriculo, 
+            $post['descricao'], 
+            $post['instituicao']
+        );
+        if ($existe) {
+            return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou essa formação anteriormente."]);
+        }
+
+        $post['curriculum_id'] = $idCurriculo;
+
         if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/update/" . $post['id']);    // error
+            return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos corretamente"]);
         } else {
             if ($this->model->update($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+                return Redirect::page("curriculum/index", ["msgSucesso" => "Registro alterado com sucesso."]);
             } else {
-                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+                return Redirect::page("curriculum/index", ["msgError" => "Erro na atualização do registro."]);
             }
         }
     }
@@ -95,14 +110,28 @@ class CurriculumEscolaridade extends ControllerMain
      *
      * @return void
      */
-    public function delete()
+    public function delete($id = null)
     {
-        $post = $this->request->getPost();
+        if (empty($id)) {
+            return Redirect::page("curriculum/index", ["msgError" => "ID do currículo esolaridade inválido."]);
+        }
 
-        if ($this->model->delete($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro Excluído com sucesso."]);
+        $idCurriculo = Session::get('curriculo_id');
+        if (empty($idCurriculo)) {
+            return Redirect::page("login", ["msgError" => "Faça login para continuar."]);
+        }
+
+        $registro = $this->model->idExclusao($idCurriculo, $id);
+
+        if (!$registro) {
+            return Redirect::page("curriculum/index", ["msgError" => "Currículo não encontrado ou acesso negado."]);
+        }
+
+        // Exclui o registro do banco
+        if ($this->model->delete($id)) {
+            return Redirect::page("curriculum/index", ["msgSucesso" => "Currículo de escolaridade excluído com sucesso!"]);
         } else {
-            return Redirect::page($this->controller);
+            return Redirect::page("curriculum/index", ["msgError" => "Erro ao excluir currículo de escolaridade."]);
         }
     }
 }

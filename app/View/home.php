@@ -1,3 +1,20 @@
+<?php
+$modalidades = [
+    1 => 'Presencial',
+    2 => 'Híbrido',
+    3 => 'Remoto'
+];
+
+$vinculos = [
+    1 => 'CLT',
+    2 => 'PJ',
+    3 => 'Freelancer',
+    4 => 'Temporário',
+    5 => 'Estágio'
+];
+
+setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
+?>
 <!-- Banner com imagem de fundo e sopreposição escura (overlay)-->
 		<div class="dez-bnr-inr dez-bnr-inr-md overlay-black-dark" style="background-image:url(/assets/img/main-slider/estatua_slider.jpg);">
             <!-- Container centralizado do conteúdo -->
@@ -14,21 +31,22 @@
 								<!-- Campo de pesquisa por palavra-chave -->
 								<div class="col-lg-4 col-md-6">
 									<div class="form-group">
-										<div class="input-group">
-											<input type="text" class="form-control" placeholder="Ex: vendedor, recepcionista, pacote Office...">
-											<div class="input-group-append">
-												<span class="input-group-text"><i class="fa fa-search"></i></span>
-											</div>
-										</div>
+										<select>
+											<option value="">Selecione um cargo</option>
+											<?php foreach ($dados['aCargo'] as $valueCargo): ?>
+                                                <option value="<?= $valueCargo['cargo_id'] ?>" <?= ($valueCargo['cargo_id'] == setValor("cargo_id") ? 'SELECTED' : '') ?>><?=$valueCargo['descricao']?></option>
+                                            <?php endforeach; ?> 
+										</select>
 									</div>
 								</div>
 								<!-- Filtro por cidade -->
 								<div class="col-lg-3 col-md-6">
 									<div class="form-group">
 										<select>
-											<option>Muriaé</option>
-											<option>Rosário da Limeira</option>
-											<option>Miraí</option>
+											<option value="">Selecione a cidade</option>
+											<?php foreach ($dados['aCidade'] as $value): ?>
+												<option value="<?= $value['cidade_id'] ?>" <?= ($value['cidade_id'] == setValor("cidade_id") ? 'SELECTED' : '') ?>><?=$value['cidade'] . ' - ' . $value['uf'] ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
 								</div>
@@ -36,9 +54,10 @@
 								<div class="col-lg-3 col-md-6">
 									<div class="form-group">
 										<select>
-											<option>Educação</option>
-											<option>Construção</option>
-											<option>Finanças</option> 
+											<option value="">Selecione uma categoria</option>
+                                            <?php foreach ($dados['aCategoriaVaga'] as $valueCatVaga): ?>
+                                                <option value="<?= $valueCatVaga['categoria_vaga_id'] ?>" <?= ($valueCatVaga['categoria_vaga_id'] == setValor("categoria_vaga_id") ? 'SELECTED' : '') ?>><?=$valueCatVaga['descricao']?></option>
+                                            <?php endforeach; ?>
 										</select>
 									</div>
 								</div>
@@ -63,149 +82,52 @@
 						<h6 class="fw4 m-b0">Mais de 20 vagas adicionadas recentemente</h6>
 					</div>
 					<div class="align-self-end">
-						<a href="#" class="site-button button-sm">Veja Todas as Vagas <i class="fa fa-long-arrow-right"></i></a>
+						<a href="<?= baseUrl() ?>vaga" class="site-button button-sm">Veja Todas as Vagas <i class="fa fa-long-arrow-right"></i></a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-9">
 						<ul class="post-job-bx">
-							<li>
-								<a href="vaga_detalhada.html">
-									<div class="d-flex m-b30">
-										<div class="job-post-company">
-											<span><img src="images/empresa/tecno_vale.jpg"/></span>
+							<?php foreach ($dados['VagaHome'] as $vagaHome): ?>
+								<li>
+									<a href="vaga_detalhada.html">
+										<div class="d-flex m-b30">
+											<div class="job-post-company">
+												<span><img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $vagaHome['logo'] ?>"/></span>
+											</div>
+											<div class="job-post-info">
+												<h4><?= ($vagaHome['descricao']) ?></h4>
+												<ul>
+													<li><i class="fa fa-map-marker text-alert" style="color: #0177c1;"></i> <?= ($vagaHome['cidade']) ?> - <?= ($vagaHome['uf']) ?></li>
+													<li><i class="fa fa-calendar-check-o text-success"></i>Início - <?= date('d/m/Y', strtotime($vagaHome['dtInicio'])) ?></li>
+													<li><i class="fa fa-calendar-times-o text-danger"></i>Término - <?= date('d/m/Y', strtotime($vagaHome['dtFim'])) ?></li>
+												</ul>
+											</div>
 										</div>
-										<div class="job-post-info">
-											<h4>Desenvolvedor Front-End Júnior</h4>
-											<ul>
-												<li><i class="fa fa-map-marker"></i> Muriaé, Minas Gerais</li>
-												<li><i class="fa fa-bookmark-o"></i> Tempo Integral</li>
-												<li><i class="fa fa-clock-o"></i> Publicado há 5 dias</li>
-											</ul>
+										<div class="d-flex">
+											<div class="job-time mr-auto">
+												<span><?= $modalidades[$vagaHome['modalidade']] ?? 'Não informado' ?></span>
+												<span><?= $vinculos[$vagaHome['vinculo']] ?? 'Não informado' ?></span>
+											</div>
+											<div class="salary-bx">
+												<span>
+													<?php $faixaSal = $vagaHome['faixaSal'] ?? '';
+														if (strtolower(trim($faixaSal)) === 'a combinar') {
+															echo "<span>A combinar</span>";
+														} elseif (!empty($faixaSal)) {
+															echo "<span>R$ " . number_format((float)$faixaSal, 2, ',', '.') . "</span>";
+														} else {
+															echo "<span>Não informado</span>";
+														}
+													?>
+												</span>
+											</div>
 										</div>
-									</div>
-									<div class="d-flex">
-										<div class="job-time mr-auto">
-											<span>Tempo Integral</span>
-										</div>
-										<div class="salary-bx">
-											<span>R$2000 - R$3000</span>
-										</div>
-									</div>
-									<span class="post-like fa fa-heart-o"></span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<div class="d-flex m-b30">
-										<div class="job-post-company">
-											<span><img src="images/empresa/maqui_minas.jpg"/></span>
-										</div>
-										<div class="job-post-info">
-											<h4>Assistente Administrativo</h4>
-											<ul>
-												<li><i class="fa fa-map-marker"></i> Eugenópolis, Minas Gerais</li>
-												<li><i class="fa fa-bookmark-o"></i> Meio Período</li>
-												<li><i class="fa fa-clock-o"></i> Publicado há 1 semana</li>
-											</ul>
-										</div>
-									</div>
-									<div class="d-flex">
-										<div class="job-time mr-auto">
-											<span>Meio Período</span>
-										</div>
-										<div class="salary-bx">
-											<span>R$1200 - R$1600</span>
-										</div>
-									</div>
-									<span class="post-like fa fa-heart-o"></span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<div class="d-flex m-b30">
-										<div class="job-post-company">
-											<span><img src="images/empresa/delicias_da_serra.jpg"/></span>
-										</div>
-										<div class="job-post-info">
-											<h4>Atendente de Restaurante</h4>
-											<ul>
-												<li><i class="fa fa-map-marker"></i> Muriaé, Minas Gerais</li>
-												<li><i class="fa fa-bookmark-o"></i> Temporário</li>
-												<li><i class="fa fa-clock-o"></i> Publicado há 2 dias</li>
-											</ul>
-										</div>
-									</div>
-									<div class="d-flex">
-										<div class="job-time mr-auto">
-											<span>Temporário</span>
-										</div>
-										<div class="salary-bx">
-											<span>R$1000 - R$1400</span>
-										</div>
-									</div>
-									<span class="post-like fa fa-heart-o"></span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<div class="d-flex m-b30">
-										<div class="job-post-company">
-											<span><img src="images/empresa/constru_minas.jpg"/></span>
-										</div>
-										<div class="job-post-info">
-											<h4>Auxiliar de Logística</h4>
-											<ul>
-												<li><i class="fa fa-map-marker"></i> Miradouro, Minas Gerais</li>
-												<li><i class="fa fa-bookmark-o"></i> Tempo Integral</li>
-												<li><i class="fa fa-clock-o"></i> Publicado há 5 dias</li>
-											</ul>
-										</div>
-									</div>
-									<div class="d-flex">
-										<div class="job-time mr-auto">
-											<span>Tempo Integral</span>
-										</div>
-										<div class="salary-bx">
-											<span>R$1800 - R$2400</span>
-										</div>
-									</div>
-									<span class="post-like fa fa-heart-o"></span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<div class="d-flex m-b30">
-										<div class="job-post-company">
-											<span><img src="images/logo/icon1.png"/></span>
-										</div>
-										<div class="job-post-info">
-											<h4>Professor de Inglês</h4>
-											<ul>
-												<li><i class="fa fa-map-marker"></i> Rosário da Limeira, Minas Gerais</li>
-												<li><i class="fa fa-bookmark-o"></i> Freelancer</li>
-												<li><i class="fa fa-clock-o"></i> Publicado há 2 semanas</li>
-											</ul>
-										</div>
-									</div>
-									<div class="d-flex">
-										<div class="job-time mr-auto">
-											<span>Freelancer</span>
-										</div>
-										<div class="salary-bx">
-											<span>R$35/hora</span>
-										</div>
-									</div>
-									<span class="post-like fa fa-heart-o"></span>
-								</a>
-							</li>
+										<span class="post-like fa fa-heart-o"></span>
+									</a>
+								</li>
+							<?php endforeach; ?> 
 						</ul>
-						<div class="m-t30">
-							<div class="d-flex">
-								<a class="site-button button-sm mr-auto" href="#"><i class="ti-arrow-left"></i> Anterior</a>
-								<a class="site-button button-sm" href="#">Próxima <i class="ti-arrow-right"></i></a>
-							</div>
-						</div>
 					</div>
 					<div class="col-lg-3">
 						<div class="sticky-top">
@@ -220,9 +142,9 @@
 							</div>
 							<div class="quote-bx">
 								<div class="quote-info">
-									<h4>Destaque-se com seu currículo online!</h4>
-									<p>Crie seu currículo em minutos com o Emprega Muriaé!</p>
-									<a href="#" class="site-button">Crie Sua Conta Agora</a>
+									<h4>Encontre os melhores talentos para sua empresa!</h4>
+									<p>Cadastre sua empresa e publique vagas gratuitamente no Emprega Muriaé</p>
+									<a href="<?= baseUrl() ?>usuario" class="site-button">Cadastre-se Agora</a>
 								</div>
 							</div>
 						</div>
@@ -240,7 +162,7 @@
 						<!-- Texto explicativo -->
 						<p class="m-b0">Cadastre seu currículo, encontre vagas locais e conquiste a oportunidade que você merece.</p>
 						<!-- Botão para cadastro -->
-						<a href="#" class="site-button m-t20 outline outline-2 radius-xl">Crie Sua Conta Agora</a>
+						<a href="<?= baseUrl() ?>login" class="site-button m-t20 outline outline-2 radius-xl">Crie Sua Conta Agora</a>
 					</div>
 				</div>
 			</div>
@@ -256,97 +178,18 @@
 				<!-- Lista as cetegorias em grid -->
 				<div class="row sp20">
 					<!-- Categoria: Design & Arte-->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-brush"></i></div>
-								<a href="#" class="dez-tilte">Design & Arte</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-brush"></i></div> 
-							</div>
-						</div>				
-					</div>
-					<!-- Categoria: Educação -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-book"></i></div>
-								<a href="#" class="dez-tilte">Educação</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-book"></i></div> 
-							</div>
+					<?php foreach ($dados['vagaTotal'] as $VagaT): ?>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+							<div class="icon-bx-wraper">
+								<div class="icon-content">
+									<div class="icon-md text-blue m-b20"><i class="<?= ($VagaT['icone']) ?>"></i></div>
+									<a href="#" class="dez-tilte"><?= ($VagaT['descricao']) ?></a>
+									<p class="m-a0"><?= ($VagaT['total_vagas']) ?> Vagas Abertas</p>
+									<div class="rotate-icon"><i class="<?= ($VagaT['icone']) ?>"></i></div> 
+								</div>
+							</div>				
 						</div>
-					</div>
-					<!-- Categoria: Finanças -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-wallet"></i></div>
-								<a href="#" class="dez-tilte">Finanças</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-wallet"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Recursos Humanos -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-user"></i></div>
-								<a href="#" class="dez-tilte">Recursos Humanos</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-user"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Telecomunicação -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-headphone"></i></div>
-								<a href="#" class="dez-tilte">Telecomunicação</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-headphone"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Restaurante -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-cup"></i></div>
-								<a href="#" class="dez-tilte">Restaurante</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-cup"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Construção -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-hummer"></i></div>
-								<a href="#" class="dez-tilte">Construção</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-hummer"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Categoria: Saúde -->
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="icon-bx-wraper">
-							<div class="icon-content">
-								<div class="icon-md text-blue m-b20"><i class="ti-heart"></i></div>
-								<a href="#" class="dez-tilte">Saúde</a>
-								<p class="m-a0">198 Vagas Abertas</p>
-								<div class="rotate-icon"><i class="ti-heart"></i></div> 
-							</div>
-						</div>
-					</div>
-					<!-- Botão para visualizar todas as cetegorias -->
-					<div class="col-lg-12 text-center m-t30">
-						<button class="site-button radius-xl">Todas as Categorias</button>
-					</div>
+                    <?php endforeach; ?>
 				</div>
 			</div>
 		</div>
@@ -364,7 +207,7 @@
 							</div>
 							<div class="testimonial-detail clearfix">
 								<div class="testimonial-pic radius shadow">
-									<img src="images/proposito/emprega_muriae_proposito.jpg" width="100" height="100" alt="">
+									<img src="<?= baseUrl() ?>/assets/img/proposito/emprega_muriae_proposito.jpg" width="100" height="100" alt="">
 								</div>
 								<strong class="testimonial-name">Conectando pessoas</strong> 
 								<span class="testimonial-position">Emprega Muriaé</span> 
@@ -378,7 +221,7 @@
 							</div>
 							<div class="testimonial-detail clearfix">
 								<div class="testimonial-pic radius shadow">
-									<img src="images/proposito/logo_santa_marcelina_proposito.jpg" width="100" height="100" alt="">
+									<img src="<?= baseUrl() ?>/assets/img/proposito/logo_santa_marcelina_proposito.jpg" width="100" height="100" alt="">
 								</div>
 								<strong class="testimonial-name">Projeto de Extensão</strong> 
 								<span class="testimonial-position">Faculdade Santa Marcelina</span> 
@@ -392,7 +235,7 @@
 							</div>
 							<div class="testimonial-detail clearfix">
 								<div class="testimonial-pic radius shadow">
-									<img src="images/proposito/emprega_muriae_proposito.jpg" width="100" height="100" alt="">
+									<img src="<?= baseUrl() ?>/assets/img/proposito/emprega_muriae_proposito.jpg" width="100" height="100" alt="">
 								</div>
 								<strong class="testimonial-name">Transformando vidas</strong> 
 								<span class="testimonial-position">Emprega Muriaé</span> 
@@ -406,7 +249,7 @@
 							</div>
 							<div class="testimonial-detail clearfix">
 								<div class="testimonial-pic radius shadow">
-									<img src="images/proposito/silviane_proposito.jpg" width="100" height="100" alt="">
+									<img src="<?= baseUrl() ?>/assets/img/proposito/silviane_proposito.jpg"  width="100" height="100" alt="">
 								</div>
 								<strong class="testimonial-name">Silviane Lima</strong> 
 								<span class="testimonial-position">Gerente, Loja CentralTech</span> 

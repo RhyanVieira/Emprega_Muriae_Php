@@ -52,7 +52,7 @@ class CurriculumModel extends ModelMain
         ],
         "dataNascimento"  => [
             "label" => 'Data de Nascimento',
-            "rules" => 'required'
+            "rules" => 'required|date'
         ],
         "sexo"  => [
             "label" => 'Sexo',
@@ -74,5 +74,44 @@ class CurriculumModel extends ModelMain
             ->select()
             ->where("pessoa_fisica_id", $pessoaFisicaId)
             ->first();
+    }
+
+    public function listarCurriculosPublicos()
+    {
+        return $this->db
+        ->select("
+                c.curriculum_id,
+                c.nome,
+                c.foto,
+                c.dataNascimento,
+                TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) AS idade,
+                ci.cidade,
+                ci.uf,
+                GROUP_CONCAT(DISTINCT(cq.descricao) ORDER BY cq.descricao SEPARATOR ', ') AS qualificacoes,
+                GROUP_CONCAT(DISTINCT(i.descricao) ORDER BY i.descricao SEPARATOR ', ') AS idiomas,
+                GROUP_CONCAT(DISTINCT(cg.descricao) ORDER BY cg.descricao SEPARATOR ', ') AS cargos
+            FROM curriculum AS c
+            INNER JOIN pessoa_fisica AS pf 
+                ON pf.pessoa_fisica_id = c.pessoa_fisica_id
+            LEFT JOIN cidade AS ci 
+                ON ci.cidade_id = c.cidade_id
+            LEFT JOIN curriculum_qualificacao AS cq 
+                ON cq.curriculum_id = c.curriculum_id
+            LEFT JOIN curriculum_idioma AS ci2 
+                ON ci2.curriculum_id = c.curriculum_id
+            LEFT JOIN idioma AS i 
+                ON i.idioma_id = ci2.idioma_id
+            LEFT JOIN curriculum_experiencia AS ce 
+                ON ce.curriculum_id = c.curriculum_id
+            LEFT JOIN cargo AS cg 
+                ON cg.cargo_id = ce.cargo_id
+            WHERE pf.perfil_publico = 1
+            GROUP BY 
+                c.curriculum_id, c.nome, c.foto, c.dataNascimento, ci.cidade
+            ORDER BY 
+                c.nome ASC;
+            "
+        )
+        ->findAll();
     }
 }

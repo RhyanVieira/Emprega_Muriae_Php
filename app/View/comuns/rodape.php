@@ -23,13 +23,12 @@
                         <div class="widget border-0">
                             <h5 class="m-b30 text-white">Ajuda e Informações</h5>
                             <ul class="list-2 list-line">
-                                <li><a href="#">Para Candidatos</a></li>
-                                <li><a href="#">Para Empresas</a></li>
-                                <li><a href="#">Perguntas Frequentes</a></li>
-								<li><a href="#">Sobre Nós</a></li>
-                                <li><a href="#">Contato</a></li>
-								<li><a href="#">Política de Privacidade</a></li>
-                                <li><a href="#">Termos de Uso</a></li>
+                                <li><a href="<?= baseUrl() ?>PessoaFisica">Candidatos</a></li>
+                                <li><a href="<?= baseUrl() ?>estabelecimento">Empresas</a></li>
+								<li><a href="<?= baseUrl() ?>home/sobre_nos">Sobre Nós</a></li>
+                                <li><a href="<?= baseUrl() ?>home/contato">Contato</a></li>
+								<li><a href="<?= baseUrl() ?>home/politica_privacidade">Política de Privacidade</a></li>
+                                <li><a href="<?= baseUrl() ?>home/termo_de_uso">Termos de Uso</a></li>
                             </ul>
                         </div>
                     </div>

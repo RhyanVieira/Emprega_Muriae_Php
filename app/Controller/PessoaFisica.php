@@ -8,6 +8,10 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 use App\Model\PessoaFisicaModel;
+use App\Model\CidadeModel;
+use App\Model\CargoModel;
+use App\Model\IdiomaModel;
+use App\Model\CurriculumModel;
 
 class PessoaFisica extends ControllerMain
 {
@@ -28,37 +32,22 @@ class PessoaFisica extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("sistema/candidatos");
+        $CargoModel = new CargoModel();
+        $CidadeModel = new CidadeModel();
+        $IdiomaModel = new IdiomaModel();
+        $CurriculumModel = new CurriculumModel();
+
+        $dados = [
+            'aCidade' => $CidadeModel->lista('cidade'),
+            'aCargo' => $CargoModel->lista('descricao'),
+            'aIdioma' => $IdiomaModel->lista('descricao'),
+            'curriculosPublicos' => $CurriculumModel->listarCurriculosPublicos(),
+        ];
+        return $this->loadView("sistema/candidatos", $dados);
     }
 
     public function cadastro(){
         return $this->loadView("sistema/cadastro_pessoa_fisica");
-    }
-    
-    public function form($action, $id)
-    {   
-        $this->validaNivelAcesso();
-        return $this->loadView("sistema/formUf", $this->model->getById($id));
-    }
-
-    /**
-     * insert
-     *
-     * @return void
-     */
-    public function insert()
-    {
-        $post = $this->request->getPost();
-
-        if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/insert/0");
-        } else {
-            if ($this->model->insert($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-            } else {
-                return Redirect::page($this->controller . "/form/insert/0");
-            }
-        }
     }
 
     public function cadastroParaUsuario()

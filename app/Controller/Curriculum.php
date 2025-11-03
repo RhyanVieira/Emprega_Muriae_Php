@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Model\CurriculumExperienciaModel;
+use App\Model\CurriculumQualificacaoModel;
+use App\Model\CurriculumIdiomaModel;
 use App\Model\CurriculumEscolaridadeModel;
 use App\Model\CidadeModel;
 use App\Model\EscolaridadeModel;
@@ -36,20 +39,28 @@ class Curriculum extends ControllerMain
         $CargoModel = new CargoModel();
         $IdiomaModel = new IdiomaModel();
         $CurriculumEscolaridadeModel = new CurriculumEscolaridadeModel();
+        $CurriculumExperienciaModel = new CurriculumExperienciaModel();
+        $CurriculumQualificacaoModel = new CurriculumQualificacaoModel();
+        $CurriculumIdiomaModel = new CurriculumIdiomaModel();
 
         $idPessoaFisica = Session::get('userPfId');
 
         // Busca o currículo existente (se houver)
         $curriculoExistente = null;
         $escolaridades = [];
+        $experiencias = [];
+        $qualificacoes = [];
+        $idiomas = [];
 
         if ($idPessoaFisica) {
             $curriculoExistente = $this->model->getByPessoaFisicaId($idPessoaFisica);
 
             // Se o currículo existir, busca suas escolaridades vinculadas
             if (!empty($curriculoExistente['curriculum_id'])) {
-                $escolaridades = $CurriculumEscolaridadeModel
-                    ->getByCurriculumId($curriculoExistente['curriculum_id']);
+                $escolaridades = $CurriculumEscolaridadeModel->getByCurriculumEscId($curriculoExistente['curriculum_id']);
+                $experiencias = $CurriculumExperienciaModel->getByCurriculumExpId($curriculoExistente['curriculum_id']);
+                $qualificacoes = $CurriculumQualificacaoModel->getByCurriculumQuaId($curriculoExistente['curriculum_id']);
+                $idiomas = $CurriculumIdiomaModel->getByCurriculumIdiId($curriculoExistente['curriculum_id']);
             }
         }
 
@@ -60,6 +71,9 @@ class Curriculum extends ControllerMain
             'aIdioma' => $IdiomaModel->lista('descricao'),
             'curriculo' => $curriculoExistente,
             'escolaridades' => $escolaridades,
+            'experiencias' => $experiencias,
+            'qualificacoes' => $qualificacoes,
+            'idiomas' => $idiomas
         ];
         
 

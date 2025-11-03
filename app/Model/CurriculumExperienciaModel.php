@@ -7,6 +7,7 @@ use Core\Library\ModelMain;
 class CurriculumExperienciaModel extends ModelMain
 {
     protected $table = "curriculum_experiencia";
+    protected $primaryKey = "curriculum_experiencia_id";
     
     public $validationRules = [
         "curriculum_id"  => [
@@ -59,13 +60,18 @@ class CurriculumExperienciaModel extends ModelMain
         return $this->db->select()->findAll();
     }
 
-    public function existeExperiencia($curriculumId, $cargoId, $estabelecimento)
+    public function getByCurriculumExpId($curriculumId)
     {
-        return $this->db
-            ->select()
-            ->where("curriculum_id", $curriculumId)
-            ->where("cargo_id", $cargoId)
-            ->where("estabelecimento", $estabelecimento)
-            ->find();
+        return $this->db->select()
+                        ->where('curriculum_id', $curriculumId)
+                        ->findAll();
+    }
+
+    public function idExclusao($curriculumId, $curriculumExperienciaId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_id', $curriculumId)
+                        ->where('curriculum_experiencia_id', $curriculumExperienciaId)
+                        ->findAll();
     }
 }

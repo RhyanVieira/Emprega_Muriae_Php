@@ -7,7 +7,8 @@ use Core\Library\ModelMain;
 class CurriculumEscolaridadeModel extends ModelMain
 {
     protected $table = "curriculum_escolaridade";
-    
+    protected $primaryKey = "curriculum_escolaridade_id";
+
     public $validationRules = [
         "curriculum_id"  => [
             "label" => 'Curriculum Id',
@@ -69,10 +70,18 @@ class CurriculumEscolaridadeModel extends ModelMain
             ->findAll();
     }
 
-    public function getByCurriculumId($curriculumId)
+    public function getByCurriculumEscId($curriculumId)
     {
         return $this->db->select()
                         ->where('curriculum_id', $curriculumId)
+                        ->findAll();
+    }
+
+    public function idExclusao($curriculumId, $curriculumEscolaridadeId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_id', $curriculumId)
+                        ->where('curriculum_escolaridade_id', $curriculumEscolaridadeId)
                         ->findAll();
     }
 }

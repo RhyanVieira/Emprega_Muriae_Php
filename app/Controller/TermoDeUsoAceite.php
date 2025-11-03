@@ -8,7 +8,7 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 
-class Contato extends ControllerMain
+class TermoDeUsoAceite extends ControllerMain
 {
     protected $files;
 
@@ -27,12 +27,6 @@ class Contato extends ControllerMain
     public function index()
     {
         return $this->loadView("paginaContato");
-    }
-
-    public function form($action, $id)
-    {   
-        $this->validaNivelAcesso();
-        return $this->loadView("sistema/formUf", $this->model->getById($id));
     }
 
     /**

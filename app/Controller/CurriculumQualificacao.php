@@ -29,7 +29,7 @@ class CurriculumQualificacao extends ControllerMain
         return $this->loadView("sistema/cadastrar_curriculo");
     }
 
-    public function salvar_dados()
+    public function insert()
     {
         $post = $this->request->getPost();
 
@@ -45,6 +45,7 @@ class CurriculumQualificacao extends ControllerMain
         // Evita duplicidade (mesma empresa + mesmo cargo)
         $existe = $this->model->existeQualificacao(
             $idCurriculo,
+            $post['instituicao'],
             $post['descricao'],
         );
 
@@ -76,13 +77,33 @@ class CurriculumQualificacao extends ControllerMain
     {
         $post = $this->request->getPost();
 
+        // Recupera o Id do currículo salvo na sessão
+        $idCurriculo = Session::get('curriculo_id');
+
+        if (!$idCurriculo) {
+            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar uma qualificação."]);
+        }
+
+        $post['curriculum_id'] = $idCurriculo;
+
+                // Evita duplicidade (mesma empresa + mesmo cargo)
+        $existe = $this->model->existeQualificacao(
+            $idCurriculo,
+            $post['instituicao'],
+            $post['descricao'],
+        );
+
+        if ($existe) {
+            return Redirect::page("curriculum/index", ["msgError" => "Essa qualificação já foi cadastrada anteriormente."]);
+        }
+
         if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/update/" . $post['id']);    // error
+            return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos corretamente"]);
         } else {
             if ($this->model->update($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+                return Redirect::page("curriculum/index", ["msgSucesso" => "Registro alterado com sucesso."]);
             } else {
-                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+                return Redirect::page("curriculum/index", ["msgError" => "Erro na atualização do registro."]);
             }
         }
     }
@@ -92,14 +113,28 @@ class CurriculumQualificacao extends ControllerMain
      *
      * @return void
      */
-    public function delete()
+    public function delete($id = null)
     {
-        $post = $this->request->getPost();
+        if (empty($id)) {
+            return Redirect::page("curriculum/index", ["msgError" => "ID do currículo qualificação inválido."]);
+        }
 
-        if ($this->model->delete($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro Excluído com sucesso."]);
+        $idCurriculo = Session::get('curriculo_id');
+        if (empty($idCurriculo)) {
+            return Redirect::page("login", ["msgError" => "Faça login para continuar."]);
+        }
+
+        $registro = $this->model->idExclusao($idCurriculo, $id);
+
+        if (!$registro) {
+            return Redirect::page("curriculum/index", ["msgError" => "Currículo não encontrado ou acesso negado."]);
+        }
+
+        // Exclui o registro do banco
+        if ($this->model->delete($id)) {
+            return Redirect::page("curriculum/index", ["msgSucesso" => "Currículo de qualificação excluído com sucesso!"]);
         } else {
-            return Redirect::page($this->controller);
+            return Redirect::page("curriculum/index", ["msgError" => "Erro ao excluir qualificação de experiência."]);
         }
     }
 }

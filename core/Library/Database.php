@@ -20,9 +20,9 @@ class Database
     private $select = "*";
     private $join = "";
     private $where = "";
+    private $limit = "";
     private $groupBy = "";
-    private $orderBy = "";
-    private $limit = "";  
+    private $orderBy = ""; 
     private $params = [];
 
     /**
@@ -589,6 +589,18 @@ class Database
     }
 
     /**
+     * limit 
+     * 
+     *  @param int $limit
+     *  @return object
+     */
+    public function limit($limit)
+    {
+        $this->limit = "LIMIT " . (int)$limit;
+        return $this;
+    }
+
+    /**
      * orderBy
      *
      * @param string $column 
@@ -609,7 +621,7 @@ class Database
      */
     public function prepareSelect($tipoRetorno = "all")
     {
-        $cSql = "SELECT {$this->select} FROM {$this->table} {$this->join} {$this->where} {$this->groupBy} {$this->orderBy}";
+        $cSql = "SELECT {$this->select} FROM {$this->table} {$this->join} {$this->where} {$this->groupBy} {$this->orderBy} {$this->limit}";
         $query = $this->connect()->prepare($cSql, [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL]);
         $rscDados = $query->execute($this->params);
 

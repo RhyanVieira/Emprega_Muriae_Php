@@ -34,7 +34,7 @@ class CurriculumExperiencia extends ControllerMain
      *
      * @return void
      */
-    public function salvar_dados()
+    public function insert()
     {
         $post = $this->request->getPost();
 
@@ -42,7 +42,7 @@ class CurriculumExperiencia extends ControllerMain
         $idCurriculo = Session::get('curriculo_id');
 
         if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar a escolaridade."]);
+            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar a experiência."]);
         }
 
         $post['curriculum_id'] = $idCurriculo;
@@ -58,7 +58,7 @@ class CurriculumExperiencia extends ControllerMain
             return Redirect::page("curriculum/index", ["msgSucesso" => "Experiência cadastrada com sucesso!"]);
         } else {
             Session::set('inputs', $post);
-            return Redirect::page("curriculum/index", ["msgError" => "Erro ao cadastrar a escolaridade."]);
+            return Redirect::page("curriculum/index", ["msgError" => "Erro ao cadastrar a experiência."]);
         }
     }
 
@@ -71,13 +71,22 @@ class CurriculumExperiencia extends ControllerMain
     {
         $post = $this->request->getPost();
 
+        // Recupera o Id do currículo salvo na sessão
+        $idCurriculo = Session::get('curriculo_id');
+
+        if (!$idCurriculo) {
+            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar uma experiência."]);
+        }
+
+        $post['curriculum_id'] = $idCurriculo;
+
         if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/update/" . $post['id']);    // error
+            return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos corretamente"]);
         } else {
             if ($this->model->update($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+                return Redirect::page("curriculum/index", ["msgSucesso" => "Registro alterado com sucesso."]);
             } else {
-                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+                return Redirect::page("curriculum/index", ["msgError" => "Erro na atualização do registro."]);
             }
         }
     }
@@ -87,14 +96,28 @@ class CurriculumExperiencia extends ControllerMain
      *
      * @return void
      */
-    public function delete()
+    public function delete($id = null)
     {
-        $post = $this->request->getPost();
+        if (empty($id)) {
+            return Redirect::page("curriculum/index", ["msgError" => "ID do currículo experiencia inválido."]);
+        }
 
-        if ($this->model->delete($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro Excluído com sucesso."]);
+        $idCurriculo = Session::get('curriculo_id');
+        if (empty($idCurriculo)) {
+            return Redirect::page("login", ["msgError" => "Faça login para continuar."]);
+        }
+
+        $registro = $this->model->idExclusao($idCurriculo, $id);
+
+        if (!$registro) {
+            return Redirect::page("curriculum/index", ["msgError" => "Currículo não encontrado ou acesso negado."]);
+        }
+
+        // Exclui o registro do banco
+        if ($this->model->delete($id)) {
+            return Redirect::page("curriculum/index", ["msgSucesso" => "Currículo de experiência excluído com sucesso!"]);
         } else {
-            return Redirect::page($this->controller);
+            return Redirect::page("curriculum/index", ["msgError" => "Erro ao excluir currículo de experiência."]);
         }
     }
 }

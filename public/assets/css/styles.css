@@ -2936,5 +2936,9 @@ footer .widget ul {
     color: #fff;
 }
 
-
+.texto-dica {
+    font-size: 14px;
+    font-style: italic;
+    color: #555;
+}
 

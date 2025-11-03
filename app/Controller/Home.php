@@ -4,24 +4,49 @@
 namespace App\Controller;
 
 use Core\Library\ControllerMain;
+use App\Model\CidadeModel;
+use App\Model\CargoModel;
+use App\Model\CategoriaVagaModel;
+use App\Model\VagaModel;
 
 class Home extends ControllerMain
 {
     public function index()
     {
-        $this->loadView("home");
+        $CargoModel = new CargoModel();
+        $CidadeModel = new CidadeModel();
+        $CategoriaVagaModel = new CategoriaVagaModel();
+        $VagaModel = new VagaModel();
+
+        $dados = [
+            'aCidade' => $CidadeModel->lista('cidade'),
+            'aCargo' => $CargoModel->lista('descricao'),
+            'aCategoriaVaga' => $CategoriaVagaModel->lista('descricao'),
+            'VagaHome' => $VagaModel->vagaHome(),
+            'vagaTotal' => $CategoriaVagaModel->listaTotalVagas(),
+        ];
+        
+        $this->loadView("home", $dados);
     }
 
-    public function sobre($action = null)
+    public function sobre_nos()
     {
-        echo "Página sobre nós. AÇÃO: {$action}";
+        return $this->loadView("sistema/sobre_nos");
     }
-
-    public function detalhes($action = null, $id = null, ...$params)
+    public function politica_privacidade()
     {
-        echo "Detalhes: <br />";
-        echo "<br />Ação: " . $action;
-        echo "<br />ID: " . $id;
-        echo "<br />PARÂMETROS: " . implode(", ", $params);
+        return $this->loadView("sistema/politica_privacidade");
+    }
+    public function contato()
+    {
+        return $this->loadView("sistema/contato");
+    }
+    public function blog()
+    {
+        return $this->loadView("sistema/blog");
+    }
+    public function termo_de_uso()
+    {
+        return $this->loadView("sistema/termos_uso");
     }
 }
