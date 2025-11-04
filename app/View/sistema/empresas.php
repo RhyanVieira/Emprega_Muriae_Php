@@ -20,9 +20,6 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xl-9 col-lg-8">
-							<div class="m-b30">
-								<input type="text" class="form-control" placeholder="Pesquisar empresas por nome">
-							</div>
 							<ul class="post-job-bx">
 								<li>
 									<a href="#">

@@ -109,7 +109,8 @@ class CurriculumModel extends ModelMain
             GROUP BY 
                 c.curriculum_id, c.nome, c.foto, c.dataNascimento, ci.cidade
             ORDER BY 
-                c.nome ASC;
+                RAND()
+            LIMIT 6;
             "
         )
         ->findAll();

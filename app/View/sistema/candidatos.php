@@ -1,5 +1,4 @@
-
-    <div class="page-content bg-white">
+	<div class="page-content bg-white">
         <!-- inner page banner -->
         <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(/assets/img/banner/Banner_Candidatos.jpg);">
             <div class="container">
@@ -25,7 +24,7 @@
 								<?php foreach ($dados['curriculosPublicos'] as $curriculos): ?>
 									<li>
 										<a href="#">
-											<div class="d-flex m-b30">
+											<div class="d-flex m-b20">
 												<div class="job-post-company">
 													<span><img src="images/candidatos/pic1.jpg"/></span>
 												</div>
@@ -40,38 +39,41 @@
 											<div class="d-flex">
 												<div class="job-time mr-auto">
 													<?php
-													// Quebra e normaliza as listas
 													$qualificacoesArr = array_filter(array_map('trim', explode(',', (string)($curriculos['qualificacoes'] ?? ''))));
 													$idiomasArr       = array_filter(array_map('trim', explode(',', (string)($curriculos['idiomas'] ?? ''))));
-													// Render chips de qualificações
-													foreach ($qualificacoesArr as $q): ?>
-														<span><?= htmlspecialchars($q) ?></span>
-													<?php endforeach; ?>
-													<?php if ($qualificacoesArr && $idiomasArr): ?>
-														<span style="margin:0 6px;"></span>
+													$experienciasArr = array_filter(array_map('trim', explode(',', (string)($curriculos['cargos'] ?? ''))));
+													?>
+													<h6 class="m-b0">Qualificações:</h6>
+													<?php if(!empty($qualificacoesArr)) :
+														foreach ($qualificacoesArr as $q): ?> 
+															<span><?=  htmlspecialchars($q) ?></span>
+														<?php endforeach; ?>
+													<?php else: ?> 
+														<p class="texto-dica">Nenhuma qualificação cadastrada.</p>
 													<?php endif; ?>
-													<!-- Render chips de idiomas -->
-													<?php foreach ($idiomasArr as $i): ?>
-														<span><?= htmlspecialchars($i) ?></span>
-													<?php endforeach; ?>
-												</div>
-											</div>
-											<div class="d-flex">
-												<div class="job-time mr-auto">
-													<h6 class="mb-0 m-t20">Experiência:</h6>
-													<?php
-													// Quebra e normaliza as listas
-													$cargosArr = array_filter(array_map('trim', explode(',', (string)($curriculos['cargos'] ?? ''))));
-													// Render chips de qualificações
-													foreach ($cargosArr as $c): ?>
-														<span><?= htmlspecialchars($c) ?></span>
-													<?php endforeach; ?>
+													<h6 class="m-b0 m-t10">Idiomas:</h6>
+													<?php if(!empty($idiomasArr)) :
+														foreach ($idiomasArr as $i): ?> 
+															<span><?=  htmlspecialchars($i) ?></span>
+														<?php endforeach; ?>
+													<?php else: ?> 
+														<p class="texto-dica">Nenhum idioma cadastrado.</p>
+													<?php endif; ?>
+													<h6 class="m-b0 m-t10">Experiências:</h6>
+													<?php if(!empty($experienciasArr)) :
+														foreach ($experienciasArr as $e): ?> 
+															<span><?=  htmlspecialchars($e) ?></span>
+														<?php endforeach; ?>
+													<?php else: ?> 
+														<p class="texto-dica">Nenhum experiência cadastrada.</p>
+													<?php endif; ?>
 												</div>
 											</div>
 											<span class="post-like fa fa-heart-o"></span>
 										</a>
 									</li>
 								<?php endforeach; ?>
+							</ul>
 							<div class="pagination-bx m-t30">
 								<ul class="pagination">
 									<li class="previous"><a href="#"><i class="ti-arrow-left"></i> Anterior</a></li>

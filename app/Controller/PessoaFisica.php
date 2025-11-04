@@ -43,6 +43,7 @@ class PessoaFisica extends ControllerMain
             'aIdioma' => $IdiomaModel->lista('descricao'),
             'curriculosPublicos' => $CurriculumModel->listarCurriculosPublicos(),
         ];
+        
         return $this->loadView("sistema/candidatos", $dados);
     }
 
