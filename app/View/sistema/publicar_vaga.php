@@ -92,7 +92,7 @@
                                             <label class="font-weight-700" for="nivel_experiencia">Nível de Experiência *</label>
                                             <select name="nivelExperiencia" id="nivelExperiencia" required>
                                                 <option value="">Selecione nível</option>
-                                                <option value="1">Estágio</option>
+                                                <option value="1">Estágiário</option>
                                                 <option value="2">Trainee</option>
                                                 <option value="3">Júnior(1-3 anos)</option>
                                                 <option value="4">Pleno(3-5 anos)</option>

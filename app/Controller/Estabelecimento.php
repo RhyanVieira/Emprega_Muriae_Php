@@ -8,6 +8,9 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 use App\Model\EstabelecimentoModel;
+use App\Model\CidadeModel;
+use App\Model\CategoriaEstabelecimentoModel;
+use App\Model\EstabelecimentoCategoriaModel;
 
 class Estabelecimento extends ControllerMain
 {
@@ -21,74 +24,75 @@ class Estabelecimento extends ControllerMain
         $this->model = new EstabelecimentoModel();
     }
 
-    /**
-     * index
-     *
-     * @return void
-     */
     public function index()
-    {
-        return $this->loadView("sistema/empresas");
+    {   
+        $CidadeModel = new CidadeModel();
+        $CategoriaEstabelecimentoModel = new CategoriaEstabelecimentoModel();
+        $estabelecimentos = $this->model->listaEstabelecimentos();
+
+        $dados = [
+            'aCidade' => $CidadeModel->lista("cidade"),
+            'aCategoriaEstabelecimento' => $CategoriaEstabelecimentoModel->lista("descricao"),
+            'estabelecimentos' => $estabelecimentos
+        ];
+
+        return $this->loadView("sistema/estabelecimentos", $dados);
     }
 
     public function cadastro(){
-        return $this->loadView("sistema/cadastro_estabelecimento");
-    }
+        $CidadeModel = new CidadeModel();
+        $CategoriaEstabelecimentoModel = new CategoriaEstabelecimentoModel();
 
-    public function form($action, $id)
-    {   
-        $this->validaNivelAcesso();
-        return $this->loadView("sistema/formUf", $this->model->getById($id));
-    }
+        $dados = [
+            'aCidade' => $CidadeModel->lista("cidade"),
+            'aCategoriaEstabelecimento' => $CategoriaEstabelecimentoModel->lista("descricao")
+        ];
 
-    /**
-     * insert
-     *
-     * @return void
-     */
-    public function insert()
-    {
-        $post = $this->request->getPost();
-
-        if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/insert/0");
-        } else {
-            if ($this->model->insert($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-            } else {
-                return Redirect::page($this->controller . "/form/insert/0");
-            }
-        }
+        return $this->loadView("sistema/cadastro_estabelecimento", $dados);
     }
 
     public function cadastroParaUsuario()
     {
         $post = $this->request->getPost();
 
+        // Guardas as categorias para salvar e remove do $post
+        $categoriasSelecionadas = $post['categorias'] ?? [];
+        unset($post['categorias']);
+
+        if (!empty($post['cep'])) {
+            // Remove a máscara antes de salvar
+            $post['cep'] = preg_replace('/\D/', '', $post['cep']); 
+        }
+
         if (!empty($_FILES['logo']['name'])) {
-
-            $nomeRetornado = $this->files->upload($_FILES, 'estabelecimento');
-
+            $nomeRetornado = $this->files->upload(['logo' => $_FILES['logo']], 'estabelecimento');
             // se for boolean, significa que o upload falhou
             if (is_bool($nomeRetornado)) {
                 Session::set('inputs', $post);
-                return Redirect::page($this->controller . "/cadastro" . $post['id'], ["msgError" => "Erro ao fazer upload da nova imagem."]);
+                return Redirect::page($this->controller, ["msgError" => "Erro ao fazer upload da imagem."]);
             } else {
                 $post['logo'] = $nomeRetornado[0];
-
-                if (!empty($post['nomeImagem'])) {
-                    $this->files->delete($post['nomeImagem'], "estabelecimento");
-                }
             }
         } else {
-            $post['logo'] = $post['nomeImagem'];
+            $post['logo'] = $nomeRetornado[0] ?? null;
         }
 
         // Inserção via insertGetId() que retorna o ID real
-        $id = $this->model->insertGetId($post);
+        $idEstab = $this->model->insertGetId($post);
 
-        if ($id > 0) {
-            Session::set('ultimo_id_estab', $id);
+        if ($idEstab > 0) {
+            if (!empty($categoriasSelecionadas)) {
+                $EstabCatModel = new EstabelecimentoCategoriaModel();
+
+                foreach ($categoriasSelecionadas as $idCat) {
+                    $arrayCat = [];
+                    $arrayCat['categoria_estabelecimento_id'] = $idCat;
+                    $arrayCat['estabelecimento_id'] = $idEstab;
+
+                    $EstabCatModel->insert($arrayCat);
+                }
+            }
+            Session::set('ultimo_id_estab', $idEstab);
             return Redirect::page("usuario/cadastroUsuarioFinal");
         } else {
             Session::set('inputs', $post);

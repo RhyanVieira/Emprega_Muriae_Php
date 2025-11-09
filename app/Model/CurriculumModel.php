@@ -85,6 +85,7 @@ class CurriculumModel extends ModelMain
                 c.foto,
                 c.dataNascimento,
                 TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) AS idade,
+                pf.data_criacao,
                 ci.cidade,
                 ci.uf,
                 GROUP_CONCAT(DISTINCT(cq.descricao) ORDER BY cq.descricao SEPARATOR ', ') AS qualificacoes,
@@ -107,10 +108,9 @@ class CurriculumModel extends ModelMain
                 ON cg.cargo_id = ce.cargo_id
             WHERE pf.perfil_publico = 1
             GROUP BY 
-                c.curriculum_id, c.nome, c.foto, c.dataNascimento, ci.cidade
+                c.curriculum_id, c.nome, c.foto, c.dataNascimento, ci.cidade, pf.data_criacao
             ORDER BY 
-                RAND()
-            LIMIT 6;
+                RAND();
             "
         )
         ->findAll();

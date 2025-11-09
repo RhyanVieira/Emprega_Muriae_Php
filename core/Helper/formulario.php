@@ -43,6 +43,42 @@ if (! function_exists('setMsgFilderError')) {
     }
 }
 
+if (!function_exists('formatarTelefone')) {
+    function formatarTelefone($numero)
+    {
+        $numero = preg_replace('/\D/', '', $numero); // remove tudo que não for número
+
+        if (strlen($numero) === 11) {
+            return sprintf('(%s) %s-%s',
+                substr($numero, 0, 2),
+                substr($numero, 2, 5),
+                substr($numero, 7)
+            );
+        } elseif (strlen($numero) === 10) {
+            return sprintf('(%s) %s-%s',
+                substr($numero, 0, 2),
+                substr($numero, 2, 4),
+                substr($numero, 6)
+            );
+        }
+
+        return $numero;
+    }
+}
+
+if (!function_exists('formatarCEP')) {
+    function formatarCEP($cep)
+    {
+        $cep = preg_replace('/\D/', '', $cep); // remove tudo que não for número
+
+        if (strlen($cep) === 8) {
+            return substr($cep, 0, 5) . '-' . substr($cep, 5);
+        }
+
+        return $cep;
+    }
+}
+
 if (! function_exists('exibeAlerta')) {
     /**
      * exibeAlerta

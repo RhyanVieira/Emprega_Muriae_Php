@@ -36,20 +36,44 @@ class CurriculumQualificacaoModel extends ModelMain
         ],
     ];
 
-    public function existeQualificacao($idCurriculo, $instituicao, $descricao)
-    {
-        return $this->db
+    public function existeQualificacao($curriculumId, $instituicao, $descricao, $idIgnorar) : bool
+    {   
+        $duplicata = $this->db
             ->select('curriculum_qualificacao_id')
-            ->where('curriculum_id', $idCurriculo)
+            ->where('curriculum_id', $curriculumId)
             ->where('instituicao', $instituicao)
             ->where('descricao', $descricao)
             ->findAll();
+
+        if($idIgnorar){
+            if(empty($duplicata) || $duplicata[0]['curriculum_qualificacao_id'] == $idIgnorar){
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
+        }
+
+        if(!empty($duplicata)){
+            return true;
+        } 
+        else {
+            return false;
+        }
     }
 
     public function getByCurriculumQuaId($curriculumId)
     {
         return $this->db->select()
                         ->where('curriculum_id', $curriculumId)
+                        ->findAll();
+    }
+
+    public function getCurriculumQualificacaoById($curriculumQualificacaoId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_qualificacao_id', $curriculumQualificacaoId)
                         ->findAll();
     }
 

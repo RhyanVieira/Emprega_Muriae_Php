@@ -7,19 +7,8 @@ use Core\Library\ModelMain;
 class CategoriaEstabelecimentoModel extends ModelMain
 {
     protected $table = "categoria_estabelecimento";
+    protected $primaryKey = "categoria_estabelecimento_id";
     
-    public $validationRules = [
-        "estabelecimento_id"  => [
-            "label" => 'Estabelecimento Id',
-            "rules" => 'required|int'
-        ],
-        "cateogira_id"  => [
-            "label" => 'Categoria Id',
-            "rules" => 'required|int'
-        ],
-    ];
-
-
     /**
      * lista
      *
@@ -30,5 +19,4 @@ class CategoriaEstabelecimentoModel extends ModelMain
     {   
         return $this->db->select()->findAll();
     }
-
 }

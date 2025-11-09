@@ -23,21 +23,17 @@ class UsuarioModel extends ModelMain
         ],
     ];
 
-    /**
-     * getUserLogin
-     *
-     * @param string $login 
-     * @return array
-     */
     public function getUserLogin($login)
     {
         return $this->db->where("login", $login)->first();
     }
+
     public function insertSuperUser(array $dados)
     {
         // Insere direto no banco, ignorando Validator
         return $this->db->insert($dados); // retorna true/false como o insert do ModelMain
     }
+
     public function getPessoaFisica($usuarioId)
     {
         return $this->db

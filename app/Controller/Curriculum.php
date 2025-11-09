@@ -112,6 +112,21 @@ class Curriculum extends ControllerMain
 
         $post['pessoa_fisica_id'] = Session::get('userPfId');
 
+        if (!empty($post['celular'])) {
+            // Remove a máscara antes de salvar
+            $post['celular'] = preg_replace('/\D/', '', $post['celular']);
+        }
+
+        if (!empty($post['cep'])) {
+            // Remove a máscara antes de salvar
+            $post['cep'] = preg_replace('/\D/', '', $post['cep']); 
+        }
+        
+        if (!empty($post['celular'])) {
+            // Remove a máscara antes de salvar
+            $post['celular'] = preg_replace('/\D/', '', $post['celular']);
+        }
+
         if (Validator::make($post, $this->model->validationRules)) {
             Session::set('inputs', $post);
             return Redirect::page($this->controller . "/index", ["msgError" => "Preencha os campos obrigatórios corretamente."]);
@@ -139,7 +154,7 @@ class Curriculum extends ControllerMain
                 $post['foto'] = $nomeRetornado[0];
             }
         } else {
-            $post['foto'] = $nomeCurriculo[0] ?? null;
+            $post['foto'] = $nomeRetornado[0] ?? null;
         }
 
         $idCurriculo = $this->model->insertGetId($post);
@@ -161,6 +176,16 @@ class Curriculum extends ControllerMain
     public function update($post, $curriculoExistente)
     {
         $post['pessoa_fisica_id'] = Session::get('userPfId');
+
+        if (!empty($post['celular'])) {
+            // Remove a máscara antes de salvar
+            $post['celular'] = preg_replace('/\D/', '', $post['celular']);
+        }
+
+        if (!empty($post['cep'])) {
+            // Remove a máscara antes de salvar
+            $post['cep'] = preg_replace('/\D/', '', $post['cep']); 
+        }
         
         if (Validator::make($post, $this->model->validationRules)) {
             Session::set('inputs', $post);
@@ -170,6 +195,7 @@ class Curriculum extends ControllerMain
         if (!empty($_FILES['curriculo_arquivo']['name'])) {
         $nomeCurriculo = $this->files->upload(['curriculo_arquivo' => $_FILES['curriculo_arquivo']], 'curriculos');
             if (is_bool($nomeCurriculo)) {
+                Session::set("inputs", $post);
                 return Redirect::page($this->controller, ["msgError" => "Erro ao fazer upload do currículo."]);
             }
             // Se houver um arquivo antigo, deleta
@@ -185,6 +211,7 @@ class Curriculum extends ControllerMain
         if (!empty($_FILES['foto']['name'])) {
             $nomeFoto = $this->files->upload(['foto' => $_FILES['foto']], 'fotos_curriculos');
             if (is_bool($nomeFoto)) {
+                Session::set("inputs", $post);
                 return Redirect::page($this->controller, ["msgError" => "Erro ao fazer upload da imagem."]);
             }
             // Se houver uma foto antiga, deleta
@@ -210,6 +237,7 @@ class Curriculum extends ControllerMain
         if($this->model->update($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Currículo alterado com sucesso!"]);
         } else {
+            Session::set("inputs", $post);
             return Redirect::page($this->controller, ["msgError" => "Erro ao alterar curriculo!"]);
         }
 

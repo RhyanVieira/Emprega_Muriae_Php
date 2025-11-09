@@ -1,20 +1,17 @@
-    <!-- header END -->
-    <!-- Content -->
-    <div class="page-content bg-white">
-        <!-- contact area -->
-        <div class="section-full content-inner shop-account">
-            <!-- Product -->
-            <div class="container">
-                <div class="row">
-					<div class="col-md-12 text-center">
-						<?= exibeAlerta() ?>
-						<h3 class="font-weight-700 m-t0 m-b20">Login</h3>
-					</div>
+<div class="page-content bg-white">
+    <div class="section-full content-inner shop-account">
+        <div class="container">
+            <div class="row">
+				<div class="col-md-12 text-center">
+					<h3 class="font-weight-700 m-t0 m-b20">Login</h3>
 				</div>
-                <div class="row">
-					<div class="col-md-12 m-b30">
-						<div class="p-a30 border-1  max-w500 m-auto">
-							<div class="tab-content">
+			</div>
+            <div class="row">
+				<div class="col-md-12 m-b30">
+					<div class="p-a30 border-1  max-w500 m-auto">
+						<div class="tab-content">
+							<div class="tab-pane fade show active submit-resume shop-account">
+								<?= exibeAlerta() ?>
 								<form class="tab-pane active" action="<?= baseUrl() ?>login/signIn" method="POST">
 									<p class="font-weight-600">Preencha os campos abaixo para acessar sua conta na plataforma.</p>
 									<div class="form-group">
@@ -41,8 +38,7 @@
 					</div>
 				</div>
 			</div>
-            <!-- Product END -->
 		</div>
-		<!-- contact area  END -->
-    </div>
+	</div>
+</div>
 

@@ -18,36 +18,9 @@ class Usuario extends ControllerMain
     }
 
     public function index()
-    {
+    {   
+        Session::destroy('dados_usuario_temp');
         return $this->loadView("login/cadastro");
-    }
-
-    public function lista()
-    {
-        $this->validaNivelAcesso();   
-        return $this->loadView("sistema/listaUsuario", $this->model->listaUsuario());
-    }
-
-    public function insert()
-    {
-        $post = $this->request->getPost();
-
-        if (Validator::make($post, $this->model->validationRules)) {
-            Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/insert/0");
-        }
-
-        // Faz o hash da senha antes de inserir
-        if (isset($post['senha']) && !empty($post['senha'])) {
-            $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
-        }
-
-        if ($this->model->insert($post)) {
-            return Redirect::page($this->controller . "/lista", ["msgSucesso" => "Usuário cadastrado com sucesso."]);
-        } else {
-            Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/insert/0", ["msgError" => "Erro ao cadastrar usuário."]);
-        }
     }
 
     public function cadastroUsuario()
@@ -55,6 +28,12 @@ class Usuario extends ControllerMain
         $post = $this->request->getPost();
         
         Session::set('dados_usuario_temp', $post);
+
+        $usuarioExistente = $this->model->getUserLogin($post['login']);
+
+        if ($usuarioExistente) {
+            return Redirect::page('usuario/index', ["msgAlerta" => "Já existe uma conta cadastrada com este e-mail."]);
+        }
 
         if (isset($post['tipo'])) {
             if ($post['tipo'] === 'PF') {
@@ -80,6 +59,7 @@ class Usuario extends ControllerMain
         };
 
         if (!$dadosUsuario || !$ultimoId) {
+            Session::set("inputs", $dadosUsuario);
             return Redirect::page('usuario/index', ["msgError" => "Erro no cadastro."]);
         }
 
@@ -102,9 +82,9 @@ class Usuario extends ControllerMain
             Session::destroy('dados_usuario_temp');
             Session::destroy('ultimo_id_pf');
             Session::destroy('ultimo_id_estab');
-
             return Redirect::page('login', ["msgSucesso" => "Usuário cadastrado com sucesso."]);
         } else {
+            Session::set("inputs", $dadosUsuario);
             return Redirect::page('usuario/index', ["msgError" => "Erro ao cadastrar usuário."]);
         }
     }

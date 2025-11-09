@@ -21,7 +21,7 @@
                     </div>
 					<div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
                         <div class="widget border-0">
-                            <h5 class="m-b30 text-white">Ajuda e Informações</h5>
+                            <h5 class="m-b30 text-white">Navegação</h5>
                             <ul class="list-2 list-line">
                                 <li><a href="<?= baseUrl() ?>PessoaFisica">Candidatos</a></li>
                                 <li><a href="<?= baseUrl() ?>estabelecimento">Empresas</a></li>

@@ -73,19 +73,23 @@ class CurriculumExperiencia extends ControllerMain
 
         // Recupera o Id do currículo salvo na sessão
         $idCurriculo = Session::get('curriculo_id');
-
-        if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar uma experiência."]);
-        }
-
         $post['curriculum_id'] = $idCurriculo;
 
+        $curriculoExistente = $this->model->getCurriculumExperienciaById($post['curriculum_experiencia_id']);
+        $dadosAlterados = array_diff_assoc($post, $curriculoExistente[0]);
+        if (empty($dadosAlterados)) {
+            // Nenhum campo foi modificado
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Nenhuma alteração detectada no currículo."]);
+        }
+
         if (Validator::make($post, $this->model->validationRules)) {
+            Session::set("inputs", $post);
             return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos corretamente"]);
         } else {
             if ($this->model->update($post)) {
                 return Redirect::page("curriculum/index", ["msgSucesso" => "Registro alterado com sucesso."]);
             } else {
+                Session::set("inputs", $post);
                 return Redirect::page("curriculum/index", ["msgError" => "Erro na atualização do registro."]);
             }
         }

@@ -42,15 +42,19 @@ class CurriculumQualificacao extends ControllerMain
 
         $post['curriculum_id'] = $idCurriculo;
 
-        // Evita duplicidade (mesma empresa + mesmo cargo)
+        // Se não existir o campo no formulário atribui ele como nulo, caso contrário converte para inteiro
+        $idQualificacao = isset($post['curriculum_qualificacao_id']) ? (int)$post['curriculum_qualificacao_id'] : null;
+
+        // Evita duplicidade (mesma empresa + mesmo curso)
         $existe = $this->model->existeQualificacao(
             $idCurriculo,
             $post['instituicao'],
             $post['descricao'],
+            $idQualificacao,
         );
 
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Essa qualificação já foi cadastrada anteriormente."]);
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Essa qualificação já foi cadastrada anteriormente."]);
         }
 
         // Valida os dados
@@ -79,22 +83,28 @@ class CurriculumQualificacao extends ControllerMain
 
         // Recupera o Id do currículo salvo na sessão
         $idCurriculo = Session::get('curriculo_id');
-
-        if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar uma qualificação."]);
-        }
-
         $post['curriculum_id'] = $idCurriculo;
 
-                // Evita duplicidade (mesma empresa + mesmo cargo)
+        $curriculoExistente = $this->model->getCurriculumQualificacaoById($post['curriculum_qualificacao_id']);
+        $dadosAlterados = array_diff_assoc($post, $curriculoExistente[0]);
+        if (empty($dadosAlterados)) {
+            // Nenhum campo foi modificado
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Nenhuma alteração detectada no currículo."]);
+        }
+
+        // Se não existir o campo no formulário atribui ele como nulo, caso contrário converte para inteiro
+        $idQualificacao = isset($post['curriculum_qualificacao_id']) ? (int)$post['curriculum_qualificacao_id'] : null;
+
+        // Evita duplicidade (mesma empresa + mesmo curso)
         $existe = $this->model->existeQualificacao(
             $idCurriculo,
             $post['instituicao'],
             $post['descricao'],
+            $idQualificacao,
         );
 
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Essa qualificação já foi cadastrada anteriormente."]);
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Essa qualificação já foi cadastrada anteriormente."]);
         }
 
         if (Validator::make($post, $this->model->validationRules)) {

@@ -46,6 +46,14 @@ class EstabelecimentoModel extends ModelMain
             "label" => 'Descrição',
             "rules" => 'max:1000'
         ],
+        "cep"  => [
+            "label" => 'CEP',
+            "rules" => 'required|min:8|max:8'
+        ],
+        "cidade_id"  => [
+            "label" => 'Cidade',
+            "rules" => 'required|int'
+        ],
     ];
 
 
@@ -55,8 +63,36 @@ class EstabelecimentoModel extends ModelMain
      * @param string $orderby 
      * @return array
      */
-    public function listaEstabelecimento()
+    public function listaEstabelecimentos()
     {   
-        return $this->db->select()->findAll();
+        return $this->db->select("
+            e.estabelecimento_id,
+            e.nome,
+            e.descricao,
+            e.logo,
+            c.cidade,
+            c.uf,
+            e.data_criacao,
+            COUNT(DISTINCT v.vaga_id) AS total_vagas,
+            GROUP_CONCAT(DISTINCT ce.descricao ORDER BY ce.descricao SEPARATOR ', ') AS categorias
+        FROM estabelecimento AS e
+        INNER JOIN cidade AS c 
+            ON c.cidade_id = e.cidade_id
+        LEFT JOIN vaga AS v 
+            ON v.estabelecimento_id = e.estabelecimento_id
+        LEFT JOIN estabelecimento_categoria_estabelecimento AS ece 
+            ON ece.estabelecimento_id = e.estabelecimento_id
+        LEFT JOIN categoria_estabelecimento AS ce 
+            ON ce.categoria_estabelecimento_id = ece.categoria_estabelecimento_id
+        GROUP BY 
+            e.estabelecimento_id, e.nome, e.descricao, e.logo, c.cidade, c.uf, e.data_criacao
+        ORDER BY 
+            CASE 
+                WHEN COUNT(DISTINCT v.vaga_id) > 0 THEN 0  -- empresas com vagas primeiro
+                ELSE 1                                    -- empresas sem vagas por último
+            END,
+            RAND();"
+        )
+        ->findAll();    
     }
 }

@@ -67,6 +67,13 @@ class CurriculumExperienciaModel extends ModelMain
                         ->findAll();
     }
 
+    public function getCurriculumExperienciaById($curriculumExperienciaId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_experiencia_id', $curriculumExperienciaId)
+                        ->findAll();
+    }
+
     public function idExclusao($curriculumId, $curriculumExperienciaId)
     {
         return $this->db->select()

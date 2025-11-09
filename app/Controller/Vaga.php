@@ -28,8 +28,17 @@ class Vaga extends ControllerMain
      * @return void
      */
     public function index()
-    {
-        return $this->loadView("sistema/vagas");
+    {   
+        $CidadeModel = new CidadeModel();
+        $CategoriaVagaModel = new CategoriaVagaModel();
+
+        $dados = [
+            'aVagas' => $this->model->listaVagas(),
+            'aCidade' => $CidadeModel->lista('cidade'),
+            'aCategoriaVaga' => $CategoriaVagaModel->lista('descricao')
+        ];
+
+        return $this->loadView("sistema/vagas", $dados);
     }
 
     public function vaga_detalhada()

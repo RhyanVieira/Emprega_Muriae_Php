@@ -2,7 +2,10 @@
 $modalidades = [
     1 => 'Presencial',
     2 => 'Híbrido',
-    3 => 'Remoto'
+    3 => 'Remoto',
+	4 => 'Parcialmente remoto',
+	5 => 'A combinar',
+	6 => 'Em campo (Externo)'
 ];
 
 $vinculos = [
@@ -10,7 +13,19 @@ $vinculos = [
     2 => 'PJ',
     3 => 'Freelancer',
     4 => 'Temporário',
-    5 => 'Estágio'
+    5 => 'Estágio',
+	6 => 'Trainee',
+	7 => 'Freelancer'
+];
+
+$nivelExperiencia = [
+    1 => 'Estágiário',
+    2 => 'Trainee',
+    3 => 'Júnior',
+    4 => 'Pleno',
+    5 => 'Sênior',
+	6 => 'Especialista',
+	7 => 'Gerência'
 ];
 
 setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
@@ -79,7 +94,7 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 				<div class="d-flex job-title-bx section-head">
 					<div class="mr-auto">
 						<h2 class="m-b5">Vagas Recentes</h2>
-						<h6 class="fw4 m-b0">Mais de 20 vagas adicionadas recentemente</h6>
+						<h6 class="fw4 m-b0">Confira as 5 vagas adicionadas recentemente</h6>
 					</div>
 					<div class="align-self-end">
 						<a href="<?= baseUrl() ?>vaga" class="site-button button-sm">Veja Todas as Vagas <i class="fa fa-long-arrow-right"></i></a>
@@ -99,15 +114,16 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 												<h4><?= ($vagaHome['descricao']) ?></h4>
 												<ul>
 													<li><i class="fa fa-map-marker text-alert" style="color: #0177c1;"></i> <?= ($vagaHome['cidade']) ?> - <?= ($vagaHome['uf']) ?></li>
-													<li><i class="fa fa-calendar-check-o text-success"></i>Início - <?= date('d/m/Y', strtotime($vagaHome['dtInicio'])) ?></li>
-													<li><i class="fa fa-calendar-times-o text-danger"></i>Término - <?= date('d/m/Y', strtotime($vagaHome['dtFim'])) ?></li>
+													<li><i class="fa fa-calendar-times-o" style="color: #dc3545"></i>Término - <?= date('d/m/Y', strtotime($vagaHome['dtFim'])) ?></li>
+													<li><i class="fa fa-clock-o" style="color: #6f42c1"></i><?= tempoPublicacao($vagaHome['dtInicio']) ?></li>
 												</ul>
 											</div>
 										</div>
 										<div class="d-flex">
 											<div class="job-time mr-auto">
-												<span><?= $modalidades[$vagaHome['modalidade']] ?? 'Não informado' ?></span>
-												<span><?= $vinculos[$vagaHome['vinculo']] ?? 'Não informado' ?></span>
+												<span><?= $modalidades[$vagaHome['modalidade']] ?></span>
+												<span class="m-l5"><?= $vinculos[$vagaHome['vinculo']] ?></span>
+												<span class="m-l5"><?= $nivelExperiencia[$vagaHome['nivelExperiencia']] ?></span>
 											</div>
 											<div class="salary-bx">
 												<span>

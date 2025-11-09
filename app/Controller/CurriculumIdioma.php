@@ -44,17 +44,20 @@ class CurriculumIdioma extends ControllerMain
         if (!$idCurriculo) {
             return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar um idioma."]);
         }
-
+        
         $post['curriculum_id'] = $idCurriculo;
 
-        // Evita duplicidade (mesmo idioma)
+        // Se não existir o campo no formulário atribui ele como nulo, caso contrário converte para inteiro
+        $idIdioma = isset($post['curriculum_idioma_id']) ? (int)$post['curriculum_idioma_id'] : null;
+
         $existe = $this->model->existeDuplicado(
             $idCurriculo, 
             $post['idioma_id'],
+            $idIdioma
         );
 
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou este idioma anteriormente."]);
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Você já cadastrou este idioma anteriormente."]);
         }
 
         // Valida os dados
@@ -83,28 +86,36 @@ class CurriculumIdioma extends ControllerMain
 
         // Recupera o Id do currículo salvo na sessão
         $idCurriculo = Session::get('curriculo_id');
+        $post['curriculum_id'] = $idCurriculo;
 
-        if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de adicionar um idioma."]);
+        $curriculoExistente = $this->model->getCurriculumIdiomaById($post['curriculum_idioma_id']);
+        $dadosAlterados = array_diff_assoc($post, $curriculoExistente[0]);
+        if (empty($dadosAlterados)) {
+            // Nenhum campo foi modificado
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Nenhuma alteração detectada no currículo."]);
         }
 
-        $post['curriculum_id'] = $idCurriculo;
+        // Se não existir o campo no formulário atribui ele como nulo, caso contrário converte para inteiro
+        $idIdioma = isset($post['curriculum_idioma_id']) ? (int)$post['curriculum_idioma_id'] : null;
 
         $existe = $this->model->existeDuplicado(
             $idCurriculo, 
             $post['idioma_id'],
+            $idIdioma
         );
 
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou este idioma anteriormente."]);
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Você já cadastrou este idioma anteriormente."]);
         }
 
         if (Validator::make($post, $this->model->validationRules)) {
+            Session::set("inputs", $post);
             return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos corretamente"]);
         } else {
             if ($this->model->update($post)) {
                 return Redirect::page("curriculum/index", ["msgSucesso" => "Registro alterado com sucesso."]);
             } else {
+                Session::set("inputs", $post);
                 return Redirect::page("curriculum/index", ["msgError" => "Erro na atualização do registro."]);
             }
         }

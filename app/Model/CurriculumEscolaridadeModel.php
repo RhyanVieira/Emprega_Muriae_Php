@@ -60,20 +60,44 @@ class CurriculumEscolaridadeModel extends ModelMain
         return $this->db->select()->findAll();
     }
 
-    public function existeEscolaridade($curriculumId, $descricao, $instituicao)
-    {
-        return $this->db
-            ->select()
-            ->where("curriculum_id", $curriculumId)
-            ->where("descricao", $descricao)
-            ->where("instituicao", $instituicao)
+    public function existeEscolaridade($curriculumId, $descricao, $instituicao, $idIgnorar) :bool
+    {   
+        $duplicata = $this->db
+            ->select('curriculum_escolaridade_id')
+            ->where('curriculum_id', $curriculumId)
+            ->where('instituicao', $instituicao)
+            ->where('descricao', $descricao)
             ->findAll();
+
+        if($idIgnorar){
+            if(empty($duplicata) || $duplicata[0]['curriculum_escolaridade_id'] == $idIgnorar){
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
+        }
+
+        if(!empty($duplicata)){
+            return true;
+        } 
+        else {
+            return false;
+        }
     }
 
     public function getByCurriculumEscId($curriculumId)
     {
         return $this->db->select()
                         ->where('curriculum_id', $curriculumId)
+                        ->findAll();
+    }
+
+    public function getCurriculumEscolaridadeById($curriculumEscolaridadeId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_escolaridade_id', $curriculumEscolaridadeId)
                         ->findAll();
     }
 

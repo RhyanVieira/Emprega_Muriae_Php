@@ -28,7 +28,7 @@ class Login extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("login/login", []);
+        return $this->loadView("login/login");
     }
 
     /**

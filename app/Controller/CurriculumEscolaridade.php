@@ -42,14 +42,20 @@ class CurriculumEscolaridade extends ControllerMain
 
         $post['curriculum_id'] = $idCurriculo;
 
+        // Se não existir o campo no formulário atribui ele como nulo, caso contrário converte para inteiro
+        $idEscolaridade = isset($post['curriculum_escolaridade_id']) ? (int)$post['curriculum_escolaridade_id'] : null;
+
         // Evita duplicidade (mesma instituição + mesma descrição)
         $existe = $this->model->existeEscolaridade(
             $idCurriculo, 
             $post['descricao'], 
-            $post['instituicao']
+            $post['instituicao'],
+            $idEscolaridade
         );
+
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou essa formação anteriormente."]);
+            Session::set("inputs", $post);
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Você já cadastrou essa formação anteriormente."]);
         }
 
         // Valida os dados
@@ -77,29 +83,34 @@ class CurriculumEscolaridade extends ControllerMain
         $post = $this->request->getPost();
 
         $idCurriculo = Session::get('curriculo_id');
+        $post['curriculum_id'] = $idCurriculo;
 
-        if (!$idCurriculo) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você precisa cadastrar seu currículo antes de alterar a escolaridade."]);
+        $curriculoExistente = $this->model->getCurriculumEscolaridadeById($post['curriculum_escolaridade_id']);
+        $dadosAlterados = array_diff_assoc($post, $curriculoExistente[0]);
+        if (empty($dadosAlterados)) {
+            // Nenhum campo foi modificado
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Nenhuma alteração detectada no currículo."]);
         }
 
         // Evita duplicidade (mesma instituição + mesma descrição)
         $existe = $this->model->existeEscolaridade(
             $idCurriculo, 
             $post['descricao'], 
-            $post['instituicao']
+            $post['instituicao'],
+            $post['curriculum_escolaridade_id']
         );
         if ($existe) {
-            return Redirect::page("curriculum/index", ["msgError" => "Você já cadastrou essa formação anteriormente."]);
+            return Redirect::page("curriculum/index", ["msgAlerta" => "Você já cadastrou essa formação anteriormente."]);
         }
 
-        $post['curriculum_id'] = $idCurriculo;
-
         if (Validator::make($post, $this->model->validationRules)) {
+            Session::set("inputs", $post);
             return Redirect::page("curriculum/index", ["msgError" => "Preencha os campos corretamente"]);
         } else {
             if ($this->model->update($post)) {
                 return Redirect::page("curriculum/index", ["msgSucesso" => "Registro alterado com sucesso."]);
             } else {
+                Session::set("inputs", $post);
                 return Redirect::page("curriculum/index", ["msgError" => "Erro na atualização do registro."]);
             }
         }

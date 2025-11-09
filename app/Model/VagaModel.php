@@ -84,12 +84,23 @@ class VagaModel extends ModelMain
     public function vagaHome()
     {
         return $this->db
-            ->select("vaga.descricao, cidade.cidade, cidade.uf, estabelecimento.logo, vaga.modalidade, vaga.dtInicio, vaga.dtFim, vaga.vinculo, vaga.faixaSal")
+            ->select("vaga.descricao, cidade.cidade, cidade.uf, estabelecimento.logo, vaga.modalidade, vaga.dtInicio, vaga.dtFim, vaga.vinculo, vaga.faixaSal, vaga.nivelExperiencia")
             ->join("cidade", "cidade.cidade_id = vaga.cidade_id")
             ->join("estabelecimento", "estabelecimento.estabelecimento_id = vaga.estabelecimento_id")
             ->where("vaga.statusVaga", 11)
             ->orderBy("vaga.dtInicio", 'DESC')
             ->limit(5)
+            ->findAll();
+    }
+
+    public function listaVagas()
+    {
+        return $this->db
+            ->select("vaga.descricao, cidade.cidade, cidade.uf, estabelecimento.logo, vaga.modalidade, vaga.dtInicio, vaga.dtFim, vaga.vinculo, vaga.faixaSal, vaga.nivelExperiencia")
+            ->join("cidade", "cidade.cidade_id = vaga.cidade_id")
+            ->join("estabelecimento", "estabelecimento.estabelecimento_id = vaga.estabelecimento_id")
+            ->where("vaga.statusVaga", 11)
+            ->orderBy("vaga.dtInicio", 'DESC')
             ->findAll();
     }
 

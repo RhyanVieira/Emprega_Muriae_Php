@@ -63,20 +63,20 @@ var JobBoard = function(){
 	
 	/* Load File ============ */
 	var dzTheme = function(){
-		 'use strict';
-		 var loadingImage = '<img src="images/loading.gif">';
-		 jQuery('.dzload').each(function(){
-		 var dzsrc =   siteUrl + $(this).attr('dzsrc');
+		'use strict';
+		var loadingImage = '<img src="images/loading.gif">';
+		jQuery('.dzload').each(function(){
+		var dzsrc =   siteUrl + $(this).attr('dzsrc');
 		  //jQuery(this).html(loadingImage);
-		 	jQuery(this).hide(function(){
+		jQuery(this).hide(function(){
 				jQuery(this).load(dzsrc, function(){
 					jQuery(this).fadeIn('slow');
 				}); 
 			})
 			
-		 });
+		});
 		 //alert(screenWidth);
-		 if(screenWidth < 991)
+		if(screenWidth < 991)
 		{
 			if($('.mo-left .header-nav').children('div').length == 0){
 				var logoData = jQuery('<div>').append($('.mo-left .logo-header').clone()).html();
@@ -132,10 +132,10 @@ var JobBoard = function(){
 			type: 'iframe',
 			iframe: {
 				markup: '<div class="mfp-iframe-scaler">'+
-						 '<div class="mfp-close"></div>'+
-						 '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
-						 '<div class="mfp-title">Some caption</div>'+
-						 '</div>'
+						'<div class="mfp-close"></div>'+
+						'<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
+						'<div class="mfp-title">Some caption</div>'+
+						'</div>'
 			},
 			callbacks: {
 				markupParse: function(template, values, item) {
@@ -214,7 +214,7 @@ var JobBoard = function(){
 			jQuery("[placeholder]").parents("form").submit(function () {
 				jQuery(this).find('[placeholder]').each(function() {
 					if (jQuery(this).val() == jQuery(this).attr("placeholder")) {
-						 jQuery(this).val("");
+						jQuery(this).val("");
 					}
 				});
 			});
@@ -318,7 +318,7 @@ var JobBoard = function(){
 		{
 			var self = $("#masonry, .masonry");
 			if(jQuery('.card-container').length)
-		    {
+		{
 				self.imagesLoaded(function () {
 					self.masonry({
 						gutterWidth: 15,
@@ -373,7 +373,7 @@ var JobBoard = function(){
 	
 	/* Counter Number ============ */
 	var counter = function(){
-		 if(jQuery('.counter').length)
+		if(jQuery('.counter').length)
 		{
 			jQuery('.counter').counterUp({
 				delay: 10,
@@ -415,7 +415,7 @@ var JobBoard = function(){
 	var handleBootstrapSelect = function(){
 		/* Bootstrap Select box function by  = bootstrap-select.min.js */ 
 		if (jQuery('select').length) {
-		    jQuery('select').selectpicker();
+		jQuery('select').selectpicker();
 		}
 		/* Bootstrap Select box function by  = bootstrap-select.min.js end*/
 	}
@@ -423,9 +423,9 @@ var JobBoard = function(){
 	/* handle Bootstrap Touch Spin ============ */
 	var handleBootstrapTouchSpin = function(){
 		jQuery("input[name='demo_vertical2']").TouchSpin({
-		  verticalbuttons: true,
-		  verticalupclass: 'ti-plus',
-		  verticaldownclass: 'ti-minus'
+		verticalbuttons: true,
+		verticalupclass: 'ti-plus',
+		verticaldownclass: 'ti-minus'
 		});
 		
 	}
@@ -516,7 +516,7 @@ var JobBoard = function(){
 				slide: function(event, ui) {
 					var min = ui.values[0],
 						max = ui.values[1];
-					  $('#' + this.id).prev().val("$" + min + " - $" + max);
+					$('#' + this.id).prev().val("$" + min + " - $" + max);
 				}
 			});
 		}
@@ -603,7 +603,6 @@ var JobBoard = function(){
 			handleCountDown(WebsiteLaunchDate);
 			handleCustomScroll();
 			handleSideBarMenu();
-			cartButton();
 			handleBannerResize();
 			handleSupport();
 			handleResize();
@@ -633,7 +632,6 @@ var JobBoard = function(){
 
 /* Document.ready Start */	
 jQuery(document).ready(function() {
-  
 	JobBoard.init();
 	
 	jQuery('.navicon').on('click',function(){
@@ -645,7 +643,7 @@ jQuery(document).ready(function() {
 /* Window Load START */
 jQuery(window).on("load", function (e) {
 	JobBoard.load();
-	 setTimeout(function(){
+	setTimeout(function(){
 		jQuery('#loading-area').remove();
 	}, 0); 
 });

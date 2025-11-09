@@ -24,19 +24,43 @@ class CurriculumIdiomaModel extends ModelMain
         ]
     ];
 
-    public function existeDuplicado($curriculumId, $idiomaId)
-    {
-        return $this->db
-            ->select()
-            ->where("curriculum_id", $curriculumId)
-            ->where("idioma_id", $idiomaId)
+    public function existeDuplicado($curriculumId, $idiomaId, $idIgnorar) : bool
+    {   
+        $duplicata = $this->db
+            ->select('curriculum_idioma_id')
+            ->where('curriculum_id', $curriculumId)
+            ->where('idioma_id', $idiomaId)
             ->findAll();
+
+        if($idIgnorar){
+            if(empty($duplicata) || $duplicata[0]['curriculum_idioma_id'] == $idIgnorar){
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
+        }
+
+        if(!empty($duplicata)){
+            return true;
+        } 
+        else {
+            return false;
+        }
     }
 
     public function getByCurriculumIdiId($curriculumId)
     {
         return $this->db->select()
                         ->where('curriculum_id', $curriculumId)
+                        ->findAll();
+    }
+
+    public function getCurriculumIdiomaById($curriculumIdiomaId)
+    {
+        return $this->db->select()
+                        ->where('curriculum_idioma_id', $curriculumIdiomaId)
                         ->findAll();
     }
 
