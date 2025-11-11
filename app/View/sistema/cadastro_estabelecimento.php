@@ -26,7 +26,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="font-weight-700">CNPJ *</label>
-                                            <input name="cnpj" id="cnpj" class="form-control" placeholder="Apenas números" type="text" minlength="18" maxlength="18" required>
+                                            <input name="cnpj" id="cnpj" class="form-control" placeholder="00.000.000/0001-00" type="text" minlength="18" maxlength="18" required>
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label class="font-weight-700">Razão social *</label>
@@ -217,6 +217,25 @@ document.addEventListener("DOMContentLoaded", function() {
         campo.addEventListener("drop", function (e) {
             e.preventDefault();
         });
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cnpjInput = document.getElementById("cnpj");
+
+    cnpjInput.addEventListener("input", function () {
+        let value = cnpjInput.value.replace(/\D/g, ""); // remove tudo que não for número
+        if (value.length > 14) value = value.slice(0, 14); // limita a 14 dígitos
+
+        // aplica a máscara CNPJ: 00.000.000/0000-00
+        value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+        value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        value = value.replace(/(\d{4})(\d)/, "$1-$2");
+
+        cnpjInput.value = value;
     });
 });
 </script>

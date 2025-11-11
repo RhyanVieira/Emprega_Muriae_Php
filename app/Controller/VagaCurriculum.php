@@ -78,7 +78,7 @@ class VagaCurriculum extends ControllerMain
             'vaga' => $vaga,
             'candidatos' => $candidatos
         ];
-
+        
         return $this->loadView("sistema/candidatos_vagas", $dados);
     }
 }

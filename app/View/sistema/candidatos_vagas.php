@@ -27,7 +27,7 @@ $queryString = http_build_query($_GET);
 						<ul class="post-job-bx">
 							<?php foreach ($dados['candidatos'] as $candidato): ?>
 							<li>
-								<a href="">
+								<a href="<?= baseUrl() ?>vagaMensagem/listar/<?=$dados['vaga']['vaga_id'] ?>/<?=$candidato['curriculum_id'] ?>">
 									<div class="d-flex m-b20">
 										<div class="job-post-company">
 											<span>

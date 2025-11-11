@@ -88,3 +88,18 @@
             return implode($chipSep, $chips);
         }
     }
+
+    if(! function_exists('formatarCnpjs')){
+        function formatarCnpj($cnpj) {
+            $cnpj = preg_replace('/\D/', '', $cnpj); // remove tudo que não for número
+            if (strlen($cnpj) !== 14) {
+                return $cnpj; // retorna sem formatar se não tiver 14 dígitos
+            }
+            return substr($cnpj, 0, 2) . '.' .
+                substr($cnpj, 2, 3) . '.' .
+                substr($cnpj, 5, 3) . '/' .
+                substr($cnpj, 8, 4) . '-' .
+                substr($cnpj, 12, 2);
+        }
+    }
+
