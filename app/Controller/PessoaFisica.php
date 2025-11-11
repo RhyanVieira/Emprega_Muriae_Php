@@ -63,11 +63,10 @@ class PessoaFisica extends ControllerMain
             'filtros' => $filtros,
             'totalRegistros' => $totalRegistros
         ];
-        
         return $this->loadView("sistema/candidatos", $dados);
     }
 
-    public function perfil(){
+    public function perfil($id = 0){
         $CurriculumEscolaridadeModel = new CurriculumEscolaridadeModel();
         $CurriculumExperienciaModel = new CurriculumExperienciaModel();
         $CurriculumQualificacaoModel = new CurriculumQualificacaoModel();
@@ -78,7 +77,7 @@ class PessoaFisica extends ControllerMain
         $CargoModel = new CargoModel();
         $IdiomaModel = new IdiomaModel();
 
-        $idPessoaFisica = Session::get('userPfId');
+        $idPessoaFisica = $id;
 
         $escolaridades = [];
         $experiencias = [];

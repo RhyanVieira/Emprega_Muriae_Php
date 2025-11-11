@@ -86,6 +86,7 @@ class CurriculumModel extends ModelMain
                 curriculum.dataNascimento,
                 TIMESTAMPDIFF(YEAR, curriculum.dataNascimento, CURDATE()) AS idade,
                 pf.data_criacao,
+                pf.pessoa_fisica_id,
                 ci.cidade,
                 ci.uf,
                 GROUP_CONCAT(DISTINCT cq.descricao ORDER BY cq.descricao SEPARATOR ', ') AS qualificacoes,

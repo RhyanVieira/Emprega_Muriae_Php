@@ -59,9 +59,14 @@ function getNivelIdioma($nivel) {
                                 <div class="row">
                                     <div class="col-lg-12 col-md-6">
                                         <div class="m-b30">
-                                            <img src="<?= baseUrl() . 'imagem.php?file=fotos_curriculos/' . htmlspecialchars($dados['curriculo']['foto']) ?>" 
-                                                 alt="<?= htmlspecialchars($dados['curriculo']['nome']) ?>" 
-                                                 class="radius-sm w-100">
+                                            <?php 
+                                                $foto = $dados['curriculo']['foto'] ?? '';
+                                                $nome = $dados['curriculo']['nome'] ?? 'Sem nome';
+                                                $imgSrc = !empty($foto)
+                                                    ? baseUrl() . 'imagem.php?file=fotos_curriculos/' . htmlspecialchars($foto)
+                                                    : baseUrl() . 'assets/img/user-placeholder.png'; // caminho da imagem padrão
+                                                ?>
+                                                <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($nome) ?>" class="radius-sm w-100">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-6">

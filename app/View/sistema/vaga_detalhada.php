@@ -145,12 +145,9 @@ $nivelExperiencia = [
 									<?php if ($userTipo === 'PF'): ?>
 										<!-- Para candidato -->
 										<a href="<?= baseUrl() ?>vagaMensagem/listar/<?= $dados['vaga']['vaga_id'] ?>/<?= $dados['curriculum']['curriculum_id'] ?>" class="site-button-outline m-r10"><i class="fa fa-comments"></i> Ver mensagens</a>
-									<?php elseif ($userTipo === 'E'): ?>
-										<!-- Para empresa -->
+									<?php elseif ($userTipo === 'E' && $idEstab == $dados['vaga']['estabelecimento_id']): ?>
 										<a href="<?= baseUrl() ?>vagaCurriculum/candidatos/<?= $dados['vaga']['vaga_id'] ?>" class="site-button"><i class="fa fa-comments"></i> Ver candidatos</a>
 										<a href="<?= baseUrl() ?>vagaMensagem/listarEmpresa/<?= $dados['vaga']['vaga_id'] ?>" class="site-button"><i class="fa fa-comments"></i> Mensagens dos candidatos</a>
-									<?php else: ?>
-										<a href="<?= baseUrl() ?>login" class="site-button-outline m-r10"><i class="fa fa-lock"></i> Ver mensagens (login)</a>
 									<?php endif; ?>
 								</div>
 							</div>

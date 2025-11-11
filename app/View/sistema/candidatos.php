@@ -28,7 +28,7 @@ $queryString = http_build_query($_GET);
 						<ul class="post-job-bx">
 							<?php foreach ($dados['aCurriculos'] as $curriculos): ?>
 								<li>
-									<a href="#">
+									<a href="<?= baseUrl() ?>pessoaFisica/perfil/<?=$curriculos['pessoa_fisica_id']?>">
 										<div class="d-flex m-b20">
 											<div class="job-post-company">
 												<span><img src="<?= baseUrl() . 'imagem.php?file=fotos_curriculos/' . $curriculos['foto'] ?>"/></span>
