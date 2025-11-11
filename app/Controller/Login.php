@@ -102,7 +102,7 @@ class Login extends ControllerMain
     {
         Session::destroy('userId');
         Session::destroy('userLogin');
-        Session::destroy('userTtipo');
+        Session::destroy('userTipo');
         Session::destroy('userNome');
         Session::destroy('userPfId');
         Session::destroy('userEstabId');

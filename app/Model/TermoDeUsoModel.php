@@ -27,16 +27,15 @@ class TermoDeUsoModel extends ModelMain
         ],
     ];
 
-
-    /**
-     * lista
-     *
-     * @param string $orderby 
-     * @return array
-     */
-    public function listaTermoDeUso()
-    {   
-        return $this->db->select()->findAll();
+    public function getUltimoTermoAtivo()
+    {
+        return $this->db
+            ->select("id")
+            ->where("statusRegistro", 1)
+            ->where("rascunho", 2)
+            ->orderBy("id", "DESC")
+            ->limit(1)
+            ->first();
     }
 
 }

@@ -28,7 +28,7 @@ use Core\Library\Session;
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Carregar os stylesheet e arquivos de estilização da página -->
     <link href="<?= baseUrl() ?>assets/css/plugins.css" rel="stylesheet">
-    <link href="<?= baseUrl() ?>assets/css/styles1.css" rel="stylesheet">
+    <link href="<?= baseUrl() ?>assets/css/styles.css" rel="stylesheet">
 
     <script src="<?= baseUrl() ?>assets/js/jquery.min.js" > </script><!-- JQUERY.MIN JS -->
     <script src="<?= baseUrl() ?>assets/plugins/wow/wow.js" ></script><!-- WOW JS -->
@@ -74,6 +74,7 @@ use Core\Library\Session;
 							<?php
 							$userId = Session::get('userId');
 							$userTipo = Session::get('userTipo');
+							$userEstabId = Session::get('userEstabId')
 							?>
 
 							<?php if (!$userId || $userTipo == 'PF'): ?>
@@ -81,10 +82,10 @@ use Core\Library\Session;
 									<a href="#">Candidato <i class="fa fa-chevron-down"></i></a>
 									<ul class="sub-menu">
 										<li>
-											<a href="<?= baseUrl() ?>vaga" class="dez-page">Vagas</a>
+											<a href="<?= baseUrl() ?>vaga/index/1" class="dez-page">Vagas</a>
 										</li>
 										<li>
-											<a href="<?= baseUrl() ?>estabelecimento" class="dez-page">Empresas</a>
+											<a href="<?= baseUrl() ?>estabelecimento/index/1" class="dez-page">Empresas</a>
 										</li>
 										<li>
 											<a href="<?= $userId ? baseUrl() . 'curriculum' : baseUrl() . 'login' ?>" class="dez-page">
@@ -104,10 +105,10 @@ use Core\Library\Session;
 									<a href="#">Empresa <i class="fa fa-chevron-down"></i></a>
 									<ul class="sub-menu">
 										<li>
-											<a href=<?= $userId ? baseUrl() . 'vaga/form' : baseUrl() . 'login' ?> class="dez-page">Publicar Vaga</a>
+											<a href=<?= $userId ? baseUrl() . 'vaga/form/insert' : baseUrl() . 'login' ?> class="dez-page">Publicar Vaga</a>
 										</li>
 										<li>
-											<a href="<?= baseUrl() ?>PessoaFisica" class="dez-page">Encontrar Candidatos</a>
+											<a href="<?= baseUrl() ?>pessoaFisica/index/1" class="dez-page">Encontrar Candidatos</a>
 										</li>
 									</ul>
 								</li>
@@ -121,7 +122,7 @@ use Core\Library\Session;
 												<a href=<?= $userId ? baseUrl() . 'vaga/form' : baseUrl() . 'login' ?> class="dez-page">Divulgar</a>
 											</li>
 											<li>
-												<a href="<?= baseUrl() ?>PessoaFisica" class="dez-page">Encontrar Serviços</a>
+												<a href="<?= baseUrl() ?>pessoaFisica/index/1" class="dez-page">Encontrar Serviços</a>
 											</li>
 									</ul>
 								</li>
@@ -153,13 +154,10 @@ use Core\Library\Session;
 										<a href="#" class="text-green">Área do Candidato <i class="fa fa-chevron-down"></i></a>
 										<ul class="sub-menu">
 											<li>
-												<a href="<?= baseUrl() ?>sistema/sobre_nos" class="dez-page">Painel do Candidato</a>
-											</li>
-											<li>
 												<a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Meu currículo</a>
 											</li>
 											<li>
-												<a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Minhas Candidaturas</a>
+												<a href="<?= baseUrl() ?>vagaCurriculum" class="dez-page">Minhas Candidaturas</a>
 											</li>
 											<li>
 												<a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Editar Perfil</a>
@@ -177,10 +175,10 @@ use Core\Library\Session;
 												<a href="<?= baseUrl() ?>sistema/sobre_nos" class="dez-page">Painel da Empresa</a>
 											</li>
 											<li>
-												<a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Minhas Vagas</a>
+												<a href="<?= baseUrl() ?>vaga/minhas_vagas/1" class="dez-page">Minhas Vagas</a>
 											</li>
 											<li>
-												<a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Editar Perfil</a>
+												<a href="<?= baseUrl() ?>estabelecimento/perfil/<?= $userEstabId ?>"  class="dez-page">Editar Perfil</a>
 											</li>
 										</ul>
 									</li>

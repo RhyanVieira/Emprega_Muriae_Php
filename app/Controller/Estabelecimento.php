@@ -9,6 +9,7 @@ use Core\Library\Session;
 use Core\Library\Validator;
 use App\Model\EstabelecimentoModel;
 use App\Model\CidadeModel;
+use App\Model\VagaModel;
 use App\Model\CategoriaEstabelecimentoModel;
 use App\Model\EstabelecimentoCategoriaModel;
 
@@ -17,23 +18,38 @@ class Estabelecimento extends ControllerMain
     protected $files;
 
     public function __construct()
-    {
+    {   
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
         $this->files = new Files();
         $this->model = new EstabelecimentoModel();
     }
 
-    public function index()
+    public function index($pagina = 1)
     {   
+        $aParametros = Self::getRotaParametros();
+        $filtros = $aParametros['get'];
+        unset($filtros['parametros']);
+        
         $CidadeModel = new CidadeModel();
         $CategoriaEstabelecimentoModel = new CategoriaEstabelecimentoModel();
-        $estabelecimentos = $this->model->listaEstabelecimentos();
+
+        $limite = 6; // número de estabelecimentos por página
+        $offset = ((int)$pagina - 1) * $limite;
+
+        $totalRegistros = $this->model->countEstabelecimentos($filtros); // retorna total de estabelecimentos no banco
+        $totalPaginas = ceil($totalRegistros / $limite);
+
+        $estabelecimentos = $this->model->listaEstabelecimentos($filtros, $limite, $offset);
 
         $dados = [
             'aCidade' => $CidadeModel->lista("cidade"),
             'aCategoriaEstabelecimento' => $CategoriaEstabelecimentoModel->lista("descricao"),
-            'estabelecimentos' => $estabelecimentos
+            'estabelecimentos' => $estabelecimentos,
+            'paginaAtual' => (int)$pagina,
+            'totalPaginas' => (int)$totalPaginas,
+            'filtros' => $filtros,
+            'totalRegistros' => $totalRegistros
         ];
 
         return $this->loadView("sistema/estabelecimentos", $dados);
@@ -49,6 +65,21 @@ class Estabelecimento extends ControllerMain
         ];
 
         return $this->loadView("sistema/cadastro_estabelecimento", $dados);
+    }
+
+    public function perfil($id = 0){
+
+
+        $estabelecimentos = $this->model->getInfoCompleta($id);
+        $VagaModel = new VagaModel();
+
+        $dados = [
+            'estabelecimento' => $estabelecimentos,
+            'totalAberta' => $VagaModel->countVagasAbertasPorEmpresa($id)
+        ];
+
+        
+        return $this->loadView("sistema/perfil_empresa", $dados);
     }
 
     public function cadastroParaUsuario()

@@ -15,6 +15,7 @@ trait RequestTrait
         if (count($aParametros) > 4) {
             $outrosPar = array_slice($aParametros, 4);
         }
+        
 
         return [
             'controller' => isset($aParametros[0]) && !empty($aParametros[0]) ? ucfirst($aParametros[0]) : DEFAULT_CONTROLLER,

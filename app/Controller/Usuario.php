@@ -7,6 +7,8 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 use App\Model\UsuarioModel;
+use App\Model\TermoDeUsoModel;
+use App\Model\TermoDeUsoAceiteModel;
 
 class Usuario extends ControllerMain
 {
@@ -26,14 +28,20 @@ class Usuario extends ControllerMain
     public function cadastroUsuario()
     {
         $post = $this->request->getPost();
-        
-        Session::set('dados_usuario_temp', $post);
+        unset($post['politica_privacidade']);
 
         $usuarioExistente = $this->model->getUserLogin($post['login']);
 
         if ($usuarioExistente) {
             return Redirect::page('usuario/index', ["msgAlerta" => "Já existe uma conta cadastrada com este e-mail."]);
         }
+
+        // Hash da senha
+        if (isset($post['senha']) && !empty($post['senha'])) {
+            $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
+        }
+
+        Session::set('dados_usuario_temp', $post);
 
         if (isset($post['tipo'])) {
             if ($post['tipo'] === 'PF') {
@@ -46,9 +54,12 @@ class Usuario extends ControllerMain
     }
 
     public function cadastroUsuarioFinal()
-    {
+    {   
+        $TermoDeUsoModel = new TermoDeUsoModel();
+        $ultimoTermo = $TermoDeUsoModel->getUltimoTermoAtivo();
+
         $dadosUsuario = Session::get('dados_usuario_temp');
-            
+
         $ultimoId = null;
         if ($dadosUsuario['tipo'] === 'PF') {
             $ultimoId = Session::get('ultimo_id_pf');
@@ -72,20 +83,35 @@ class Usuario extends ControllerMain
             $dadosUsuario['pessoa_fisica_id'] = null;
         }
 
-        // Hash da senha
-        if (isset($dadosUsuario['senha']) && !empty($dadosUsuario['senha'])) {
-            $dadosUsuario['senha'] = password_hash($dadosUsuario['senha'], PASSWORD_DEFAULT);
-        }
+        if ($dadosUsuario['termo'] == '1') {
+            unset($dadosUsuario['termo']);
+            $id = $this->model->insertGetId($dadosUsuario);
+            
+            
+            if ($id > 0) {
+                $TermoDeUsoModel = new TermoDeUsoModel();
+                $ultimoTermo = $TermoDeUsoModel->getUltimoTermoAtivo();
 
-        if ($this->model->insert($dadosUsuario)) {
-            // Limpa sessões temporárias
-            Session::destroy('dados_usuario_temp');
-            Session::destroy('ultimo_id_pf');
-            Session::destroy('ultimo_id_estab');
-            return Redirect::page('login', ["msgSucesso" => "Usuário cadastrado com sucesso."]);
-        } else {
-            Session::set("inputs", $dadosUsuario);
-            return Redirect::page('usuario/index', ["msgError" => "Erro ao cadastrar usuário."]);
+                if (!empty($ultimoTermo)) {
+                    $TermoDeUsoAceiteModel = new TermoDeUsoAceiteModel();
+
+                    $arrayTermo = [
+                        'termodeuso_id' => $ultimoTermo['id'],
+                        'usuario_id' => $id,
+                        'dataHoraAceite' => date('Y-m-d H:i:s')
+                    ];
+
+                    $TermoDeUsoAceiteModel->insert($arrayTermo);
+                }
+
+                Session::destroy('dados_usuario_temp');
+                Session::destroy('ultimo_id_pf');
+                Session::destroy('ultimo_id_estab');
+                return Redirect::page('login', ["msgSucesso" => "Usuário cadastrado com sucesso."]);
+            } else {
+                Session::set("inputs", $dadosUsuario);
+                return Redirect::page('usuario/index', ["msgError" => "Erro ao cadastrar usuário."]);
+            }
         }
     }
 

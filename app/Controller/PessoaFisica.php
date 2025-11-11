@@ -30,18 +30,32 @@ class PessoaFisica extends ControllerMain
      *
      * @return void
      */
-    public function index()
-    {
+    public function index($pagina = 1)
+    {   
+        $aParametros        = Self::getRotaParametros();
+        $filtros = $aParametros['get'];
+        unset($filtros['parametros']);
+
         $CargoModel = new CargoModel();
         $CidadeModel = new CidadeModel();
         $IdiomaModel = new IdiomaModel();
         $CurriculumModel = new CurriculumModel();
 
+        $limite = 6; // número de candidatos por página
+        $offset = ((int)$pagina - 1) * $limite;
+
+        $totalRegistros = $CurriculumModel->countCurriculosPublicos($filtros); // retorna total de candidatos com perfil público no banco
+        $totalPaginas = ceil($totalRegistros / $limite);
+
         $dados = [
             'aCidade' => $CidadeModel->lista('cidade'),
             'aCargo' => $CargoModel->lista('descricao'),
             'aIdioma' => $IdiomaModel->lista('descricao'),
-            'curriculosPublicos' => $CurriculumModel->listarCurriculosPublicos(),
+            'aCurriculos' => $CurriculumModel->listarCurriculos($filtros, $limite, $offset),
+            'paginaAtual' => (int)$pagina,
+            'totalPaginas' => (int)$totalPaginas,
+            'filtros' => $filtros,
+            'totalRegistros' => $totalRegistros
         ];
         
         return $this->loadView("sistema/candidatos", $dados);
@@ -65,7 +79,7 @@ class PessoaFisica extends ControllerMain
             return Redirect::page("usuario/cadastroUsuarioFinal");
         } else {
             Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/cadastro", ["msgError" => "Erro ao cadastrar Pessoa Física."]);
+            return Redirect::page($this->controller . "/cadastro", ["msgError" => "Erro ao cadastrar."]);
         }
     }
 

@@ -22,6 +22,18 @@ class VagaModel extends ModelMain
             "label" => 'Sobre a Vaga',
             "rules" => 'required|min:3|max:1000'
         ],
+        "responsabilidades"  => [
+            "label" => 'Responsabilidades do Candidato',
+            "rules" => 'required|min:3|max:1000'
+        ],
+        "requisitos"  => [
+            "label" => 'Requisitos da Vaga',
+            "rules" => 'required|min:3|max:1000'
+        ],
+        "beneficios"  => [
+            "label" => 'Benefícios',
+            "rules" => 'required|min:3|max:1000'
+        ],
         "dtInicio"  => [
             "label" => 'Data de Início',
             "rules" => 'required|date'
@@ -84,24 +96,246 @@ class VagaModel extends ModelMain
     public function vagaHome()
     {
         return $this->db
-            ->select("vaga.descricao, cidade.cidade, cidade.uf, estabelecimento.logo, vaga.modalidade, vaga.dtInicio, vaga.dtFim, vaga.vinculo, vaga.faixaSal, vaga.nivelExperiencia")
+            ->select("vaga.vaga_id, vaga.descricao, cidade.cidade, cidade.uf, estabelecimento.logo, vaga.modalidade, vaga.dtInicio, vaga.dtFim, vaga.vinculo, vaga.faixaSal, vaga.nivelExperiencia")
             ->join("cidade", "cidade.cidade_id = vaga.cidade_id")
             ->join("estabelecimento", "estabelecimento.estabelecimento_id = vaga.estabelecimento_id")
             ->where("vaga.statusVaga", 11)
-            ->orderBy("vaga.dtInicio", 'DESC')
+            ->orderBy("vaga.dtInicio", 'ASC')
             ->limit(5)
             ->findAll();
     }
 
-    public function listaVagas()
+    public function getVagaPorId($id)
     {
         return $this->db
-            ->select("vaga.descricao, cidade.cidade, cidade.uf, estabelecimento.logo, vaga.modalidade, vaga.dtInicio, vaga.dtFim, vaga.vinculo, vaga.faixaSal, vaga.nivelExperiencia")
-            ->join("cidade", "cidade.cidade_id = vaga.cidade_id")
-            ->join("estabelecimento", "estabelecimento.estabelecimento_id = vaga.estabelecimento_id")
-            ->where("vaga.statusVaga", 11)
-            ->orderBy("vaga.dtInicio", 'DESC')
+            ->select("
+                vaga.*,
+                e.nome AS empresa,
+                e.logo,
+                c.cidade,
+                c.uf,
+                ca.descricao AS cargo,
+                cv.descricao AS categoria
+            ")
+            ->join("estabelecimento AS e", "e.estabelecimento_id = vaga.estabelecimento_id", "INNER")
+            ->join("cidade AS c", "c.cidade_id = vaga.cidade_id", "LEFT")
+            ->join("cargo AS ca", "ca.cargo_id = vaga.cargo_id", "LEFT")
+            ->join("categoria_vaga AS cv", "cv.categoria_vaga_id = vaga.categoria_vaga_id", "LEFT")
+            ->where("vaga.vaga_id", $id)
+            ->first();
+    }
+
+    public function listarVagasPorEmpresa($empresaId, $limite, $offset)
+    {
+        return $this->db
+            ->select("
+                vaga.vaga_id,
+                vaga.descricao,
+                vaga.dtInicio,
+                vaga.dtFim,
+                vaga.statusVaga,
+                vaga.faixaSal,
+                vaga.modalidade,
+                vaga.vinculo,
+                vaga.nivelExperiencia,
+                c.cidade,
+                c.uf
+            ")
+            ->join("cidade AS c", "c.cidade_id = vaga.cidade_id", "LEFT")
+            ->where("vaga.estabelecimento_id", $empresaId)
+            ->orderBy("vaga.dtInicio", "ASC")
+            ->limit($limite)
+            ->offset($offset)
             ->findAll();
     }
 
+    public function listarVagasAbertasPorEmpresa($empresaId, $limite, $offset)
+    {
+        return $this->db
+            ->select("
+                vaga.vaga_id,
+                vaga.descricao,
+                vaga.dtInicio,
+                vaga.dtFim,
+                vaga.statusVaga,
+                vaga.faixaSal,
+                vaga.modalidade,
+                vaga.vinculo,
+                vaga.nivelExperiencia,
+                c.cidade,
+                c.uf
+            ")
+            ->join("cidade AS c", "c.cidade_id = vaga.cidade_id", "LEFT")
+            ->where("vaga.estabelecimento_id", $empresaId)
+            ->where("vaga.statusVaga", 11)
+            ->orderBy("vaga.dtInicio", "ASC")
+            ->limit($limite)
+            ->offset($offset)
+            ->findAll();
+    }
+
+    public function countVagasAbertasPorEmpresa($empresaId)
+    {
+        return $this->db
+            ->select("COUNT(*) AS total")
+            ->where("vaga.estabelecimento_id", $empresaId)
+            ->where("vaga.statusVaga", 11)
+            ->first()['total'];
+    }
+    
+    public function listarVagas($filtros, $limite, $offset)
+    {
+        $descricao = isset($filtros['descricao']) ? trim(addslashes($filtros['descricao'])) : '';
+        $cidade    = isset($filtros['cidade_id']) ? (int)$filtros['cidade_id'] : 0;
+        $vinculo = isset($filtros['vinculo']) ? (int)$filtros['vinculo'] : 0;
+        $modalidade = isset($filtros['modalidade']) ? (int)$filtros['modalidade'] : 0;
+        $categoria = isset($filtros['categoria_vaga_id']) ? (int)$filtros['categoria_vaga_id'] : 0;
+        $faixaSal = isset($filtros['faixaSal']) ? trim(addslashes($filtros['faixaSal'])) : '';
+        $nivelExperiencia = isset($filtros['nivelExperiencia']) ? (int)$filtros['nivelExperiencia'] : 0;
+
+        $query = $this->db->select("
+                vaga.vaga_id,
+                vaga.descricao,
+                vaga.modalidade,
+                vaga.dtInicio,
+                vaga.dtFim,
+                vaga.vinculo,
+                vaga.faixaSal,
+                vaga.nivelExperiencia, 
+                c.cidade, 
+                c.uf, 
+                e.logo")
+            ->join("cidade AS c", "c.cidade_id = vaga.cidade_id", "INNER")
+            ->join("estabelecimento AS e", "e.estabelecimento_id = vaga.estabelecimento_id", "INNER")
+            ->join("categoria_vaga AS cv", "vaga.categoria_vaga_id = cv.categoria_vaga_id", "LEFT")
+            ->where("vaga.statusVaga", 11);
+
+            if (!empty($descricao)) {
+                $query->whereLike("vaga.descricao", $descricao);
+            }
+
+            if ($cidade > 0) {
+                $query->where("vaga.cidade_id", $cidade);
+            }
+
+            if ($categoria > 0) {
+                $query->where("cv.categoria_vaga_id", $categoria);
+            }
+
+            if ($vinculo > 0) {
+                $query->where("vaga.vinculo", $vinculo);
+            }
+
+            if ($modalidade > 0) {
+                $query->where("vaga.modalidade", $modalidade);
+            }
+
+            if ($nivelExperiencia > 0) {
+                $query->where("vaga.nivelExperiencia", $nivelExperiencia);
+            }
+
+            if (!empty($faixaSal)) {
+                switch ($faixaSal) {
+                    case 'A combinar':
+                        $query->whereRaw("LOWER(vaga.faixaSal) = 'a combinar'");
+                        break;
+
+                    case '1000-2000':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) BETWEEN 1000 AND 2000");
+                        break;
+
+                    case '2000-4000':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) BETWEEN 2000 AND 4000");
+                        break;
+
+                    case '4000-6000':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) BETWEEN 4000 AND 6000");
+                        break;
+
+                    case '6000+':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) >= 6000");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return $query
+                ->orderBy("vaga.dtInicio", "DESC")
+                ->limit($limite)
+                ->offset($offset)
+                ->findAll();
+    }
+
+    public function countVagas($filtros)
+    {
+        $descricao = isset($filtros['descricao']) ? trim(addslashes($filtros['descricao'])) : '';
+        $cidade    = isset($filtros['cidade_id']) ? (int)$filtros['cidade_id'] : 0;
+        $vinculo = isset($filtros['vinculo']) ? (int)$filtros['vinculo'] : 0;
+        $modalidade = isset($filtros['modalidade']) ? (int)$filtros['modalidade'] : 0;
+        $categoria = isset($filtros['categoria_vaga_id']) ? (int)$filtros['categoria_vaga_id'] : 0;
+        $faixaSal = isset($filtros['faixaSal']) ? trim(addslashes($filtros['faixaSal'])) : '';
+        $nivelExperiencia = isset($filtros['nivelExperiencia']) ? (int)$filtros['nivelExperiencia'] : 0;
+
+        $query = $this->db->select("COUNT(DISTINCT vaga.vaga_id) AS total")
+            ->join("cidade AS c", "c.cidade_id = vaga.cidade_id", "INNER")
+            ->join("estabelecimento AS e", "e.estabelecimento_id = vaga.estabelecimento_id", "INNER")
+            ->join("categoria_vaga AS cv", "vaga.categoria_vaga_id = cv.categoria_vaga_id", "LEFT")
+            ->where("vaga.statusVaga", 11);
+
+            if (!empty($descricao)) {
+                $query->whereLike("vaga.descricao", $descricao);
+            }
+
+            if ($cidade > 0) {
+                $query->where("vaga.cidade_id", $cidade);
+            }
+
+            if ($categoria > 0) {
+                $query->where("cv.categoria_vaga_id", $categoria);
+            }
+
+            if ($vinculo > 0) {
+                $query->where("vaga.vinculo", $vinculo);
+            }
+
+            if ($modalidade > 0) {
+                $query->where("vaga.modalidade", $modalidade);
+            }
+
+            if ($nivelExperiencia > 0) {
+                $query->where("vaga.nivelExperiencia", $nivelExperiencia);
+            }
+
+            if (!empty($faixaSal)) {
+                switch ($faixaSal) {
+                    case 'A combinar':
+                        $query->whereRaw("LOWER(vaga.faixaSal) = 'a combinar'");
+                        break;
+
+                    case '1000-2000':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) BETWEEN 1000 AND 2000");
+                        break;
+
+                    case '2000-4000':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) BETWEEN 2000 AND 4000");
+                        break;
+
+                    case '4000-6000':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) BETWEEN 4000 AND 6000");
+                        break;
+
+                    case '6000+':
+                        $query->whereRaw("vaga.faixaSal REGEXP '^[0-9]' AND CAST(vaga.faixaSal AS DECIMAL(10,2)) >= 6000");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return $query
+                ->first()['total'];
+    }
 }

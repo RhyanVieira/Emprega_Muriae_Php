@@ -56,43 +56,129 @@ class EstabelecimentoModel extends ModelMain
         ],
     ];
 
+    public function listaEstabelecimentos($filtros, $limite, $offset)
+    {
+        $nome      = isset($filtros['nome']) ? trim(addslashes($filtros['nome'])) : '';
+        $cidade    = isset($filtros['cidade_id']) ? (int)$filtros['cidade_id'] : 0;
+        $categoria = isset($filtros['categoria_id']) ? (int)$filtros['categoria_id'] : 0;
 
-    /**
-     * lista
-     *
-     * @param string $orderby 
-     * @return array
-     */
-    public function listaEstabelecimentos()
-    {   
-        return $this->db->select("
-            e.estabelecimento_id,
-            e.nome,
-            e.descricao,
-            e.logo,
+        $query = $this->db->select("
+            estabelecimento.estabelecimento_id,
+            estabelecimento.nome,
+            estabelecimento.descricao,
+            estabelecimento.logo,
             c.cidade,
             c.uf,
-            e.data_criacao,
+            estabelecimento.data_criacao,
             COUNT(DISTINCT v.vaga_id) AS total_vagas,
             GROUP_CONCAT(DISTINCT ce.descricao ORDER BY ce.descricao SEPARATOR ', ') AS categorias
-        FROM estabelecimento AS e
-        INNER JOIN cidade AS c 
-            ON c.cidade_id = e.cidade_id
-        LEFT JOIN vaga AS v 
-            ON v.estabelecimento_id = e.estabelecimento_id
-        LEFT JOIN estabelecimento_categoria_estabelecimento AS ece 
-            ON ece.estabelecimento_id = e.estabelecimento_id
-        LEFT JOIN categoria_estabelecimento AS ce 
-            ON ce.categoria_estabelecimento_id = ece.categoria_estabelecimento_id
-        GROUP BY 
-            e.estabelecimento_id, e.nome, e.descricao, e.logo, c.cidade, c.uf, e.data_criacao
-        ORDER BY 
-            CASE 
-                WHEN COUNT(DISTINCT v.vaga_id) > 0 THEN 0  -- empresas com vagas primeiro
-                ELSE 1                                    -- empresas sem vagas por último
-            END,
-            RAND();"
-        )
-        ->findAll();    
+        ")
+        ->join("cidade AS c", "c.cidade_id = estabelecimento.cidade_id", "INNER")
+        ->join("vaga AS v", "v.estabelecimento_id = estabelecimento.estabelecimento_id", "LEFT")
+        ->join("estabelecimento_categoria_estabelecimento AS ece", "ece.estabelecimento_id = estabelecimento.estabelecimento_id", "LEFT")
+        ->join("categoria_estabelecimento AS ce", "ce.categoria_estabelecimento_id = ece.categoria_estabelecimento_id", "LEFT");
+
+        if (!empty($nome)) {
+            $query->whereLike("estabelecimento.nome", $nome);
+        }
+
+        if ($cidade > 0) {
+            $query->where("estabelecimento.cidade_id", $cidade);
+        }
+
+        if ($categoria > 0) {
+            $query->where("ce.categoria_estabelecimento_id", $categoria);
+        }
+
+        return $query
+            ->groupBy("estabelecimento.estabelecimento_id, estabelecimento.nome, estabelecimento.descricao, estabelecimento.logo, c.cidade, c.uf, estabelecimento.data_criacao")
+            ->orderBy("
+                CASE 
+                    WHEN COUNT(DISTINCT v.vaga_id) > 0 THEN 0
+                    ELSE 1
+                END
+            ")
+            ->orderBy("RAND()")
+            ->limit($limite)
+            ->offset($offset)
+            ->findAll();
+    }
+
+
+    public function countEstabelecimentos($filtros)
+    {
+        $nome      = isset($filtros['nome']) ? trim(addslashes($filtros['nome'])) : '';
+        $cidade    = isset($filtros['cidade_id']) ? (int)$filtros['cidade_id'] : 0;
+        $categoria = isset($filtros['categoria_id']) ? (int)$filtros['categoria_id'] : 0;
+
+        $query = $this->db
+            ->select("COUNT(DISTINCT estabelecimento.estabelecimento_id) AS total")
+            ->join("cidade AS c", "c.cidade_id = estabelecimento.cidade_id", "INNER")
+            ->join("estabelecimento_categoria_estabelecimento AS ece", "ece.estabelecimento_id = estabelecimento.estabelecimento_id", "LEFT")
+            ->join("categoria_estabelecimento AS ce", "ce.categoria_estabelecimento_id = ece.categoria_estabelecimento_id", "LEFT");
+
+        if (!empty($nome)) {
+            $query->whereLike("estabelecimento.nome", $nome);
+        }
+
+        if (!empty($cidade)) {
+            $query->where("estabelecimento.cidade_id", $cidade);
+        }
+
+        if (!empty($categoria)) {
+            $query->whereRaw("e.estabelecimento_id IN (
+                SELECT estabelecimento_id 
+                FROM estabelecimento_categoria_estabelecimento 
+                WHERE categoria_estabelecimento_id = $categoria
+            )");
+        }
+
+        return $query
+            ->first()['total'];
+    }
+
+    public function getInfoCompleta($id)
+    {
+        return $this->db
+            ->select("
+                estabelecimento.estabelecimento_id,
+                estabelecimento.nome,
+                estabelecimento.razao_social,
+                estabelecimento.email,
+                estabelecimento.website,
+                estabelecimento.logo,
+                estabelecimento.endereco,
+                estabelecimento.descricao,
+                estabelecimento.cnpj,
+                estabelecimento.cep,
+                estabelecimento.data_criacao,
+                estabelecimento.latitude,
+                estabelecimento.longitude,
+                c.cidade,
+                c.uf,
+                GROUP_CONCAT(DISTINCT ce.descricao ORDER BY ce.descricao SEPARATOR ', ') AS categorias,
+                COUNT(DISTINCT v.vaga_id) AS total_vagas
+            ")
+            ->join("cidade AS c", "c.cidade_id = estabelecimento.cidade_id", "LEFT")
+            ->join("estabelecimento_categoria_estabelecimento AS ece", "ece.estabelecimento_id = estabelecimento.estabelecimento_id", "LEFT")
+            ->join("categoria_estabelecimento AS ce", "ce.categoria_estabelecimento_id = ece.categoria_estabelecimento_id", "LEFT")
+            ->join("vaga AS v", "v.estabelecimento_id = estabelecimento.estabelecimento_id", "LEFT")
+            ->where("estabelecimento.estabelecimento_id", $id)
+            ->groupBy("
+                estabelecimento.estabelecimento_id, 
+                estabelecimento.nome, 
+                estabelecimento.razao_social, 
+                estabelecimento.email, 
+                estabelecimento.website, 
+                estabelecimento.logo, 
+                estabelecimento.endereco, 
+                estabelecimento.descricao, 
+                estabelecimento.cnpj, 
+                estabelecimento.cep, 
+                estabelecimento.data_criacao, 
+                c.cidade, 
+                c.uf
+            ")
+            ->first();
     }
 }

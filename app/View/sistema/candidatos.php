@@ -1,3 +1,6 @@
+<?php
+$queryString = http_build_query($_GET);
+?>
 
 <div class="page-content bg-white">
     <!-- inner page banner -->
@@ -21,8 +24,9 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xl-9 col-lg-8">
+						<h4>Total: <?= ($dados['totalRegistros']) ?> <?= ((int)$dados['totalRegistros'] === 1) ? 'candidato encontrado' : 'candidatos encontrados' ?></h4>
 						<ul class="post-job-bx">
-							<?php foreach ($dados['curriculosPublicos'] as $curriculos): ?>
+							<?php foreach ($dados['aCurriculos'] as $curriculos): ?>
 								<li>
 									<a href="#">
 										<div class="d-flex m-b20">
@@ -78,77 +82,79 @@
 						</ul>
 						<div class="pagination-bx m-t30">
 							<ul class="pagination">
-								<li class="previous"><a href="#"><i class="ti-arrow-left"></i> Anterior</a></li>
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li class="next"><a href="#">Próximo <i class="ti-arrow-right"></i></a></li>
+								<?php if ($dados['paginaAtual'] > 1): ?>
+									<li class="previous">
+										<a href="<?= baseUrl() ?>pessoaFisica/index/<?= $dados['paginaAtual'] - 1 ?>/?<?= $queryString ?>">
+											<i class="ti-arrow-left"></i> Anterior
+										</a>
+									</li>
+								<?php endif; ?>
+								<?php for ($i = 1; $i <= $dados['totalPaginas']; $i++): ?>
+									<li class="<?= $i === $dados['paginaAtual'] ? 'active' : '' ?>">
+										<a href="<?= baseUrl() ?>pessoaFisica/index/<?= $i ?>/?<?= $queryString ?>">
+											<?= $i ?>
+										</a>
+									</li>
+								<?php endfor; ?>
+								<?php if ($dados['paginaAtual'] < $dados['totalPaginas']): ?>
+									<li class="next">
+										<a href="<?= baseUrl() ?>pessoaFisica/index/<?= $dados['paginaAtual'] + 1 ?>/?<?= $queryString ?>">
+											Próximo <i class="ti-arrow-right"></i>
+										</a>
+									</li>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</div>
 					<div class="col-xl-3 col-lg-4">
 						<div class="sticky-top">
-							<form method="GET" action="<?= baseUrl() ?>pessoafisica/filtrar">
+							<form method="GET" action="<?= baseUrl() ?>pessoaFisica/index/1">
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Cargo - Experiência</h5>
-									<select>
-										<option>Qualquer</option>
+									<select name="cargo_id" id="cargo_id">
+										<option value="">Todos os cargos</option>
 										<?php foreach ($dados['aCargo'] as $valueCargo): ?>
-											<option value="<?= $valueCargo['cargo_id'] ?>" <?= ($valueCargo['cargo_id'] == setValor("cargo_id") ? 'SELECTED' : '') ?>><?=$valueCargo['descricao']?></option>
+											<option value="<?= $valueCargo['cargo_id'] ?>"
+												<?= ($valueCargo['cargo_id'] == ($_GET['cargo_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $valueCargo['descricao'] ?>
+											</option>
 										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Cidade</h5>
-									<select>
-										<option>Qualquer Lugar</option>
+									<select name="cidade_id" id="cidade_id">
+										<option value="">Todas as cidades</option>
 										<?php foreach ($dados['aCidade'] as $value): ?>
-											<option value="<?= $value['cidade_id'] ?>" <?= ($value['cidade_id'] == setValor("cidade_id") ? 'SELECTED' : '') ?>><?=$value['cidade'] . ' - ' . $value['uf'] ?></option>
+											<option value="<?= $value['cidade_id'] ?>"
+												<?= ($value['cidade_id'] == ($_GET['cidade_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $value['cidade'] . ' - ' . $value['uf'] ?>
+											</option>
 										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Faixa Etária</h5>
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6 col-6">
-											<div class="product-brand">
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check1" name="example1">
-													<label class="custom-control-label" for="check1">18 - 25</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check2" name="example1">
-													<label class="custom-control-label" for="check2">26 - 30</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check3" name="example1">
-													<label class="custom-control-label" for="check3">31 - 35</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">36 - 40</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check5" name="example1">
-													<label class="custom-control-label" for="check5">41 - 45</label>
-												</div><div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check6" name="example1">
-													<label class="custom-control-label" for="check6">46 - 50</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check7" name="example1">
-													<label class="custom-control-label" for="check7">51+</label>
-												</div>
-											</div>
-										</div>
-									</div>
+									<select name="faixaEtaria" id="faixaEtaria">
+										<option value="">Todas as idades</option>
+										<?php
+										$faixas = ['18-25','26-30','31-35','36-40','41-45','46-50','50+'];
+										foreach ($faixas as $faixa): ?>
+											<option value="<?= $faixa ?>" <?= ($faixa == ($_GET['faixaEtaria'] ?? '')) ? 'selected' : '' ?>>
+												<?= $faixa ?>
+											</option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Idioma</h5>
-									<select>
-										<option>Qualquer Idioma</option>
+									<select name="idioma_id" id="idioma_id">
+										<option value="">Qualquer idioma</option>
 										<?php foreach ($dados['aIdioma'] as $valueIdioma): ?>
-											<option value="<?= $valueIdioma['idioma_id'] ?>" <?= ($valueIdioma['idioma_id'] == setValor("idioma_id") ? 'SELECTED' : '') ?>><?=$valueIdioma['descricao']?></option>
+											<option value="<?= $valueIdioma['idioma_id'] ?>"
+												<?= ($valueIdioma['idioma_id'] == ($_GET['idioma_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $valueIdioma['descricao'] ?>
+											</option>
 										<?php endforeach; ?>
 									</select>
 								</div>

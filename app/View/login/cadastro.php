@@ -26,22 +26,20 @@
 										<label class="font-weight-700" for="tipo">Tipo de Conta *</label>
 										<select name="tipo" id="tipo" required>
 											<option value="">Selecione...</option>
-											<option value="PF" <?= (setValor('tipo') == "PF" ? 'selected' : '') ?>>Candidato</option>
-											<option value="E" <?= (setValor('tipo') == "E" ? 'selected' : '') ?>>Empresa</option>
+											<option value="PF">Candidato</option>
+											<option value="E">Empresa</option>
 										</select>
 									</div>
-									<!--
 									<div class="product-brand">
 										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="check1" name="example1">
-											<label class="custom-control-label" for="check1">Li e Aceito os <a href="termos_uso.html">Termos de Uso</a></label>
+											<input type="checkbox" class="custom-control-input" id="termo" name="termo" value="1" required>
+											<label class="custom-control-label" for="termo">Li e Aceito os <a href="<?= baseUrl() ?>home/termo_de_uso">Termos de Uso</a></label>
 										</div>
 										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="check2" name="example1">
-											<label class="custom-control-label" for="check2">Li e Concordo com a <a href="politica_privacidade.html">Política de Privacidade</a></label>
+											<input type="checkbox" class="custom-control-input" id="politica_privacidade" name="politica_privacidade" value="1" required>
+											<label class="custom-control-label" for="politica_privacidade">Li e Concordo com a <a href="<?= baseUrl() ?>home/politica_privacidade">Política de Privacidade</a></label>
 										</div>
 									</div>
-									-->
 									<div class="text-center m-t20">
 										<button type="submit" class="site-button button-lg outline outline-2">Criar Conta</button>
 									</div>

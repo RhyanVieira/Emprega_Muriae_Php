@@ -50,7 +50,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-12 m-b30">
 						<div class="icon-bx-wraper p-a30 center bg-gray radius-sm h-100">
 							<div class="icon-md text-primary m-b20"> 
-								<a href="<?= baseUrl() ?>vaga" class="icon-cell text-blue"><i class="ti-timer"></i></a> 
+								<a href="<?= baseUrl() ?>vaga/index/1" class="icon-cell text-blue"><i class="ti-timer"></i></a> 
 							</div>
 							<div class="icon-content">
 								<h5 class="dlab-tilte text-uppercase">Vagas sempre atualizadas</h5>

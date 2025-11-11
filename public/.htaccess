@@ -1,6 +1,12 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine ON
+    RewriteEngine On
+
+    # Se a requisição contiver "?", remove a query antes de passar ao index.php
+    RewriteCond %{THE_REQUEST} \?
+    RewriteRule ^(.*)\?(.*)$ index.php?parametros=$1 [L,QSA]
+
+    # Roteamento padrão do AtomPHP
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?parametros=$1
+    RewriteRule ^(.*)$ index.php?parametros=$1 [L,QSA]
 </IfModule>

@@ -7,6 +7,7 @@ use Core\Library\Files;
 use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
+use App\Model\CurriculumModel;
 
 class VagaCurriculum extends ControllerMain
 {
@@ -19,75 +20,42 @@ class VagaCurriculum extends ControllerMain
         $this->files = new Files();
     }
 
-    /**
-     * index
-     *
-     * @return void
-     */
-    public function index()
+    public function candidatar($vagaId)
     {
-        return $this->loadView("paginaContato");
-    }
-
-    public function form($action, $id)
-    {   
-        $this->validaNivelAcesso();
-        return $this->loadView("sistema/formUf", $this->model->getById($id));
-    }
-
-    /**
-     * insert
-     *
-     * @return void
-     */
-    public function insert()
-    {
+        $userId = Session::get('userPfId');
         $post = $this->request->getPost();
+        $mensagem =  $post['mensagem'];
 
-        if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/insert/0");
-        } else {
-            if ($this->model->insert($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-            } else {
-                return Redirect::page($this->controller . "/form/insert/0");
-            }
+        // Se o usuário não estiver logado, redireciona para login
+        if (!$userId) {
+            return Redirect::page('login', ['msgError' => 'Você precisa estar logado para se candidatar.']);
         }
-    }
 
-    /**
-     * update
-     *
-     * @return void
-     */
-    public function update()
-    {
-        $post = $this->request->getPost();
+        // Pega o curriculum vinculado ao usuário logado
+        $curriculumModel = new CurriculumModel();
+        $curriculum = $curriculumModel->getByPessoaFisicaId($userId);
 
-        if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/update/" . $post['id']);    // error
-        } else {
-            if ($this->model->update($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
-            } else {
-                return Redirect::page($this->controller . "/form/update/" . $post['id']);
-            }
+        if (!$curriculum) {
+            return Redirect::page('curriculum/form', ['msgError' => 'Crie seu currículo antes de se candidatar.']);
         }
-    }
 
-    /**
-     * delete
-     *
-     * @return void
-     */
-    public function delete()
-    {
-        $post = $this->request->getPost();
+        // Verifica se já se candidatou
+        $jaExiste = $this->model->existeCandidatura($vagaId, $curriculum['curriculum_id']);
 
-        if ($this->model->delete($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro Excluído com sucesso."]);
-        } else {
-            return Redirect::page($this->controller);
+        if ($jaExiste) {
+            return Redirect::page("vaga/vaga_detalhada/$vagaId", ['msgError' => 'Você já se candidatou a esta vaga.']);
         }
+
+        // Cria a candidatura
+        $dados = [
+            'vaga_id' => $vagaId,
+            'curriculum_id' => $curriculum['curriculum_id'],
+            'statusCandidatura' => 1,
+            'mensagem' => $mensagem
+        ];
+
+        $this->model->insert($dados);
+
+        return Redirect::page("vaga/vaga_detalhada/$vagaId", ['msgSucesso' => 'Candidatura enviada com sucesso!']);
     }
 }

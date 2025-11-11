@@ -23,8 +23,8 @@
                         <div class="widget border-0">
                             <h5 class="m-b30 text-white">Navegação</h5>
                             <ul class="list-2 list-line">
-                                <li><a href="<?= baseUrl() ?>PessoaFisica">Candidatos</a></li>
-                                <li><a href="<?= baseUrl() ?>estabelecimento">Empresas</a></li>
+                                <li><a href="<?= baseUrl() ?>pessoaFisica/index/1">Candidatos</a></li>
+                                <li><a href="<?= baseUrl() ?>estabelecimento/index/1">Empresas</a></li>
 								<li><a href="<?= baseUrl() ?>home/sobre_nos">Sobre Nós</a></li>
                                 <li><a href="<?= baseUrl() ?>home/contato">Contato</a></li>
 								<li><a href="<?= baseUrl() ?>home/politica_privacidade">Política de Privacidade</a></li>

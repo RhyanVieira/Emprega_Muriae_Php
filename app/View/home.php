@@ -14,8 +14,7 @@ $vinculos = [
     3 => 'Freelancer',
     4 => 'Temporário',
     5 => 'Estágio',
-	6 => 'Trainee',
-	7 => 'Freelancer'
+	6 => 'Freelancer'
 ];
 
 $nivelExperiencia = [
@@ -30,65 +29,52 @@ $nivelExperiencia = [
 
 setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 ?>
-<!-- Banner com imagem de fundo e sopreposição escura (overlay)-->
 		<div class="dez-bnr-inr dez-bnr-inr-md overlay-black-dark" style="background-image:url(/assets/img/main-slider/estatua_slider.jpg);">
-            <!-- Container centralizado do conteúdo -->
 			<div class="container">
-				<!-- Entrada de conteúdo centralizado e com texto branco -->
                 <div class="dez-bnr-inr-entry align-m text-white">
-					<!-- Caixa de busca de vagas -->
 					<div class="find-job-bx">
-						<!-- Título de destaque -->
 						<h2>Seu futuro começa com uma busca. <br/> <span class="span-banner">Encontre</span> a vaga ideal perto de você.</h2>
-						<!-- Formulário de busca de vagas -->
-						<form class="dezPlaceAni">
+						<form class="dezPlaceAni" method="GET" action="<?= baseUrl() ?>vaga/index/1/">
 							<div class="row">
-								<!-- Campo de pesquisa por palavra-chave -->
 								<div class="col-lg-4 col-md-6">
 									<div class="form-group">
-										<select>
-											<option value="">Selecione um cargo</option>
-											<?php foreach ($dados['aCargo'] as $valueCargo): ?>
-                                                <option value="<?= $valueCargo['cargo_id'] ?>" <?= ($valueCargo['cargo_id'] == setValor("cargo_id") ? 'SELECTED' : '') ?>><?=$valueCargo['descricao']?></option>
-                                            <?php endforeach; ?> 
-										</select>
+										<div class="input-group">
+											<input type="text" name="descricao" id="descricao" class="form-control" placeholder="Ex: vendedor, recepcionista, pacote Office...">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="fa fa-search"></i></span>
+											</div>
+										</div>
 									</div>
 								</div>
-								<!-- Filtro por cidade -->
 								<div class="col-lg-3 col-md-6">
 									<div class="form-group">
-										<select>
+										<select name="cidade_id" id="cidade_id">
 											<option value="">Selecione a cidade</option>
 											<?php foreach ($dados['aCidade'] as $value): ?>
-												<option value="<?= $value['cidade_id'] ?>" <?= ($value['cidade_id'] == setValor("cidade_id") ? 'SELECTED' : '') ?>><?=$value['cidade'] . ' - ' . $value['uf'] ?></option>
+												<option value="<?= $value['cidade_id'] ?>"><?=$value['cidade'] . ' - ' . $value['uf'] ?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
 								</div>
-								<!-- Filtro por área de atuação-->
 								<div class="col-lg-3 col-md-6">
 									<div class="form-group">
-										<select>
+										<select name="categoria_vaga_id" id="categoria_vaga_id">
 											<option value="">Selecione uma categoria</option>
                                             <?php foreach ($dados['aCategoriaVaga'] as $valueCatVaga): ?>
-                                                <option value="<?= $valueCatVaga['categoria_vaga_id'] ?>" <?= ($valueCatVaga['categoria_vaga_id'] == setValor("categoria_vaga_id") ? 'SELECTED' : '') ?>><?=$valueCatVaga['descricao']?></option>
+                                                <option value="<?= $valueCatVaga['categoria_vaga_id'] ?>"><?=$valueCatVaga['descricao']?></option>
                                             <?php endforeach; ?>
 										</select>
 									</div>
 								</div>
-								<!-- Botão de busca -->
 								<div class="col-lg-2 col-md-6">
 									<button type="submit" class="site-button btn-block">Encontrar Vaga</button>
 								</div>
 							</div>
 						</form>
 					</div>
-					<!-- Fim da caixa de busca de vagas -->
 				</div>
-				<!-- Fim da entrada de conteúdo -->
             </div>
         </div>
-		<!-- Fim da seção de categorias -->
 		<div class="section-full bg-white content-inner-2">
 			<div class="container">
 				<div class="d-flex job-title-bx section-head">
@@ -97,7 +83,7 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 						<h6 class="fw4 m-b0">Confira as 5 vagas adicionadas recentemente</h6>
 					</div>
 					<div class="align-self-end">
-						<a href="<?= baseUrl() ?>vaga" class="site-button button-sm">Veja Todas as Vagas <i class="fa fa-long-arrow-right"></i></a>
+						<a href="<?= baseUrl() ?>vaga/index/1" class="site-button button-sm">Veja Todas as Vagas <i class="fa fa-long-arrow-right"></i></a>
 					</div>
 				</div>
 				<div class="row">
@@ -105,7 +91,7 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 						<ul class="post-job-bx">
 							<?php foreach ($dados['VagaHome'] as $vagaHome): ?>
 								<li>
-									<a href="vaga_detalhada.html">
+									<a href="<?= baseUrl() ?>vaga/vaga_detalhada/<?= $vagaHome['vaga_id'] ?>">
 										<div class="d-flex m-b30">
 											<div class="job-post-company">
 												<span><img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $vagaHome['logo'] ?>"/></span>
@@ -168,32 +154,24 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 				</div>
 			</div>
 		</div>
-		<!-- Seção de Call to Action com fundo de imagem e texto em destaque -->
 		<div class="section-full content-inner-2 call-to-action overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(/assets/img/background/bg_prefeitura.jpg);">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-						<!-- Título principal da chamada para ação -->
 						<h2 class="m-b10">Destaque-se com seu currículo online!</h2>
-						<!-- Texto explicativo -->
 						<p class="m-b0">Cadastre seu currículo, encontre vagas locais e conquiste a oportunidade que você merece.</p>
-						<!-- Botão para cadastro -->
 						<a href="<?= baseUrl() ?>login" class="site-button m-t20 outline outline-2 radius-xl">Crie Sua Conta Agora</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- Fim da seção Call to Action -->
 		<div class="section-full job-categories content-inner-2 bg-white">
 			<div class="container">
-				<!-- Cabeçalho da seção -->
 				<div class="section-head text-center">
 					<h2 class="m-b5">Categorias Populares</h2>
 					<h5 class="fw4">Mais de 20 categorias de trabalho esperando por você</h5>
 				</div>
-				<!-- Lista as cetegorias em grid -->
 				<div class="row sp20">
-					<!-- Categoria: Design & Arte-->
 					<?php foreach ($dados['vagaTotal'] as $VagaT): ?>
                         <div class="col-lg-3 col-md-6 col-sm-6">
 							<div class="icon-bx-wraper">

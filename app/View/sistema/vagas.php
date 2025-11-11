@@ -14,8 +14,7 @@ $vinculos = [
     3 => 'Freelancer',
     4 => 'Temporário',
     5 => 'Estágio',
-	6 => 'Trainee',
-	7 => 'Freelancer'
+	6 => 'Freelancer'
 ];
 
 $nivelExperiencia = [
@@ -28,11 +27,20 @@ $nivelExperiencia = [
 	7 => 'Gerência'
 ];
 
+$faixas = [
+	'A combinar' => 'A combinar',
+	'1000-2000' => 'R$1.000 - R$2.000',
+	'2000-4000' => 'R$2.000 - R$4.000',
+	'4000-6000' => 'R$4.000 - R$6.000',
+	'6000+' => 'Acima de R$6.000'
+];
+
 setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
+
+$queryString = http_build_query($_GET);
 ?>
 
 <div class="page-content bg-white">
-    <!-- Banner INÍCIO -->
     <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(/assets/img/banner/Banner_Vagas.jpg);">
         <div class="container">
             <div class="dez-bnr-inr-entry">
@@ -45,193 +53,149 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
             </div>
         </div>
     </div>
-    <!-- Banner FIM -->
     <div class="content-block">
-		<!-- Vagas disponíveis INÍCIO -->
 		<div class="section-full bg-white browse-job content-inner-2">
 			<div class="container">
 				<div class="row">
-				<div class="col-lg-9">
-					<ul class="post-job-bx">
-						<?php foreach ($dados['aVagas'] as $vagas): ?>
-							<li>
-								<a href="vaga_detalhada.html">
-									<div class="d-flex m-b30">
-										<div class="job-post-company">
-											<span><img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $vagas['logo'] ?>"/></span>
+					<div class="col-lg-9">
+						<h4>Total: <?= ($dados['totalRegistros']) ?> <?= ((int)$dados['totalRegistros'] === 1) ? 'vaga encontrada' : 'vagas encontradas' ?></h4>
+						<ul class="post-job-bx">
+							<?php foreach ($dados['aVagas'] as $vagas): ?>
+								<li>
+									<a href="<?= baseUrl() ?>vaga/vaga_detalhada/<?= $vagas['vaga_id'] ?>">
+										<div class="d-flex m-b30">
+											<div class="job-post-company">
+												<span><img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $vagas['logo'] ?>"/></span>
+											</div>
+											<div class="job-post-info">
+												<h4><?= ($vagas['descricao']) ?></h4>
+												<ul>
+													<li><i class="fa fa-map-marker text-alert" style="color: #0177c1;"></i> <?= ($vagas['cidade']) ?> - <?= ($vagas['uf']) ?></li>
+													<li><i class="fa fa-calendar-times-o" style="color: #dc3545"></i>Término - <?= date('d/m/Y', strtotime($vagas['dtFim'])) ?></li>
+													<li><i class="fa fa-clock-o" style="color: #6f42c1"></i><?= tempoPublicacao($vagas['dtInicio']) ?></li>
+												</ul>
+											</div>
 										</div>
-										<div class="job-post-info">
-											<h4><?= ($vagas['descricao']) ?></h4>
-											<ul>
-												<li><i class="fa fa-map-marker text-alert" style="color: #0177c1;"></i> <?= ($vagas['cidade']) ?> - <?= ($vagas['uf']) ?></li>
-												<li><i class="fa fa-calendar-times-o" style="color: #dc3545"></i>Término - <?= date('d/m/Y', strtotime($vagas['dtFim'])) ?></li>
-												<li><i class="fa fa-clock-o" style="color: #6f42c1"></i><?= tempoPublicacao($vagas['dtInicio']) ?></li>
-											</ul>
+										<div class="d-flex">
+											<div class="job-time mr-auto">
+												<span class="m-r5"><?= $modalidades[$vagas['modalidade']] ?></span>
+												<span class="m-r5"><?= $vinculos[$vagas['vinculo']] ?></span>
+												<span class="m-r5"><?= $nivelExperiencia[$vagas['nivelExperiencia']] ?></span>
+											</div>
+											<div class="salary-bx">
+												<span>
+													<?php $faixaSal = $vagas['faixaSal'] ?? '';
+														if (strtolower(trim($faixaSal)) === 'a combinar') {
+															echo "<span>A combinar</span>";
+														} elseif (!empty($faixaSal)) {
+															echo "<span>R$ " . number_format((float)$faixaSal, 2, ',', '.') . "</span>";
+														} else {
+															echo "<span>Não informado</span>";
+														}
+													?>
+												</span>
+											</div>
 										</div>
-									</div>
-									<div class="d-flex">
-										<div class="job-time mr-auto">
-											<span class="m-r5"><?= $modalidades[$vagas['modalidade']] ?></span>
-											<span class="m-r5"><?= $vinculos[$vagas['vinculo']] ?></span>
-											<span class="m-r5"><?= $nivelExperiencia[$vagas['nivelExperiencia']] ?></span>
-										</div>
-										<div class="salary-bx">
-											<span>
-												<?php $faixaSal = $vagas['faixaSal'] ?? '';
-													if (strtolower(trim($faixaSal)) === 'a combinar') {
-														echo "<span>A combinar</span>";
-													} elseif (!empty($faixaSal)) {
-														echo "<span>R$ " . number_format((float)$faixaSal, 2, ',', '.') . "</span>";
-													} else {
-														echo "<span>Não informado</span>";
-													}
-												?>
-											</span>
-										</div>
-									</div>
-									<span class="post-like fa fa-heart-o"></span>
-								</a>
-							</li>
-						<?php endforeach; ?> 
-					</ul>
-					<div class="pagination-bx m-t30">
-						<ul class="pagination">
-							<li class="previous"><a href="#"><i class="ti-arrow-left"></i> Anterior</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li class="next"><a href="#">Próximo <i class="ti-arrow-right"></i></a></li>
+										<span class="post-like fa fa-heart-o"></span>
+									</a>
+								</li>
+							<?php endforeach; ?> 
 						</ul>
+						<div class="pagination-bx m-t30">
+							<ul class="pagination">
+								<?php if ($dados['paginaAtual'] > 1): ?>
+									<li class="previous">
+										<a href="<?= baseUrl() ?>vaga/index/<?= $dados['paginaAtual'] - 1 ?>/?<?= $queryString ?>">
+											<i class="ti-arrow-left"></i> Anterior
+										</a>
+									</li>
+								<?php endif; ?>
+								<?php for ($i = 1; $i <= $dados['totalPaginas']; $i++): ?>
+									<li class="<?= $i === $dados['paginaAtual'] ? 'active' : '' ?>">
+										<a href="<?= baseUrl() ?>vaga/index/<?= $i ?>/?<?= $queryString ?>">
+											<?= $i ?>
+										</a>
+									</li>
+								<?php endfor; ?>
+								<?php if ($dados['paginaAtual'] < $dados['totalPaginas']): ?>
+									<li class="next">
+										<a href="<?= baseUrl() ?>vaga/index/<?= $dados['paginaAtual'] + 1 ?>/?<?= $queryString ?>">
+											Próximo <i class="ti-arrow-right"></i>
+										</a>
+									</li>
+								<?php endif; ?>
+							</ul>
+						</div>
 					</div>
-				</div>
 					<div class="col-xl-3 col-lg-4">
 						<div class="sticky-top">
-							<form method="GET" action="<?= baseUrl() ?>pessoafisica/filtrar">
+							<form method="GET" action="<?= baseUrl() ?>vaga/index/1/">
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Palavra Chave</h5>
-									<div class="">
-										<input type="text" class="form-control" placeholder="Ex: vendedor, recepcionista..." maxlength="30" minlength="3">
-									</div>
+									<input name="descricao" id="descricao" type="text" class="form-control"
+										placeholder="Ex: vendedor, recepcionista..."
+										maxlength="30" minlength="3"
+										value="<?= htmlspecialchars($_GET['descricao'] ?? '') ?>">
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Cidade</h5>
-									<select>
-										<option value="">Todas as cidade</option>
-										<?php foreach ($dados['aCidade'] as $value): ?>
-                                            <option value="<?= $value['cidade_id'] ?>" <?= ($value['cidade_id'] == setValor("cidade_id") ? 'SELECTED' : '') ?>><?=$value['cidade'] . ' - ' . $value['uf'] ?></option>
-                                        <?php endforeach; ?>
+									<select name="cidade_id" id="cidade_id">
+										<option value="">Todas as cidades</option>
+										<?php foreach ($dados['aCidade'] as $valueCidade): ?>
+											<option value="<?= $valueCidade['cidade_id'] ?>"
+												<?= ($valueCidade['cidade_id'] == ($_GET['cidade_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $valueCidade['cidade'] . ' - ' . $valueCidade['uf'] ?>
+											</option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Vínculo</h5>
-									<select>
-										<option value="">Todos</option>
-										<option value="1">CLT</option>
-										<option value="2">PJ</option>
-										<option value="3">Estágio</option>
-										<option value="4">Temporário</option>
-										<option value="5">Autônomo</option>
-										<option value="6">Trainee</option>
-										<option value="7">Freelancer</option>
+									<select name="vinculo" id="vinculo">
+										<option value="">Todos os vínculos</option>
+										<?php foreach ($vinculos as $key => $label): ?>
+											<option value="<?= $key ?>" <?= ($key == ($_GET['vinculo'] ?? '')) ? 'selected' : '' ?>><?= $label ?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Modalidade</h5>
-									<div class="row m-l5">
-										<div>
-											<div class="product-brand">
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check1" name="example1">
-													<label class="custom-control-label" for="check1">Presencial</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check2" name="example1">
-													<label class="custom-control-label" for="check2">Híbrido</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check3" name="example1">
-													<label class="custom-control-label" for="check3">Remoto</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Parcialmente Remoto</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">A combinar</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Em campo (Externo)</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Todas</label>
-												</div>
-											</div>
-										</div>
-									</div>
+									<select name="modalidade" id="modalidade">
+										<option value="">Todas as modalidades</option>
+										<?php foreach ($modalidades as $key => $label): ?>
+											<option value="<?= $key ?>" <?= ($key == ($_GET['modalidade'] ?? '')) ? 'selected' : '' ?>><?= $label ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Categoria</h5>
-									<select>
-										<option value="">Todas</option>
+									<select name="categoria_vaga_id" id="categoria_vaga_id">
+										<option value="">Todas as categorias</option>
 										<?php foreach ($dados['aCategoriaVaga'] as $valueCatVaga): ?>
-                                            <option value="<?= $valueCatVaga['categoria_vaga_id'] ?>" <?= ($valueCatVaga['categoria_vaga_id'] == setValor("categoria_vaga_id") ? 'SELECTED' : '') ?>><?=$valueCatVaga['descricao']?></option>
-                                        <?php endforeach; ?>
+											<option value="<?= $valueCatVaga['categoria_vaga_id'] ?>"
+												<?= ($valueCatVaga['categoria_vaga_id'] == ($_GET['categoria_vaga_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $valueCatVaga['descricao'] ?>
+											</option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Faixa Salarial</h5>
-									<select>
+									<select name="faixaSal" id="faixaSal">
 										<option value="">Todas</option>
-										<option value="A combinar">A combinar</option>
-										<option value="1000-2000">R$1.000 - R$2.000</option>
-										<option value="2000-4000">R$2.000 - R$4.000</option>
-										<option value="4000-6000">R$4.000 - R$6.000</option>
-										<option value="6000+">Acima de R$6.000</option>
+										<?php foreach ($faixas as $val => $label): ?>
+											<option value="<?= $val ?>" <?= ($val == ($_GET['faixaSal'] ?? '')) ? 'selected' : '' ?>><?= $label ?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Nível</h5>
-									<div class="row m-l5">
-										<div>
-											<div class="product-brand">
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check1" name="example1">
-													<label class="custom-control-label" for="check1">Estágio</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check2" name="example1">
-													<label class="custom-control-label" for="check2">Trainee</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check3" name="example1">
-													<label class="custom-control-label" for="check3">Júnior (1 - 3 anos)</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Pleno (3 - 5 anos)</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Sênior (5+ anos)</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Especialista</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Gerência</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" id="check4" name="example1">
-													<label class="custom-control-label" for="check4">Todas</label>
-												</div>
-											</div>
-										</div>
-									</div>
+									<select name="nivelExperiencia" id="nivelExperiencia">
+										<option value="">Todos os níveis</option>
+										<?php foreach ($nivelExperiencia as $key => $label): ?>
+											<option value="<?= $key ?>" <?= ($key == ($_GET['nivelExperiencia'] ?? '')) ? 'selected' : '' ?>><?= $label ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 								<div class="clearfix">
 									<button type="submit" class="site-button">Filtrar</button>
@@ -242,7 +206,6 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 				</div>
 			</div>
 		</div>
-        <!-- Vagas disponíveis FIM -->
 	</div>
 </div>
 

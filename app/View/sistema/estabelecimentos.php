@@ -1,3 +1,7 @@
+<?php
+$queryString = http_build_query($_GET);
+?>
+
 <div class="page-content bg-white">
     <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(/assets/img/banner/Banner_Empresa.jpg);">
         <div class="container">
@@ -16,6 +20,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xl-9 col-lg-8">
+						<h4>Total: <?= ($dados['totalRegistros']) ?> <?= ((int)$dados['totalRegistros'] === 1) ? 'empresa encontrada' : 'empresas encontradas' ?></h4>
 						<ul class="post-job-bx">
 							<?php foreach ($dados['estabelecimentos'] as $estabelecimentos): ?>
 								<li>
@@ -25,11 +30,17 @@
 												<span><img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $estabelecimentos['logo'] ?>"/></span>
 											</div>
 											<div class="job-post-info">
-												<h4>MaquiMinas - Equipamentos</h4>
+												<h4><?= $estabelecimentos['nome'] ?></h4>
 												<ul>
-													<li><i class="fa fa-map-marker" style="color: #0177c1;"></i> <?= ($estabelecimentos['cidade']) ?> - <?= ($estabelecimentos['uf']) ?></li>
-													<li><i class="fa fa-clock-o" style="color: #6f42c1"></i>Cadastrada há <?= tempoCadastrado($estabelecimentos['data_criacao']) ?></li>
-													<li><i class="fa fa-briefcase" style="color: #198754;"></i> <?= ($estabelecimentos['total_vagas']) ?> <?= ((int)$estabelecimentos['total_vagas'] === 1) ? 'vaga cadastrada' : 'vagas cadastradas' ?></li>
+													<li><i class="fa fa-map-marker" style="color: #0177c1;"></i> 
+														<?= ($estabelecimentos['cidade']) ?> - <?= ($estabelecimentos['uf']) ?>
+													</li>
+													<li><i class="fa fa-clock-o" style="color: #6f42c1"></i>
+														Cadastrada há <?= tempoCadastrado($estabelecimentos['data_criacao']) ?>
+													</li>
+													<li><i class="fa fa-briefcase" style="color: #198754;"></i> 
+														<?= ($estabelecimentos['total_vagas']) ?> <?= ((int)$estabelecimentos['total_vagas'] === 1) ? 'vaga cadastrada' : 'vagas cadastradas' ?>
+													</li>
 												</ul>
 												<p class="m-t10 text-gray"> <?= ($estabelecimentos['descricao']) ?> </p>
 											</div>
@@ -55,43 +66,65 @@
 						</ul>
 						<div class="pagination-bx m-t30">
 							<ul class="pagination">
-								<li class="previous"><a href="#"><i class="ti-arrow-left"></i> Anterior</a></li>
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li class="next"><a href="#">Próxima <i class="ti-arrow-right"></i></a></li>
+								<?php if ($dados['paginaAtual'] > 1): ?>
+									<li class="previous">
+										<a href="<?= baseUrl() ?>estabelecimento/index/<?= $dados['paginaAtual'] - 1 ?>/?<?= $queryString ?>">
+											<i class="ti-arrow-left"></i> Anterior
+										</a>
+									</li>
+								<?php endif; ?>
+
+								<?php for ($i = 1; $i <= $dados['totalPaginas']; $i++): ?>
+									<li class="<?= $i === $dados['paginaAtual'] ? 'active' : '' ?>">
+										<a href="<?= baseUrl() ?>estabelecimento/index/<?= $i ?>/?<?= $queryString ?>">
+											<?= $i ?>
+										</a>
+									</li>
+								<?php endfor; ?>
+
+								<?php if ($dados['paginaAtual'] < $dados['totalPaginas']): ?>
+									<li class="next">
+										<a href="<?= baseUrl() ?>estabelecimento/index/<?= $dados['paginaAtual'] + 1 ?>/?<?= $queryString ?>">
+											Próximo <i class="ti-arrow-right"></i>
+										</a>
+									</li>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</div>
 					<div class="col-xl-3 col-lg-4">
 						<div class="sticky-top">
-							<form method="GET" action="<?= baseUrl() ?>pessoafisica/filtrar">
+							<form method="GET" action="<?= baseUrl() ?>estabelecimento/index/1/">
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Pesquisar Empresa</h5>
-									<div class="">
-										<input type="text" class="form-control" placeholder="Digite o nome da empresa" maxlength="30" minlength="3">
-									</div>
+									<input type="text" name="nome" id="nome" class="form-control" placeholder="Digite o nome da empresa" maxlength="30" minlength="3" value="<?= htmlspecialchars($_GET['nome'] ?? '') ?>">
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Cidade</h5>
-									<select>
-										<option valueCidade="">Todas as cidade</option>
+									<select name="cidade_id" id="cidade_id">
+										<option value="">Todas as cidade</option>
 										<?php foreach ($dados['aCidade'] as $valueCidade): ?>
-											<option valueCidade="<?= $valueCidade['cidade_id'] ?>" <?= ($valueCidade['cidade_id'] == setValor("cidade_id") ? 'SELECTED' : '') ?>><?=$valueCidade['cidade'] . ' - ' . $valueCidade['uf'] ?></option>
+											<option value="<?= $valueCidade['cidade_id'] ?>"
+												<?= ($valueCidade['cidade_id'] == ($_GET['cidade_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $valueCidade['cidade'] . ' - ' . $valueCidade['uf'] ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix m-b30">
 									<h5 class="widget-title font-weight-700 text-uppercase">Categoria</h5>
-									<select>
-										<option valueCidade="">Todas as categorias</option>
+									<select name="categoria_id" id="categoria_id">
+										<option value="">Todas as categorias</option>
 										<?php foreach ($dados['aCategoriaEstabelecimento'] as $valueCatEstab): ?>
-											<option valueCatEstab="<?= $valueCatEstab['categoria_estabelecimento_id'] ?>" <?= ($valueCatEstab['categoria_estabelecimento_id'] == setValor("categoria_estabelecimento_id") ? 'SELECTED' : '') ?>><?=$valueCatEstab['descricao'] ?></option>
+											<option value="<?= $valueCatEstab['categoria_estabelecimento_id'] ?>"
+												<?= ($valueCatEstab['categoria_estabelecimento_id'] == ($_GET['categoria_id'] ?? '')) ? 'selected' : '' ?>>
+												<?= $valueCatEstab['descricao'] ?>
+											</option>
 										<?php endforeach; ?>
 									</select>
 								</div>
 								<div class="clearfix">
 									<button type="submit" class="site-button">Filtrar</button>
+									<button type="button" class="site-button m-l5">Limpar Filtros</button>
 								</div>
 							</form>
 						</div>

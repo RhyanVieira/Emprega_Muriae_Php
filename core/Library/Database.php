@@ -21,6 +21,7 @@ class Database
     private $join = "";
     private $where = "";
     private $limit = "";
+    private $offset = '';
     private $groupBy = "";
     private $orderBy = ""; 
     private $params = [];
@@ -443,6 +444,25 @@ class Database
     }
 
     /**
+     * whereRaw
+     *
+     * Adiciona uma cláusula WHERE manual, sem manipulação automática.
+     *
+     * @param string $rawSql Trecho SQL completo (ex: "e.nome LIKE '%padaria%'")
+     * @param string $operadorLogico AND|OR
+     * @return object
+     */
+    public function whereRaw($rawSql, $operadorLogico = 'AND')
+    {
+        if (empty($this->where)) {
+            $this->where = " WHERE {$rawSql}";
+        } else {
+            $this->where .= " {$operadorLogico} {$rawSql}";
+        }
+        return $this;
+    }
+
+    /**
      * whereIn
      *
      * @param string $field 
@@ -601,6 +621,18 @@ class Database
     }
 
     /**
+     * offset
+     *
+     * @param int $offset
+     * @return object
+     */
+    public function offset($offset)
+    {
+        $this->offset = "OFFSET " . (int)$offset;
+        return $this;
+    }
+
+    /**
      * orderBy
      *
      * @param string $column 
@@ -621,7 +653,7 @@ class Database
      */
     public function prepareSelect($tipoRetorno = "all")
     {
-        $cSql = "SELECT {$this->select} FROM {$this->table} {$this->join} {$this->where} {$this->groupBy} {$this->orderBy} {$this->limit}";
+        $cSql = "SELECT {$this->select} FROM {$this->table} {$this->join} {$this->where} {$this->groupBy} {$this->orderBy} {$this->limit} {$this->offset}"; 
         $query = $this->connect()->prepare($cSql, [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL]);
         $rscDados = $query->execute($this->params);
 
@@ -648,7 +680,8 @@ class Database
         $this->where = "";
         $this->groupBy = "";
         $this->orderBy = "";
-        $this->limit = "";  
+        $this->limit = "";
+        $this->offset;
         $this->params = [];
     }
 
