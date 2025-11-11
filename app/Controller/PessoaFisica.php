@@ -2,6 +2,12 @@
 
 namespace App\Controller;
 
+use App\Model\CurriculumExperienciaModel;
+use App\Model\CurriculumQualificacaoModel;
+use App\Model\CurriculumIdiomaModel;
+use App\Model\CurriculumEscolaridadeModel;
+use App\Model\EscolaridadeModel;
+use App\Model\Curriculum;
 use Core\Library\ControllerMain;
 use Core\Library\Files;
 use Core\Library\Redirect;
@@ -59,6 +65,56 @@ class PessoaFisica extends ControllerMain
         ];
         
         return $this->loadView("sistema/candidatos", $dados);
+    }
+
+    public function perfil(){
+        $CurriculumEscolaridadeModel = new CurriculumEscolaridadeModel();
+        $CurriculumExperienciaModel = new CurriculumExperienciaModel();
+        $CurriculumQualificacaoModel = new CurriculumQualificacaoModel();
+        $CurriculumIdiomaModel = new CurriculumIdiomaModel();
+        $CurriculumModel = new CurriculumModel();
+        $CidadeModel = new CidadeModel();
+        $EscolaridadeModel = new EscolaridadeModel();
+        $CargoModel = new CargoModel();
+        $IdiomaModel = new IdiomaModel();
+
+        $idPessoaFisica = Session::get('userPfId');
+
+        $escolaridades = [];
+        $experiencias = [];
+        $qualificacoes = [];
+        $idiomas = [];
+
+        // Busca o currículo existente (se houver)
+        $curriculoExistente = null;
+
+        if ($idPessoaFisica) {
+            $curriculoExistente = $CurriculumModel->getByPessoaFisicaId($idPessoaFisica);
+
+            // Se o currículo existir, busca suas escolaridades vinculadas
+            if (!empty($curriculoExistente['curriculum_id'])) {
+                $escolaridades = $CurriculumEscolaridadeModel->getByCurriculumEscId($curriculoExistente['curriculum_id']);
+                $experiencias = $CurriculumExperienciaModel->getByCurriculumExpId($curriculoExistente['curriculum_id']);
+                $qualificacoes = $CurriculumQualificacaoModel->getByCurriculumQuaId($curriculoExistente['curriculum_id']);
+                $idiomas = $CurriculumIdiomaModel->getByCurriculumIdiId($curriculoExistente['curriculum_id']);
+            }
+        } else{
+            return Redirect::page("curriculum", ["msgError" => "É necessário cadastrar um currículo."]);
+        }
+
+        $dados = [
+            'aCidade' => $CidadeModel->lista("cidade"),
+            'aEscolaridade' => $EscolaridadeModel->lista("descricao"),
+            'aCargo' => $CargoModel->lista('descricao'),
+            'aIdioma' => $IdiomaModel->lista('descricao'),
+            'curriculo' => $curriculoExistente,
+            'escolaridades' => $escolaridades,
+            'experiencias' => $experiencias,
+            'qualificacoes' => $qualificacoes,
+            'idiomas' => $idiomas
+        ];  
+
+        return $this->loadView("sistema/perfil_candidato", $dados);
     }
 
     public function cadastro(){

@@ -8,6 +8,7 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 use App\Model\CurriculumModel;
+use App\Model\VagaModel;
 
 class VagaCurriculum extends ControllerMain
 {
@@ -57,5 +58,27 @@ class VagaCurriculum extends ControllerMain
         $this->model->insert($dados);
 
         return Redirect::page("vaga/vaga_detalhada/$vagaId", ['msgSucesso' => 'Candidatura enviada com sucesso!']);
+    }
+
+    public function candidatos($vagaId)
+    {
+        $empresaId = Session::get('userEstabId');
+
+        // Verificar se a vaga realmente pertence à empresa logada
+        $vagaModel = new VagaModel();
+        $vaga = $vagaModel->getVagaPorId($vagaId);
+
+        if (!$vaga || $vaga['estabelecimento_id'] != $empresaId) {
+            return Redirect::page('vaga/minhas_vagas', ['msgError' => 'Acesso não autorizado.']);
+        }
+
+        $candidatos = $this->model->listarCandidatosPorVaga($vagaId);
+
+        $dados = [
+            'vaga' => $vaga,
+            'candidatos' => $candidatos
+        ];
+
+        return $this->loadView("sistema/candidatos_vagas", $dados);
     }
 }

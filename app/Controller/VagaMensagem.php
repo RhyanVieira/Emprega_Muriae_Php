@@ -5,7 +5,6 @@ namespace App\Controller;
 use Core\Library\ControllerMain;
 use Core\Library\Session;
 use Core\Library\Redirect;
-use App\Model\VagaMensagemModel;
 
 class VagaMensagem extends ControllerMain
 {
@@ -13,7 +12,6 @@ class VagaMensagem extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
-        $this->model = new VagaMensagemModel();
     }
 
     public function enviar($vagaId, $curriculumId)
@@ -42,9 +40,7 @@ class VagaMensagem extends ControllerMain
 
         $this->model->insert($dados);
 
-        return Redirect::page("vagaMensagem/listar/$vagaId/$curriculumId", [
-            'msgSucesso' => 'Mensagem enviada com sucesso!'
-        ]);
+        return Redirect::page("vagaMensagem/listar/$vagaId/$curriculumId");
     }
 
     public function listar($vagaId, $curriculumId)

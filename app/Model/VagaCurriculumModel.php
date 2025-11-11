@@ -35,4 +35,22 @@ class VagaCurriculumModel extends ModelMain
             ->where('curriculum_id', $curriculumId)
             ->first();
     }
+
+    public function listarCandidatosPorVaga($vagaId)
+    {
+        return $this->db
+            ->select("
+                vaga_curriculum.curriculum_id,
+                vaga_curriculum.statusCandidatura,
+                vaga_curriculum.dateCandidatura,
+                c.nome AS nome_candidato,
+                c.foto,
+                ci.cidade,
+                ci.uf
+            ")
+            ->join("curriculum AS c", "c.curriculum_id = vaga_curriculum.curriculum_id", "INNER")
+            ->join("cidade AS ci", "ci.cidade_id = c.cidade_id", "LEFT")
+            ->where("vaga_curriculum.vaga_id", $vagaId)
+            ->findAll();
+    }
 }
