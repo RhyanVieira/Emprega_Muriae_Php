@@ -76,6 +76,106 @@ class CurriculumModel extends ModelMain
             ->first();
     }
 
+    public function getCurriculoDetalhado($curriculumId)
+    {
+        return $this->db
+            ->select("
+                curriculum.curriculum_id,
+                curriculum.pessoa_fisica_id,
+                curriculum.nome,
+                curriculum.email,
+                curriculum.celular,
+                curriculum.logradouro,
+                curriculum.numero,
+                curriculum.complemento,
+                curriculum.bairro,
+                curriculum.cep,
+                curriculum.foto,
+                curriculum.curriculo_arquivo,
+                curriculum.dataNascimento,
+                cidade.cidade,
+                cidade.uf,
+                pessoa_fisica.data_criacao,
+                curriculum.apresentacaoPessoal
+            ")
+            ->join("pessoa_fisica", "pessoa_fisica.pessoa_fisica_id = curriculum.pessoa_fisica_id", "INNER")
+            ->join("cidade", "cidade.cidade_id = curriculum.cidade_id", "LEFT")
+            ->where("curriculum.curriculum_id", $curriculumId)
+            ->first();
+    }
+
+    public function getEscolaridades($curriculumId)
+    {
+        return $this->db
+            ->select("
+                curriculum_escolaridade.curriculum_escolaridade_id,
+                curriculum_escolaridade.descricao,
+                curriculum_escolaridade.instituicao,
+                curriculum_escolaridade.inicioMes,
+                curriculum_escolaridade.inicioAno,
+                curriculum_escolaridade.fimMes,
+                curriculum_escolaridade.fimAno,
+                cidade.cidade,
+                cidade.uf,
+                escolaridade.descricao AS escolaridade
+            ")
+            ->join("escolaridade", "escolaridade.escolaridade_id = curriculum_escolaridade.escolaridade_id", "LEFT")
+            ->join("cidade", "cidade.cidade_id = curriculum_escolaridade.cidade_id", "LEFT")
+            ->where("curriculum_escolaridade.curriculum_id", $curriculumId)
+            ->table("curriculum_escolaridade")
+            ->findAll();
+    }
+
+    public function getExperiencias($curriculumId)
+    {
+        return $this->db
+            ->select("
+                curriculum_experiencia.curriculum_experiencia_id,
+                curriculum_experiencia.estabelecimento,
+                curriculum_experiencia.atividadesExercidas,
+                curriculum_experiencia.inicioMes,
+                curriculum_experiencia.inicioAno,
+                curriculum_experiencia.fimMes,
+                curriculum_experiencia.fimAno,
+                cargo.descricao AS cargo
+            ")
+            ->join("cargo", "cargo.cargo_id = curriculum_experiencia.cargo_id", "LEFT")
+            ->where("curriculum_experiencia.curriculum_id", $curriculumId)
+            ->table("curriculum_experiencia")
+            ->findAll();
+    }
+
+    public function getIdiomas($curriculumId)
+    {
+        return $this->db
+            ->select("
+                curriculum_idioma.curriculum_idioma_id,
+                idioma.descricao AS idioma,
+                curriculum_idioma.nivel
+            ")
+            ->join("idioma", "idioma.idioma_id = curriculum_idioma.idioma_id", "LEFT")
+            ->where("curriculum_idioma.curriculum_id", $curriculumId)
+            ->table("curriculum_idioma")
+            ->findAll();
+    }
+
+    public function getQualificacoes($curriculumId)
+    {
+        return $this->db
+            ->select("
+                curriculum_qualificacao.curriculum_qualificacao_id,
+                curriculum_qualificacao.descricao,
+                curriculum_qualificacao.instituicao,
+                curriculum_qualificacao.mes,
+                curriculum_qualificacao.ano,
+                curriculum_qualificacao.cargaHoraria
+            ")
+            ->where("curriculum_qualificacao.curriculum_id", $curriculumId)
+            ->table("curriculum_qualificacao")
+            ->findAll();
+    }
+
+
     public function listarCurriculos($filtros, $limite, $offset)
     {
         $query = $this->db

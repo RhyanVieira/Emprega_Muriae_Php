@@ -379,12 +379,9 @@ CREATE TABLE IF NOT EXISTS `curriculum` (
   KEY `fk_curriculum_cidade1_idx` (`cidade_id`),
   KEY `fk_curriculum_pessoa_fisica1_idx` (`pessoa_fisica_id`),
   CONSTRAINT `fk_pesso_fisca_curriculum` FOREIGN KEY (`pessoa_fisica_id`) REFERENCES `pessoa_fisica` (`pessoa_fisica_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.curriculum: ~1 rows (aproximadamente)
-INSERT INTO `curriculum` (`curriculum_id`, `pessoa_fisica_id`, `nome`, `logradouro`, `numero`, `complemento`, `bairro`, `cep`, `cidade_id`, `celular`, `dataNascimento`, `sexo`, `foto`, `email`, `apresentacaoPessoal`, `curriculo_arquivo`) VALUES
-	(44, 117, 'Rhyan Vieira', 'Rua Francisco Bertoni Benevenute', '39', 'Casa', 'Franscico', '36878000', 18, '32999550336', '2003-06-17', 'M', NULL, 'rhyanmayconsvadm@gmail.com', 'Oi oi', NULL),
-	(52, 116, 'Rhyan Vieira', 'Rua Francisco Bertoni Benevenute', '37', 'Casa', 'Franscico', '36878000', 10, '32984763657', '2003-06-17', 'M', '6910a321445d0_IMG_20250601_014801_114.jpg', 'rhyanmayconsv@gmail.com', '', '69138bb321a57_Aula 01 - exercicios.pptx');
+-- Copiando dados para a tabela emprega_muriae.curriculum: ~0 rows (aproximadamente)
 
 -- Copiando estrutura para tabela emprega_muriae.curriculum_escolaridade
 CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
@@ -405,12 +402,9 @@ CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
   CONSTRAINT `fk_curriculum_escolaridade_cidade1` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`cidade_id`),
   CONSTRAINT `fk_curriculum_escolaridade_escolaridade1` FOREIGN KEY (`escolaridade_id`) REFERENCES `escolaridade` (`escolaridade_id`),
   CONSTRAINT `fk_escolaridade_curriculum` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.curriculum_escolaridade: ~1 rows (aproximadamente)
-INSERT INTO `curriculum_escolaridade` (`curriculum_escolaridade_id`, `curriculum_id`, `inicioMes`, `inicioAno`, `fimMes`, `fimAno`, `descricao`, `instituicao`, `cidade_id`, `escolaridade_id`) VALUES
-	(27, 44, 1, 2023, 9, 2025, 'ADS', 'Santa Marcelina', 7, 3),
-	(28, 52, 2, 2023, 9, 2025, 'ADS', 'Santa Marcelina', 37, 3);
+-- Copiando dados para a tabela emprega_muriae.curriculum_escolaridade: ~0 rows (aproximadamente)
 
 -- Copiando estrutura para tabela emprega_muriae.curriculum_experiencia
 CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
@@ -429,11 +423,9 @@ CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
   KEY `fk_curriculum_experiencia_cargo1_idx` (`cargo_id`),
   CONSTRAINT `fk_curriculum_experiencia_cargo1` FOREIGN KEY (`cargo_id`) REFERENCES `cargo` (`cargo_id`),
   CONSTRAINT `fk_curriculum_experiencia_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum_experiencia: ~0 rows (aproximadamente)
-INSERT INTO `curriculum_experiencia` (`curriculum_experiencia_id`, `curriculum_id`, `inicioMes`, `inicioAno`, `fimMes`, `fimAno`, `estabelecimento`, `cargo_id`, `cargoDescricao`, `atividadesExercidas`) VALUES
-	(18, 52, 9, 2025, 4, 2026, 'MaquiMinas', 41, 'Eletrica', 'asdasdasda');
 
 -- Copiando estrutura para tabela emprega_muriae.curriculum_idioma
 CREATE TABLE IF NOT EXISTS `curriculum_idioma` (
@@ -446,11 +438,9 @@ CREATE TABLE IF NOT EXISTS `curriculum_idioma` (
   KEY `fk_curriculum_idioma_idioma` (`idioma_id`) USING BTREE,
   CONSTRAINT `fk_curriculum_idioma_curriculum` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_curriculum_idioma_idioma` FOREIGN KEY (`idioma_id`) REFERENCES `idioma` (`idioma_id`) ON DELETE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum_idioma: ~0 rows (aproximadamente)
-INSERT INTO `curriculum_idioma` (`curriculum_idioma_id`, `curriculum_id`, `idioma_id`, `nivel`) VALUES
-	(23, 52, 28, 2);
 
 -- Copiando estrutura para tabela emprega_muriae.curriculum_qualificacao
 CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
@@ -464,11 +454,9 @@ CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
   PRIMARY KEY (`curriculum_qualificacao_id`),
   KEY `fk_curriculum_qualificacao_curriculum1_idx` (`curriculum_id`),
   CONSTRAINT `fk_curriculum_qualificacao_curriculum1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`curriculum_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.curriculum_qualificacao: ~0 rows (aproximadamente)
-INSERT INTO `curriculum_qualificacao` (`curriculum_qualificacao_id`, `curriculum_id`, `mes`, `ano`, `cargaHoraria`, `descricao`, `instituicao`) VALUES
-	(22, 52, 10, 2023, 250, 'ADS', 'IF Sudeste');
 
 -- Copiando estrutura para tabela emprega_muriae.escolaridade
 CREATE TABLE IF NOT EXISTS `escolaridade` (
@@ -511,15 +499,11 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   UNIQUE KEY `cnpj` (`cnpj`) USING BTREE,
   KEY `fk_estabelecimento_cidade_idx` (`cidade_id`),
   CONSTRAINT `fk_estabelecimento_cidade` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`cidade_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.estabelecimento: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.estabelecimento: ~1 rows (aproximadamente)
 INSERT INTO `estabelecimento` (`estabelecimento_id`, `nome`, `endereco`, `latitude`, `longitude`, `email`, `cnpj`, `razao_social`, `website`, `descricao`, `logo`, `cep`, `cidade_id`, `data_criacao`) VALUES
-	(33, 'Empresa', 'Rua Francisco Bertoni Benevenute, 35, Casa', '-20.9825352', '-42.5072005', 'vieiragilmar802@gmail.com', '111111111111111111', 'Empresa Teste', 'www.teste.com.br', 'Empresa top, focada em fazer várias coisas. É a mior do mundo. Bora Bil', '6910e0fddf3c3_tecno_vale.jpg', '36878000', 2, '2025-11-09 18:44:13'),
-	(35, 'Teste', 'Rua Francisco Bertoni Benevenute, 35, Casa', '-20.9825352', '-42.5072005', 'vieiragilmar802@gmail.com', '111111112222222222', 'Empresa Teste', 'www.teste.com.br', '', '6911369933eb8_maqui_minas.jpg', '36878000', 39, '2025-11-10 00:49:29'),
-	(36, 'Rhyan', 'Rua Francisco Bertoni Benevenute, 35, Casa', '-20.9825352', '-42.5072005', 'vieiragilmar802@gmail.com', '111111112222222232', 'Empresa Teste', 'www.teste.com.br', '', '691136bc476e5_agro_verde.jpg', '36878000', 39, '2025-11-10 00:50:04'),
-	(37, 'Vieira', 'Rua Francisco Bertoni Benevenute, 35, Casa', '-20.9825352', '-42.5072005', 'vieiragilmar802@gmail.com', '111111112222224432', 'Empresa Teste', 'www.teste.com.br', '', '691136e0c0b98_delicias_da_serra.jpg', '36878000', 39, '2025-11-10 00:50:40'),
-	(38, 'Empresa Teste', 'Rua Francisco Bertoni Benevenute, 35, Casa', '-20.9825352', '-42.5072005', 'vieiragilmar802@gmail.com', '326545646544645564', 'Empresa Teste', 'www.teste.com.br', '', '', '36878000', 2, '2025-11-11 09:36:48');
+	(40, 'Empresa Teste', 'Rua Francisco Bertoni Benevenute, 35, Casa', '-21.1265384', '-42.3815632', 'vieiragilmar802@gmail.com', '32.654.564/6544-64', 'Empresa Teste', 'www.teste.com.br', '', '69142b2f02d42_Gemini_Generated_Image_z9ajmaz9ajmaz9aj.png', '36878000', 39, '2025-11-12 06:37:35');
 
 -- Copiando estrutura para tabela emprega_muriae.estabelecimento_categoria_estabelecimento
 CREATE TABLE IF NOT EXISTS `estabelecimento_categoria_estabelecimento` (
@@ -531,31 +515,13 @@ CREATE TABLE IF NOT EXISTS `estabelecimento_categoria_estabelecimento` (
   CONSTRAINT `fk_estabelecimento_categoria_estabelecimento_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`estabelecimento_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.estabelecimento_categoria_estabelecimento: ~19 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.estabelecimento_categoria_estabelecimento: ~5 rows (aproximadamente)
 INSERT INTO `estabelecimento_categoria_estabelecimento` (`estabelecimento_id`, `categoria_estabelecimento_id`) VALUES
-	(37, 60),
-	(38, 61),
-	(37, 64),
-	(37, 68),
-	(33, 69),
-	(35, 69),
-	(33, 75),
-	(33, 86),
-	(36, 86),
-	(37, 89),
-	(38, 90),
-	(33, 94),
-	(35, 94),
-	(35, 98),
-	(36, 98),
-	(38, 100),
-	(38, 102),
-	(36, 103),
-	(36, 109),
-	(35, 112),
-	(33, 113),
-	(37, 115),
-	(35, 120);
+	(40, 67),
+	(40, 98),
+	(40, 110),
+	(40, 113),
+	(40, 115);
 
 -- Copiando estrutura para tabela emprega_muriae.favorito
 CREATE TABLE IF NOT EXISTS `favorito` (
@@ -633,14 +599,11 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   `data_criacao` timestamp NOT NULL DEFAULT (now()),
   PRIMARY KEY (`pessoa_fisica_id`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.pessoa_fisica: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.pessoa_fisica: ~1 rows (aproximadamente)
 INSERT INTO `pessoa_fisica` (`pessoa_fisica_id`, `nome`, `cpf`, `data_nascimento`, `resumo_profissional`, `perfil_publico`, `data_criacao`) VALUES
-	(116, 'Rhyan Maycon da Silva Vieira', '13854078602', '2003-06-17', 'Eu', 1, '2025-11-09 05:50:00'),
-	(117, 'Rhyan Maycon da Silva Vieira', '13854078588', '2003-06-17', 'Eu sou foda', 1, '2024-10-04 04:50:00'),
-	(118, 'Rhyan Vieira', '12222222222', '2004-06-17', 'iullulul', 1, '2025-11-09 05:50:00'),
-	(135, 'Rhyan Vieira', '13854078699', '2003-06-17', '', 1, '2025-11-11 09:34:42');
+	(136, 'Rhyan Vieira', '13854078699', '2003-06-17', 'ddddddddddd', 1, '2025-11-12 06:36:55');
 
 -- Copiando estrutura para tabela emprega_muriae.servico_autonomo
 CREATE TABLE IF NOT EXISTS `servico_autonomo` (
@@ -687,11 +650,11 @@ CREATE TABLE IF NOT EXISTS `termodeuso` (
   PRIMARY KEY (`id`),
   KEY `fk_termodeuso_usuario1_idx` (`usuario_id`),
   CONSTRAINT `fk_termodeuso_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.termodeuso: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.termodeuso: ~1 rows (aproximadamente)
 INSERT INTO `termodeuso` (`id`, `textoTermo`, `statusRegistro`, `rascunho`, `usuario_id`) VALUES
-	(1, 'TermoV1', 1, 2, 62);
+	(3, 'v1', 1, 2, 81);
 
 -- Copiando estrutura para tabela emprega_muriae.termodeusoaceite
 CREATE TABLE IF NOT EXISTS `termodeusoaceite` (
@@ -705,10 +668,10 @@ CREATE TABLE IF NOT EXISTS `termodeusoaceite` (
   CONSTRAINT `fk_termodeuso_has_usuario_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.termodeusoaceite: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.termodeusoaceite: ~2 rows (aproximadamente)
 INSERT INTO `termodeusoaceite` (`termodeuso_id`, `usuario_id`, `dataHoraAceite`) VALUES
-	(1, 78, '2025-11-11 06:34:42'),
-	(1, 79, '2025-11-11 06:36:48');
+	(3, 82, '2025-11-12 03:36:55'),
+	(3, 83, '2025-11-12 03:37:35');
 
 -- Copiando estrutura para tabela emprega_muriae.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -722,21 +685,13 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE KEY `login` (`login`),
   KEY `fk_pessoa_fisica_usuario1_idx` (`pessoa_fisica_id`),
   KEY `fk_usuario_estabelecimento1_idx` (`estabelecimento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.usuario: ~8 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.usuario: ~3 rows (aproximadamente)
 INSERT INTO `usuario` (`usuario_id`, `pessoa_fisica_id`, `login`, `senha`, `tipo`, `estabelecimento_id`) VALUES
-	(46, 116, 'rhyanmayconsv@gmail.com', '$2y$10$2w/d7GfiFcVbqlUKOxvWteOBt0/DAa3O2MKA5MqqqC0MJXeglrj1e', 'PF', NULL),
-	(47, 117, 'teste123@gmail.com', '$2y$10$tdIO8e5hxLTeJRJ8VCftBu44dOIp4TYXXHW2m8mcuglu7tGtjnSSy', 'PF', NULL),
-	(48, NULL, 'rhyandouglas1706@gmail.com', '$2y$10$X5lkLCpuhXKLpYKCRRyR9uJaq9cDVwKgZP6h2kMHgS/pseOBFeMeC', 'E', 20),
-	(49, 118, 'aline@gmail.com', '$2y$10$N4BbuWbEXZfPXbDv9YVCm.3B3rpLSuLYC7WhEfm5Txo472Lb2YhZy', 'PF', NULL),
-	(58, NULL, 'vieiragilmar802@gmail.com', '$2y$10$XA.IajrKG4Uz.IEExPn/GeiOiJhmVLwriM5E6xvyWVNZFyBHjdEwq', 'E', 33),
-	(59, NULL, 'empresa1@gmail.com', '$2y$10$Bn0M13n.vZTf7iaM5XDbUuPZwxGKSiHRCBLV8Z2mOGbQn/taO06mS', 'E', 35),
-	(60, NULL, 'empresa2@gmail.com', '$2y$10$HwrLftOqrKde2ViDUw7ir.0o5.Ca1sIFwKUyAXm1PCSqvE6S7nT8W', 'E', 36),
-	(61, NULL, 'empresa3@gmail.com', '$2y$10$gujfw2bLK98NOqT.ZrQPrOX8EKW.j635MC9PsyNV3UdKdanMiY7y.', 'E', 37),
-	(62, NULL, 'admin@empregamuriae.com', '$2y$10$2w/d7GfiFcVbqlUKOxvWteOBt0/DAa3O2MKA5MqqqC0MJXeglrj1e', 'G', NULL),
-	(78, 135, 'rhyanmayconsvadm@gmail.com', '$2y$10$qJlCc0tuyjYUD1p0AiTZcuLbfqm/2U62Aa.8xEk8PkrXBV0b8BWby', 'PF', NULL),
-	(79, NULL, '2@gmail.com', '$2y$10$SLjaVr7nLKiRvpFVgdwK0.kdTeUX2xDQUR6loySnuhk2rgcXXUk2e', 'E', 38);
+	(81, NULL, 'admin@empregamuriae.com', '$2y$10$E6UFE7KkPovyMBrVMm9wm.Xe3Y92ToI7GeLFPBZkvQgpLIUp5Ckh.', 'G', NULL),
+	(82, 136, 'rhyanmayconsv@gmail.com', '$2y$10$e9djYXi2dI7ObpX95g3y8uihs4wLZaV6MaQC6dKy.yBMi3p3Ae1Qa', 'PF', NULL),
+	(83, NULL, 'aline@gmail.com', '$2y$10$ceP9NjuUUFR0kK7xD9Qq8e/uNB0WxXyXs5k.0nljgR7E5KLRgpdna', 'E', 40);
 
 -- Copiando estrutura para tabela emprega_muriae.vaga
 CREATE TABLE IF NOT EXISTS `vaga` (
@@ -766,22 +721,11 @@ CREATE TABLE IF NOT EXISTS `vaga` (
   CONSTRAINT `fk_vaga_categoria_vaga_id` FOREIGN KEY (`categoria_vaga_id`) REFERENCES `categoria_vaga` (`categoria_vaga_id`),
   CONSTRAINT `fk_vaga_cidade1` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`cidade_id`),
   CONSTRAINT `fk_vaga_estabelecimento1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`estabelecimento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela emprega_muriae.vaga: ~5 rows (aproximadamente)
+-- Copiando dados para a tabela emprega_muriae.vaga: ~1 rows (aproximadamente)
 INSERT INTO `vaga` (`vaga_id`, `descricao`, `cargo_id`, `sobreaVaga`, `responsabilidades`, `requisitos`, `beneficios`, `dtInicio`, `dtFim`, `estabelecimento_id`, `statusVaga`, `cidade_id`, `modalidade`, `vinculo`, `nivelExperiencia`, `categoria_vaga_id`, `faixaSal`) VALUES
-	(16, 'Desenvolvedor de Drogas', 47, 'Desenvolvimento de Drogas para abastecer o Morro do Marçal em Rosário da Limeira. Tem que fazer a branquinha da boa.', '', '', '', '2025-11-10', '2025-11-30', 33, 11, 2, 1, 2, 6, 18, 'A combinar'),
-	(17, 'Desenvolvedor de Drogas', 60, 'ssssssssssssss', '', '', '', '2025-11-10', '2025-11-30', 33, 11, 29, 3, 3, 4, 3, 'A combinar'),
-	(18, 'Desenvolvedor de Drogas', 38, 'sdasdasda', '', '', '', '2025-11-10', '2025-11-30', 33, 11, 5, 4, 6, 5, 10, 'A combinar'),
-	(19, 'Técnico', 47, 'dadadad', '', '', '', '2025-11-18', '2025-11-30', 33, 11, 18, 2, 6, 6, 20, '2500'),
-	(20, 'NR-14', 34, 'rtretrt', '', '', '', '2025-11-04', '2025-11-01', 33, 11, 16, 3, 1, 6, 21, 'A combinar'),
-	(21, 'Técnico', 51, 'Teste de Parágrafo\r\nTeste 2', '', '', '', '2025-11-18', '2025-11-27', 37, 11, 18, 3, 3, 3, 5, '2500'),
-	(22, 'Té Té', 36, 'adaddasda', '', 'dasdasdas', 'adsdsadas', '2025-11-18', '2025-11-27', 37, 91, 16, 4, 3, 6, 15, 'A combinar'),
-	(23, 'NR-123456', 65, 'ddddddddddddddddddddddddd', 'ddddddddddddddddd', 'ddddddddddddddddd', 'dddddddddddddddd', '2025-11-11', '2025-11-12', 37, 91, 19, 3, 4, 5, 5, 'A combinar'),
-	(24, 'aaa', 3, 'dasdadas', 'dasdasd', 'asdasdasd', 'asdasdasda', '2025-11-12', '2025-11-25', 37, 91, 11, 4, 4, 6, 29, 'A combinar'),
-	(25, 'NR-12', 65, 'dasdsadsadad', 'dasdasdas', 'dasdasdasd', 'dadasdasda', '2025-11-11', '2025-11-12', 37, 91, 39, 3, 2, 4, 19, 'A combinar'),
-	(26, 'Teste', 8, 'reeere', 'erereree', 'ererere', 'erererere', '2025-11-12', '2025-11-19', 37, 11, 11, 4, 4, 4, 26, 'A combinar'),
-	(27, '13465', 35, 'asdasdasdada', 'asdada', 'dasdasdas', 'asdasdad', '2025-11-12', '2025-11-12', 37, 1, 18, 5, 2, 2, 12, 'A combinar');
+	(28, 'Desenvolvedor Full Stack PHP', 41, 'Estamos em busca de um desenvolvedor Full Stack apaixonado por tecnologia, com foco em soluções web modernas e escaláveis. O profissional fará parte de uma equipe dinâmica e colaborativa, contribuindo para o desenvolvimento de novas funcionalidades e manutenção de sistemas internos e de clientes. Nosso ambiente valoriza a inovação, o aprendizado contínuo e o trabalho em equipe.\'', '• Desenvolver e manter aplicações web utilizando PHP, MySQL, HTML, CSS, JavaScript e frameworks modernos;\r\n• Participar da arquitetura e design de novas soluções para nossos sistemas;\r\n• Trabalhar em conjunto com equipes de UI/UX e de backend para garantir a qualidade das entregas;\r\n• Implementar integrações com APIs REST e serviços de terceiros;\r\n• Manter boas práticas de versionamento de código (Git) e padrões de desenvolvimento seguro.\'', '• Formação em Análise e Desenvolvimento de Sistemas ou áreas correlatas;\r\n• Experiência com desenvolvimento em PHP 7+ e frameworks MVC (Laravel, CodeIgniter ou similares);\r\n• Conhecimento sólido em banco de dados MySQL;\r\n• Familiaridade com HTML5, CSS3, Bootstrap e JavaScript (jQuery ou frameworks modernos);\r\n• Boa lógica de programação e capacidade de resolver problemas;\r\n• Desejável: experiência com controle de versões (Git) e APIs REST.', '• Salário compatível com o mercado;\r\n• Vale alimentação e transporte;\r\n• Plano de saúde e odontológico;\r\n• Possibilidade de trabalho híbrido;\r\n• Incentivo à capacitação profissional (cursos e workshops pagos pela empresa);\r\n• Ambiente colaborativo e inovador.', '2025-11-11', '2025-11-17', 40, 11, 2, 2, 1, 5, 4, '3000.00');
 
 -- Copiando estrutura para tabela emprega_muriae.vaga_curriculum
 CREATE TABLE IF NOT EXISTS `vaga_curriculum` (
@@ -789,7 +733,6 @@ CREATE TABLE IF NOT EXISTS `vaga_curriculum` (
   `curriculum_id` int NOT NULL,
   `dateCandidatura` datetime NOT NULL DEFAULT (now()),
   `statusCandidatura` int NOT NULL DEFAULT '1' COMMENT '''1=Em análise, 2=Selecionado, 3=Recusado''',
-  `mensagem` text,
   PRIMARY KEY (`vaga_id`,`curriculum_id`),
   KEY `fk_vaga_has_curriculum_curriculum1_idx` (`curriculum_id`),
   KEY `fk_vaga_has_curriculum_vaga1_idx` (`vaga_id`),
@@ -798,12 +741,6 @@ CREATE TABLE IF NOT EXISTS `vaga_curriculum` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.vaga_curriculum: ~0 rows (aproximadamente)
-INSERT INTO `vaga_curriculum` (`vaga_id`, `curriculum_id`, `dateCandidatura`, `statusCandidatura`, `mensagem`) VALUES
-	(16, 52, '2025-11-11 13:20:34', 1, ''),
-	(17, 52, '2025-11-11 13:20:44', 1, ''),
-	(19, 52, '2025-11-11 15:09:35', 1, ''),
-	(20, 52, '2025-11-11 13:12:50', 1, 'Quero Trabalhar Nessa Porra'),
-	(26, 52, '2025-11-11 15:54:43', 1, '');
 
 -- Copiando estrutura para tabela emprega_muriae.vaga_mensagem
 CREATE TABLE IF NOT EXISTS `vaga_mensagem` (
@@ -817,16 +754,9 @@ CREATE TABLE IF NOT EXISTS `vaga_mensagem` (
   PRIMARY KEY (`id`),
   KEY `curriculum_id` (`curriculum_id`),
   KEY `vaga_id` (`vaga_id`,`curriculum_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela emprega_muriae.vaga_mensagem: ~0 rows (aproximadamente)
-INSERT INTO `vaga_mensagem` (`id`, `vaga_id`, `curriculum_id`, `remetente_tipo`, `remetente_id`, `mensagem`, `data_envio`) VALUES
-	(1, 20, 52, 'PF', 116, 'Teste', '2025-11-11 15:32:57'),
-	(2, 20, 52, 'PF', 116, 'Oi, tudo bem?', '2025-11-11 15:33:21'),
-	(3, 19, 52, 'PF', 116, 'Oi', '2025-11-11 15:34:43'),
-	(4, 20, 52, 'PF', 116, 'Como está o processo?', '2025-11-11 15:35:07'),
-	(5, 17, 52, 'PF', 116, 'Está vaga está disponível?', '2025-11-11 15:40:27'),
-	(6, 16, 52, 'PF', 116, 'Oi', '2025-11-11 15:41:10');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

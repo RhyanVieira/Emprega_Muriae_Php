@@ -50,7 +50,7 @@ class VagaMensagem extends ControllerMain
         $dados = [
             'mensagens' => $dadosMensagens,
             'vaga_id' => $vagaId,
-            'curriculum_id' => $curriculumId
+            'curriculum_id' => $curriculumId,
         ];
 
         return $this->loadView("sistema/vaga_mensagem", $dados);

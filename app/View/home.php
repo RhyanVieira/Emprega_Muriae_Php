@@ -125,7 +125,6 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
 												</span>
 											</div>
 										</div>
-										<span class="post-like fa fa-heart-o"></span>
 									</a>
 								</li>
 							<?php endforeach; ?> 

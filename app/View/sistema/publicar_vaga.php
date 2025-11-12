@@ -79,7 +79,7 @@ setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'portuguese');
                                             <select name="categoria_vaga_id" id="categoria_vaga_id" required>
                                                 <option value="">Selecione a categoria</option>
                                                 <?php foreach ($dados['aCategoriaVaga'] as $valueCatVaga): ?>
-                                                    <option value="<?= $valueCatVaga['categoria_vaga_id'] ?>" <?= ($valueCatVaga['categoria_vaga_id'] == ($dados['vaga']['categoria_vaga_id'] ?? '')) ? 'selected' : '' ?>><?= $valueCatVaga['descricao'] ?>><?=$valueCatVaga['descricao']?></option>
+                                                    <option value="<?= $valueCatVaga['categoria_vaga_id'] ?>" <?= ($valueCatVaga['categoria_vaga_id'] == ($dados['vaga']['categoria_vaga_id'] ?? '')) ? 'selected' : '' ?>><?= $valueCatVaga['descricao'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>

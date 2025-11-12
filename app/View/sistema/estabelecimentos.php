@@ -24,7 +24,7 @@ $queryString = http_build_query($_GET);
 						<ul class="post-job-bx">
 							<?php foreach ($dados['estabelecimentos'] as $estabelecimentos): ?>
 								<li>
-									<a href="#">
+									<a href="<?= baseUrl() ?>estabelecimento/perfil/<?= $estabelecimentos['estabelecimento_id']?>">
 										<div class="d-flex m-b10">
 											<div class="job-post-company">
 												<span><img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $estabelecimentos['logo'] ?>"/></span>
@@ -53,7 +53,7 @@ $queryString = http_build_query($_GET);
 												<h6 class="m-b0">Categorias de Atuação:</h6>
 												<?php if(!empty($categoriasArr)) :
 													foreach ($categoriasArr as $c): ?> 
-														<span class="m-r5"><?=  htmlspecialchars($c) ?></span>
+														<span class="m-r5"><?= $c ?></span>
 													<?php endforeach; ?>
 												<?php else: ?> 
 													<p class="texto-dica">Nenhuma categoria cadastrada.</p>
@@ -73,7 +73,6 @@ $queryString = http_build_query($_GET);
 										</a>
 									</li>
 								<?php endif; ?>
-
 								<?php for ($i = 1; $i <= $dados['totalPaginas']; $i++): ?>
 									<li class="<?= $i === $dados['paginaAtual'] ? 'active' : '' ?>">
 										<a href="<?= baseUrl() ?>estabelecimento/index/<?= $i ?>/?<?= $queryString ?>">
@@ -81,7 +80,6 @@ $queryString = http_build_query($_GET);
 										</a>
 									</li>
 								<?php endfor; ?>
-
 								<?php if ($dados['paginaAtual'] < $dados['totalPaginas']): ?>
 									<li class="next">
 										<a href="<?= baseUrl() ?>estabelecimento/index/<?= $dados['paginaAtual'] + 1 ?>/?<?= $queryString ?>">

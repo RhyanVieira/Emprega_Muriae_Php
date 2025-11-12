@@ -67,46 +67,27 @@ class PessoaFisica extends ControllerMain
     }
 
     public function perfil($id = 0){
-        $CurriculumEscolaridadeModel = new CurriculumEscolaridadeModel();
-        $CurriculumExperienciaModel = new CurriculumExperienciaModel();
-        $CurriculumQualificacaoModel = new CurriculumQualificacaoModel();
-        $CurriculumIdiomaModel = new CurriculumIdiomaModel();
         $CurriculumModel = new CurriculumModel();
-        $CidadeModel = new CidadeModel();
-        $EscolaridadeModel = new EscolaridadeModel();
-        $CargoModel = new CargoModel();
-        $IdiomaModel = new IdiomaModel();
 
-        $idPessoaFisica = $id;
-
-        $escolaridades = [];
-        $experiencias = [];
-        $qualificacoes = [];
-        $idiomas = [];
-
-        // Busca o currículo existente (se houver)
         $curriculoExistente = null;
 
-        if ($idPessoaFisica) {
-            $curriculoExistente = $CurriculumModel->getByPessoaFisicaId($idPessoaFisica);
+        // Busca o currículo existente (se houver)
+        $curriculoExistente = $CurriculumModel->getByPessoaFisicaId($id);
 
-            // Se o currículo existir, busca suas escolaridades vinculadas
+        if ($curriculoExistente) {
             if (!empty($curriculoExistente['curriculum_id'])) {
-                $escolaridades = $CurriculumEscolaridadeModel->getByCurriculumEscId($curriculoExistente['curriculum_id']);
-                $experiencias = $CurriculumExperienciaModel->getByCurriculumExpId($curriculoExistente['curriculum_id']);
-                $qualificacoes = $CurriculumQualificacaoModel->getByCurriculumQuaId($curriculoExistente['curriculum_id']);
-                $idiomas = $CurriculumIdiomaModel->getByCurriculumIdiId($curriculoExistente['curriculum_id']);
+                    $curriculum      = $CurriculumModel->getCurriculoDetalhado($curriculoExistente['curriculum_id']);
+                    $escolaridades  = $CurriculumModel->getEscolaridades($curriculoExistente['curriculum_id']);
+                    $experiencias   = $CurriculumModel->getExperiencias($curriculoExistente['curriculum_id']);
+                    $idiomas        = $CurriculumModel->getIdiomas($curriculoExistente['curriculum_id']);
+                    $qualificacoes  = $CurriculumModel->getQualificacoes($curriculoExistente['curriculum_id']);
             }
         } else{
             return Redirect::page("curriculum", ["msgError" => "É necessário cadastrar um currículo."]);
         }
 
         $dados = [
-            'aCidade' => $CidadeModel->lista("cidade"),
-            'aEscolaridade' => $EscolaridadeModel->lista("descricao"),
-            'aCargo' => $CargoModel->lista('descricao'),
-            'aIdioma' => $IdiomaModel->lista('descricao'),
-            'curriculo' => $curriculoExistente,
+            'curriculo' => $curriculum,
             'escolaridades' => $escolaridades,
             'experiencias' => $experiencias,
             'qualificacoes' => $qualificacoes,

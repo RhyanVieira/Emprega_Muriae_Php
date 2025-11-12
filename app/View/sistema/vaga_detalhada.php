@@ -46,56 +46,71 @@ $nivelExperiencia = [
 								<div class="row">
 									<div class="col-lg-12 col-md-6">
 										<div class="m-b30">
-											<img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $dados['vaga']['logo'] ?>">
+											<?php if (!empty($dados['vaga']['logo'])): ?>
+												<img src="<?= baseUrl() . 'imagem.php?file=estabelecimento/' . $dados['vaga']['logo'] ?>">
+											<?php else: ?>
+												<img src="<?= baseUrl() . 'assets/img/no-image.png' ?>" alt="Sem logo">
+											<?php endif; ?>
 										</div>
 									</div>
 									<div class="col-lg-12 col-md-6">
 										<div class="widget bg-white p-lr20 p-t20 widget_getintuch radius-sm">
 											<h4 class="text-black font-weight-700 p-t10 m-b15">Detalhes da Vaga</h4>
 											<ul>
-												<li><i class="ti-home" style="color: #0177c1;"></i>
+												<li class="m-t5">
+													<i class="ti-home" style="color: #0177c1;"></i>
 													<strong class="font-weight-700 text-black">Empresa:</strong>
-													<a href="<?= baseUrl()?>estabelecimento/perfil/<?= $dados['vaga']['estabelecimento_id'] ?>"><span class="text-black-light"><?= $dados['vaga']['empresa'] ?></span></a>
+													<?php if (!empty($dados['vaga']['empresa'])): ?>
+														<a href="<?= baseUrl()?>estabelecimento/perfil/<?= $dados['vaga']['estabelecimento_id'] ?>">
+															<p class="text-black-light"><?= $dados['vaga']['empresa'] ?></p>
+														</a>
+													<?php else: ?>
+														<p class="text-black-light">Não informado</p>
+													<?php endif; ?>
 												</li>
-												<li class="m-t5"><i class="ti-location-pin" style="color: #f39c12;"></i>
+												<li><i class="ti-location-pin" style="color: #f39c12;"></i>
 													<strong class="font-weight-700 text-black">Localização:</strong>
-													<span class="text-black-light"><?= $dados['vaga']['cidade'] ?> - <?= $dados['vaga']['uf'] ?></span>
+													<p class="text-black-light">
+														<?= !empty($dados['vaga']['cidade']) ? $dados['vaga']['cidade'] : 'Não informada' ?>
+														<?= !empty($dados['vaga']['uf']) ? ' - ' . $dados['vaga']['uf'] : '' ?>
+													</p>
 												</li>
-												<li class="m-t5"><i class="ti-money" style="color: #28a745;"></i>
+												<li><i class="ti-money" style="color: #28a745;"></i>
 													<strong class="font-weight-700 text-black">Salário:</strong>
-													<?php $faixaSal = $dados['vaga']['faixaSal'] ?? '';
+													<?php 
+														$faixaSal = $dados['vaga']['faixaSal'] ?? '';
 														if (strtolower(trim($faixaSal)) === 'a combinar') {
-															echo "<span>A combinar</span>";
+															echo "<p>A combinar</p>";
 														} elseif (!empty($faixaSal)) {
-															echo "<span>R$ " . number_format((float)$faixaSal, 2, ',', '.') . "</span>";
+															echo "<p>R$ " . number_format((float)$faixaSal, 2, ',', '.') . "</p>";
 														} else {
-															echo "<span>Não informado</span>";
+															echo "<p>Não informado</p>";
 														}
 													?>
 												</li>
-												<li class="m-t5"><i class="ti-medall" style="color: #9b59b6;"></i>
+												<li><i class="ti-medall" style="color: #9b59b6;"></i>
 													<strong class="font-weight-700 text-black">Nível de Experiência:</strong>
-													<?= $nivelExperiencia[$dados['vaga']['nivelExperiencia']] ?>
+													<p><?= $nivelExperiencia[$dados['vaga']['nivelExperiencia']] ?? 'Não informado' ?></p>
 												</li>
-												<li class="m-t5"><i class="ti-briefcase" style="color: #007bff;"></i>
+												<li><i class="ti-briefcase" style="color: #007bff;"></i>
 													<strong class="font-weight-700 text-black">Tipo de Contrato:</strong>
-													<?= $vinculos[$dados['vaga']['vinculo']] ?>
+													<p><?= $vinculos[$dados['vaga']['vinculo']] ?? 'Não informado' ?></p>
 												</li>
-												<li class="m-t5"><i class="ti-desktop" style="color: #17a2b8;"></i>
+												<li><i class="ti-desktop" style="color: #17a2b8;"></i>
 													<strong class="font-weight-700 text-black">Modalidade:</strong>
-													<?= $modalidades[$dados['vaga']['modalidade']] ?>
+													<p><?= $modalidades[$dados['vaga']['modalidade']] ?? 'Não informada' ?></p>
 												</li>
-												<li class="m-t5"><i class="ti-calendar" style="color: #dc3545;"></i>
+												<li><i class="ti-calendar" style="color: #dc3545;"></i>
 													<strong class="font-weight-700 text-black">Término:</strong>
-													<?= date('d/m/Y', strtotime($dados['vaga']['dtFim'])) ?>
+													<p><?= !empty($dados['vaga']['dtFim']) ? date('d/m/Y', strtotime($dados['vaga']['dtFim'])) : 'Não informado' ?></p>
 												</li>
-												<li class="m-t5"><i class="ti-layers-alt" style="color: #e67e22;"></i>
+												<li><i class="ti-layers-alt" style="color: #e67e22;"></i>
 													<strong class="font-weight-700 text-black">Área:</strong>
-													<?= $dados['vaga']['categoria'] ?>
+													<p><?= $dados['vaga']['categoria'] ?? 'Não informada' ?></p>
 												</li>
-												<li class="m-t5"><i class="ti-id-badge" style="color: #6f42c1;"></i>
+												<li><i class="ti-id-badge" style="color: #6f42c1;"></i>
 													<strong class="font-weight-700 text-black">Cargo:</strong>
-													<?= $dados['vaga']['cargo'] ?>
+													<p><?= $dados['vaga']['cargo'] ?? 'Não informado' ?></p>
 												</li>
 											</ul>
 										</div>
@@ -107,30 +122,30 @@ $nivelExperiencia = [
 							<div class="job-info-box">
 								<?= exibeAlerta() ?>
 								<h3 class="m-t0 m-b10 font-weight-700 title-head">
-									<?= $dados['vaga']['descricao'] ?>
+									<?= $dados['vaga']['descricao'] ?? 'Vaga sem título' ?>
 								</h3>
 								<p class="p-t20">
-									<?= $dados['vaga']['sobreaVaga'] ?>
+									<?= nl2br($dados['vaga']['sobreaVaga'] ?? 'Descrição da vaga não informada.') ?>
 								</p>
 								<h5 class="font-weight-600">Responsabilidades</h5>
 								<div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
 								<p>
-									<?= $dados['vaga']['responsabilidades'] ?>
+									<?= nl2br($dados['vaga']['responsabilidades'] ?? 'Não informado.') ?>
 								</p>
 								<h5 class="font-weight-600">Requisitos</h5>
 								<div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
 								<p>
-									<?= $dados['vaga']['requisitos'] ?>
+									<?= nl2br($dados['vaga']['requisitos'] ?? 'Não informado.') ?>
 								</p>
 								<h5 class="font-weight-600">Benefícios</h5>
 								<div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
 								<p>
-									<?= $dados['vaga']['beneficios'] ?>
+									<?= nl2br($dados['vaga']['beneficios'] ?? 'Não informado.') ?>
 								</p>
 								<?php if (empty($tipoUsuario)): ?>
 									<a href="<?= baseUrl() ?>login" class="site-button m-t20 m-b20">Candidatar-se à Vaga</a>
 								<?php elseif ($tipoUsuario === 'PF'): ?>
-									<form class="tab-pane fade show submit-resume shop-account" method="POST" action="<?= baseUrl() ?>vagaCurriculum/candidatar/<?= $dados['vaga']['vaga_id'] ?>">
+									<form class="tab-pane fade show submit-resume shop-account" method="POST" action="<?= baseUrl() ?>vagaCurriculum/candidatar/<?= $dados['vaga']['vaga_id'] ?? 0 ?>">
 										<div class="form-group">
 											<label for="mensagem">Mensagem para o recrutador (opcional):</label>
 											<textarea class="form-control" name="mensagem" id="mensagem" rows="6"></textarea>
@@ -138,16 +153,14 @@ $nivelExperiencia = [
 										</div>
 										<button type="submit" class="site-button m-t20">Enviar candidatura</button>
 									</form>
-								<?php elseif ($tipoUsuario === 'E' &&  $dados['vaga']['estabelecimento_id']  == $idEstab ): ?>
-									<a href="<?= baseUrl() ?>vaga/form/update/<?= $dados['vaga']['vaga_id'] ?>" class="site-button m-t20 m-b20">Editar Vaga</a>
+								<?php elseif ($tipoUsuario === 'E' && !empty($dados['vaga']['estabelecimento_id']) && $dados['vaga']['estabelecimento_id'] == $idEstab): ?>
+									<a href="<?= baseUrl() ?>vaga/form/update/<?= $dados['vaga']['vaga_id'] ?? 0 ?>" class="site-button m-t20 m-b10">Editar Vaga</a>
 								<?php endif; ?>
 								<div class="vaga-actions m-t20">
-									<?php if ($userTipo === 'PF'): ?>
-										<!-- Para candidato -->
-										<a href="<?= baseUrl() ?>vagaMensagem/listar/<?= $dados['vaga']['vaga_id'] ?>/<?= $dados['curriculum']['curriculum_id'] ?>" class="site-button-outline m-r10"><i class="fa fa-comments"></i> Ver mensagens</a>
-									<?php elseif ($userTipo === 'E' && $idEstab == $dados['vaga']['estabelecimento_id']): ?>
-										<a href="<?= baseUrl() ?>vagaCurriculum/candidatos/<?= $dados['vaga']['vaga_id'] ?>" class="site-button"><i class="fa fa-comments"></i> Ver candidatos</a>
-										<a href="<?= baseUrl() ?>vagaMensagem/listarEmpresa/<?= $dados['vaga']['vaga_id'] ?>" class="site-button"><i class="fa fa-comments"></i> Mensagens dos candidatos</a>
+									<?php if ($tipoUsuario === 'PF'): ?>
+										<a href="<?= baseUrl() ?>vagaMensagem/listar/<?= $dados['vaga']['vaga_id'] ?? 0 ?>/<?= $dados['curriculum']['curriculum_id'] ?? 0 ?>" class="site-button m-r10"><i class="fa fa-comments"></i> Ver mensagens</a>
+									<?php elseif ($tipoUsuario === 'E' && !empty($dados['vaga']['estabelecimento_id']) && $idEstab == $dados['vaga']['estabelecimento_id']): ?>
+										<a href="<?= baseUrl() ?>vagaCurriculum/candidatos/<?= $dados['vaga']['vaga_id'] ?? 0 ?>" class="site-button"><i class="fa fa-users"></i> Ver candidatos</a>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -157,3 +170,4 @@ $nivelExperiencia = [
 			</div>
 		</div>
     </div>
+</div>

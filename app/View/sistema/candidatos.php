@@ -3,22 +3,18 @@ $queryString = http_build_query($_GET);
 ?>
 
 <div class="page-content bg-white">
-    <!-- inner page banner -->
     <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(/assets/img/banner/Banner_Candidatos.jpg);">
         <div class="container">
             <div class="dez-bnr-inr-entry">
                 <h1 class="text-white">Encontre Candidatos</h1>
-				<!-- Breadcrumb row -->
 				<div class="breadcrumb-row">
 					<ul class="list-inline">
 						<li>Encontre o talento ideal para sua empresa</li>
 					</ul>
 				</div>
-				<!-- Breadcrumb row END -->
             </div>
         </div>
     </div>
-    <!-- inner page banner END -->
 	<div class="content-block">
         <div class="section-full bg-white browse-job content-inner-2">
 			<div class="container">

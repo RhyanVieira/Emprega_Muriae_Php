@@ -8,6 +8,7 @@ use Core\Library\Redirect;
 use Core\Library\Session;
 use Core\Library\Validator;
 use App\Model\CurriculumModel;
+use App\Model\VagaMensagemModel;
 use App\Model\VagaModel;
 
 class VagaCurriculum extends ControllerMain
@@ -37,7 +38,7 @@ class VagaCurriculum extends ControllerMain
         $curriculum = $curriculumModel->getByPessoaFisicaId($userId);
 
         if (!$curriculum) {
-            return Redirect::page('curriculum/form', ['msgError' => 'Crie seu currículo antes de se candidatar.']);
+            return Redirect::page('curriculum', ['msgError' => 'Crie seu currículo antes de se candidatar.']);
         }
 
         // Verifica se já se candidatou
@@ -49,13 +50,18 @@ class VagaCurriculum extends ControllerMain
 
         // Cria a candidatura
         $dados = [
-            'vaga_id' => $vagaId,
-            'curriculum_id' => $curriculum['curriculum_id'],
+            'vaga_id'           => (int)$vagaId,
+            'curriculum_id'     => (int)$curriculum['curriculum_id'],
             'statusCandidatura' => 1,
-            'mensagem' => $mensagem
+            'dateCandidatura'   => date('Y-m-d H:i:s'),
         ];
-
+        
         $this->model->insert($dados);
+
+        if(!empty($mensagem)){
+            $vagaMensagemModel = new VagaMensagemModel();
+            $vagaMensagemModel->enviarPrimeira($vagaId, $curriculum['curriculum_id'], $mensagem);
+        }
 
         return Redirect::page("vaga/vaga_detalhada/$vagaId", ['msgSucesso' => 'Candidatura enviada com sucesso!']);
     }
@@ -69,7 +75,7 @@ class VagaCurriculum extends ControllerMain
         $vaga = $vagaModel->getVagaPorId($vagaId);
 
         if (!$vaga || $vaga['estabelecimento_id'] != $empresaId) {
-            return Redirect::page('vaga/minhas_vagas', ['msgError' => 'Acesso não autorizado.']);
+            return Redirect::page('vaga/minhas_vagas');
         }
 
         $candidatos = $this->model->listarCandidatosPorVaga($vagaId);

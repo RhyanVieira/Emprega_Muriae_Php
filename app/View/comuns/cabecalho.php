@@ -74,7 +74,8 @@ use Core\Library\Session;
 							<?php
 							$userId = Session::get('userId');
 							$userTipo = Session::get('userTipo');
-							$userEstabId = Session::get('userEstabId')
+							$userEstabId = Session::get('userEstabId');
+							$userPfId = Session::get('userPfId');
 							?>
 
 							<?php if (!$userId || $userTipo == 'PF'): ?>
@@ -154,13 +155,10 @@ use Core\Library\Session;
 										<a href="#" class="text-green">Área do Candidato <i class="fa fa-chevron-down"></i></a>
 										<ul class="sub-menu">
 											<li>
-												<a href="<?= baseUrl() ?>pessoaFisica/perfil/1" class="dez-page">Meu currículo</a>
+												<a href="<?= baseUrl() ?>pessoaFisica/perfil/<?=  $userPfId ?>" class="dez-page">Meu currículo</a>
 											</li>
 											<li>
 												<a href="<?= baseUrl() ?>vagaCurriculum" class="dez-page">Minhas Candidaturas</a>
-											</li>
-											<li>
-												<a href="<?= baseUrl() ?>sistema/contato" class="dez-page">Editar Perfil</a>
 											</li>
 										</ul>
 									</li>

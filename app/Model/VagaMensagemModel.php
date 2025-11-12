@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Core\Library\ModelMain;
+use Core\Library\Session;
 
 class VagaMensagemModel extends ModelMain
 {
@@ -32,26 +33,49 @@ class VagaMensagemModel extends ModelMain
         ]
     ];
 
+    public function enviarPrimeira($vagaId, $curriculumId, $mensagem)
+    {
+        $tipoUsuario = Session::get('userTipo');
+        $usuarioId   = Session::get('userId');
+        
+        $remetenteTipo = ($tipoUsuario === 'E') ? 'EMPRESA' : 'PF';
+
+        $dados = [
+            'vaga_id'        => (int)$vagaId,
+            'curriculum_id'  => (int)$curriculumId,
+            'remetente_tipo' => $remetenteTipo,
+            'remetente_id'   => (int)$usuarioId,
+            'mensagem'       => trim($mensagem),
+            'data_envio'     => date('Y-m-d H:i:s'),
+        ];
+
+        return $this->insert($dados);
+    }
+
     public function listarMensagens($vagaId, $curriculumId)
     {
-        return $this->db
-            ->select("
-                vaga_mensagem.*,
-                CASE 
-                    WHEN vaga_mensagem.remetente_tipo = 'PF' THEN c.nome 
-                    ELSE e.nome 
-                END AS remetente_nome,
-                CASE 
-                    WHEN vaga_mensagem.remetente_tipo = 'PF' THEN c.foto 
-                    ELSE e.logo 
-                END AS remetente_foto
-            ")
-            ->join("curriculum AS c", "c.curriculum_id = vaga_mensagem.curriculum_id", "LEFT")
-            ->join("vaga AS v", "v.vaga_id = vaga_mensagem.vaga_id", "INNER")
-            ->join("estabelecimento AS e", "e.estabelecimento_id = v.estabelecimento_id", "LEFT")
-            ->where("vaga_mensagem.vaga_id", $vagaId)
-            ->where("vaga_mensagem.curriculum_id", $curriculumId)
-            ->orderBy("vaga_mensagem.data_envio", "ASC")
-            ->findAll();
+        
+    return $this->db
+        ->select("
+            vaga_mensagem.*,
+            CASE 
+                WHEN vaga_mensagem.remetente_tipo = 'PF' THEN c.nome 
+                ELSE e.nome 
+            END AS remetente_nome,
+            CASE 
+                WHEN vaga_mensagem.remetente_tipo = 'PF' THEN c.foto 
+                ELSE e.logo 
+            END AS remetente_foto,
+            e.nome AS empresa_nome,
+            c.nome AS candidato_nome
+        ")
+        ->join("curriculum AS c", "c.curriculum_id = vaga_mensagem.curriculum_id", "LEFT")
+        ->join("vaga AS v", "v.vaga_id = vaga_mensagem.vaga_id", "INNER")
+        ->join("estabelecimento AS e", "e.estabelecimento_id = v.estabelecimento_id", "LEFT")
+        ->where("vaga_mensagem.vaga_id", $vagaId)
+        ->where("vaga_mensagem.curriculum_id", $curriculumId)
+        ->orderBy("vaga_mensagem.data_envio", "ASC")
+        ->orderBy("vaga_mensagem.vaga_id", "ASC")
+        ->findAll();
     }
 }

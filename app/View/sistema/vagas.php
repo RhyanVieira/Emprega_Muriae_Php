@@ -96,7 +96,6 @@ $queryString = http_build_query($_GET);
 												</span>
 											</div>
 										</div>
-										<span class="post-like fa fa-heart-o"></span>
 									</a>
 								</li>
 							<?php endforeach; ?> 
